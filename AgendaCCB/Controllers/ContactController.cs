@@ -64,6 +64,4 @@ namespace AgendaCCB.Controllers
             ContactsRepo.Delete(id);
         }
     }
-
-    }
 }

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+             xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AgendaCCB.App.Views.MainPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource DefaultBackgroundColor}">
+    <StackLayout BackgroundColor="{StaticResource DefaultBackgroundColor}" 
+                 Padding="40,40,40,40" 
+                 VerticalOptions="Center">
+        <Label Text="{Binding GreetingTitle}" 
+               TextColor="{StaticResource DefaultLabelTextColor}" 
+               FontSize="Medium" 
+               HorizontalOptions="Center"/>
+        <Label Text="{Binding Title}" 
+               TextColor="{StaticResource DefaultLabelTextColor}"
+               HorizontalOptions="Center"/>
+        <StackLayout Padding="0,50,0,0">
+            <customEntry:XfxEntry Placeholder="Informe o número de telefone" 
+                              Text="{Binding PhoneNumber}"
+                              PlaceholderColor="{StaticResource DefaultPlaceHolderColor}"
+                              TextColor="{StaticResource DefaultTextColor}"
+                              ErrorText="{Binding PhoneNumberError}">
+            </customEntry:XfxEntry>
+            <customEntry:XfxEntry Placeholder="Informe o código para ativação" 
+                              Text="{Binding Code}"
+                              PlaceholderColor="{StaticResource DefaultPlaceHolderColor}"
+                              TextColor="{StaticResource DefaultTextColor}"
+                              ErrorText="{Binding CodeError}">
+            </customEntry:XfxEntry>
+            <controls:ImageButton Text="CONFIRMAR CÓDIGO" 
+                              FontSize="Large" 
+                              ImageHeightRequest="32" 
+                              ImageWidthRequest="32" 
+                              Orientation="ImageToRight" 
+                              ContentLayout="Right,0" 
+                              Command="{Binding AcessarCommand}"
+                              Style="{StaticResource AccessButton}">
+                <controls:ImageButton.Image>
+                    <FileImageSource File="seta_direita.png"/>
+                </controls:ImageButton.Image>
+            </controls:ImageButton>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

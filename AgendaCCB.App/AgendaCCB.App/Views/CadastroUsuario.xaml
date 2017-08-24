@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+             xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AgendaCCB.App.Views.CadastroUsuario">
+    <ScrollView>
+        <ScrollView.Padding>
+            <OnPlatform x:TypeArguments="Thickness"
+                        Android="20,20,20,20"
+                        WinPhone="20,20,20,20"
+                        iOS="20,40,20,20" />
+        </ScrollView.Padding>
+        <StackLayout>
+            <customEntry:XfxEntry Placeholder="Nome"></customEntry:XfxEntry>
+            <customEntry:XfxEntry Placeholder="E-mail"></customEntry:XfxEntry>
+            <customEntry:XfxEntry Placeholder="Senha" IsPassword="True"></customEntry:XfxEntry>
+            <controls:ImageButton Text="Cadastrar Usuário"></controls:ImageButton>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                        xmlns:prism="clr-namespace:Prism.Ninject;assembly=Prism.Ninject.Forms"
+                        x:Class="AgendaCCB.App.App">
+  <prism:PrismApplication.Resources>
+    <ResourceDictionary>
+      <!--DefaultBackgroundColor = BDDDED-->
+      <!--DefaultButtonColor = 3D7896-->
+      <!--DefaultTextColor = F9F9F7-->
+      <!--DefaultPlaceHolderColor = A6C1CF-->
+      <!--COLOR TO CHOOSE = A6C1CF-->
+      <Color x:Key="DefaultBackgroundColor">#BDDDED</Color>
+      <Color x:Key="DefaultButtonColor">#3D7896</Color>
+      <Color x:Key="DefaultTextColor">#f9f9f7</Color>
+      <Color x:Key="DefaultPlaceHolderColor">#A6C1CF</Color>
+      <Color x:Key="DefaultLabelTextColor">#3d404c</Color>
+
+      <Style x:Key="AccessButton" TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource DefaultTextColor}"></Setter>
+        <Setter Property="BackgroundColor" Value="{StaticResource DefaultButtonColor}"></Setter>
+      </Style>
+      
+    </ResourceDictionary>
+  </prism:PrismApplication.Resources>
+</prism:PrismApplication>

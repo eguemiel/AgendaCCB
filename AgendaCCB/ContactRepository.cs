@@ -10,6 +10,12 @@ namespace AgendaCCB
     {
         static List<Contact> ContactList = new List<Contact>();
 
+        public ContactRepository()
+        {
+            ContactList.Add(new Contact() { Name = "Jose Carlos", SurName = "Macoratti", IsParente = false, Company = "JcmSoft", Email = "macoratti@yahoo.com", PhoneNumber = "99887766", BornDate = DateTime.Now });
+            ContactList.Add(new Contact() { Name = "Miriam", SurName = "Siqueira", IsParente = true, Company = "Mimi", Email = "miriam@hotmail.com", PhoneNumber = "11223344", BornDate = DateTime.Now });
+        }
+
         public void Add(Contact item)
         {
             ContactList.Add(item);

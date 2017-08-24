@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AgendaCCB.App.Views.MainPrincipal">
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Label Text="Você está na Main Principal"></Label>
+    </StackLayout>
+</ContentPage>

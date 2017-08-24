@@ -17,7 +17,7 @@ namespace AgendaCCB.Models
 
         public string PhoneNumber { get; set; }
 
-        public string BornDate { get; set; }
+        public DateTime BornDate { get; set; }
 
         public bool IsParente { get; set; }
     }

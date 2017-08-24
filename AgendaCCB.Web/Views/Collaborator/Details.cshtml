@@ -1,0 +1,43 @@
+@model AgendaCCB.Data.Models.Collaborator
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Collaborator</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdPhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCommonCongregationNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdCommonCongregationNavigation.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPositionMinistyNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdPositionMinistyNavigation.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

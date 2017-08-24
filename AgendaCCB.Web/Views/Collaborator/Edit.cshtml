@@ -1,0 +1,55 @@
+@model AgendaCCB.Data.Models.Collaborator
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Collaborator</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdPositionMinisty" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="IdPositionMinisty" class="form-control" asp-items="ViewBag.IdPositionMinisty"></select>
+                <span asp-validation-for="IdPositionMinisty" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdPhoneNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="IdPhoneNumber" class="form-control" />
+                <span asp-validation-for="IdPhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdCommonCongregation" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="IdCommonCongregation" class="form-control" asp-items="ViewBag.IdCommonCongregation"></select>
+                <span asp-validation-for="IdCommonCongregation" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
