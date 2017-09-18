@@ -1,43 +1,66 @@
 @model AgendaCCB.Data.Models.Collaborator
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes Colaborador";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Detalhes Colaborador</h2>
 
-<div>
-    <h4>Collaborator</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdPhoneNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdPhoneNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdCommonCongregationNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdCommonCongregationNavigation.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdPositionMinistyNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdPositionMinistyNavigation.Description)
-        </dd>
-    </dl>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "Collaborator")</li>
+    <li class="breadcrumb-item active">Detalhes Colaborador</li>
+</ol>
+
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h3 class="panel-title">Dados Colaborador</h3>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th class="col-md-3">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </th>
+
+                    <td>
+                        @Html.DisplayFor(model => model.PhoneNumber.FirstOrDefault().Number)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdCommonCongregationNavigation)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.IdCommonCongregationNavigation.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdPositionMinistyNavigation)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.IdPositionMinistyNavigation.Description)
+                    </td>
+                </tr>
+        </table>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="form-actions">
+    <input type="submit" value="Excluir" class="btn btn-danger btn-submit" />
+    <a href="@Url.Action("Index")" class="btn btn-default">Voltar para a Lista</a>
 </div>

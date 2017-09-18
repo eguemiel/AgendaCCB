@@ -7,6 +7,17 @@
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\lib\bootstrap-4.0.0-alpha.6-dist\**" />
+    <Content Remove="wwwroot\lib\bootstrap-4.0.0-alpha.6-dist\**" />
+    <EmbeddedResource Remove="wwwroot\lib\bootstrap-4.0.0-alpha.6-dist\**" />
+    <None Remove="wwwroot\lib\bootstrap-4.0.0-alpha.6-dist\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot/lib\jQuery-Mask-Plugin-master.zip" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />

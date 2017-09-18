@@ -17,7 +17,6 @@ namespace AgendaCCB.Data.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
             optionsBuilder.UseSqlServer(@"Server=DART-JUNIOR\SQLEXPRESS;Database=agendaccb;Trusted_Connection=True;");
         }
 
@@ -65,7 +64,7 @@ namespace AgendaCCB.Data.Models
 
                 entity.HasOne(d => d.IdCityNavigation)
                     .WithOne(p => p.CommonCongregation)
-                    .HasForeignKey<CommonCongregation>(d => d.IdCity)
+                    .HasForeignKey<CommonCongregation>(d => d.Id)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CommonCongregation_City");
             });
@@ -86,6 +85,12 @@ namespace AgendaCCB.Data.Models
                 entity.Property(e => e.Type)
                     .IsRequired()
                     .HasColumnType("varchar(20)");
+
+                entity.HasOne(d => d.IdCollaboradorNavigation)
+                    .WithMany(p => p.PhoneNumber)
+                    .HasForeignKey(d => d.IdCollaborador)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_PhoneNumber_Collaborador");
             });
 
             modelBuilder.Entity<PhoneNumberCollaborator>(entity =>
@@ -97,12 +102,6 @@ namespace AgendaCCB.Data.Models
                     .HasForeignKey(d => d.IdCollaborator)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_PhoneNumber_Collaborator_Collaborator");
-
-                entity.HasOne(d => d.IdPhoneNumberNavigation)
-                    .WithMany(p => p.PhoneNumberCollaborator)
-                    .HasForeignKey(d => d.IdPhoneNumber)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_PhoneNumber_Collaborator_PhoneNumber");
             });
 
             modelBuilder.Entity<PositionMinistry>(entity =>

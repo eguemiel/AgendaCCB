@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,8 +29,13 @@ namespace AgendaCCB.Web.Models
 
     public enum TypePhone
     {
-        PrivateCellNumber,
-        CompanyCellNumber,
-        PrivateTelephoneNumber
+        [DisplayName("Celular Particular")]
+        PrivateCellNumber = 1,
+        [DisplayName("Celular Empresa")]
+        CompanyCellNumber = 2,
+        [DisplayName("Fixo Particular")]
+        PrivateTelephoneNumber = 3,
+        [DisplayName("Fixo Empresa")]
+        CompanyTelephoneNumber = 4
     }
 }

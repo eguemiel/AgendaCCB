@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AgendaCCB.Web.Models
 {
@@ -33,11 +31,16 @@ namespace AgendaCCB.Web.Models
         [Required(ErrorMessage = "É necessário informar um cargo")]
         public int IdPositionMinisty { get; set; }
 
-        [DisplayName("Telefone(s)")]
+        [DisplayName("Telefone")]
         [Required(ErrorMessage = "É necessário informar ao menos um telefone")]
         public int IdPhoneNumber { get; set; }
 
-        public List<PhoneNumberViewModel> PhoneNumber { get; set; }
+        [DisplayName("Tipo")]
+        public int TypePhone { get; set; }
+
+        public List<PhoneNumberViewModel> PhoneNumberList { get; set; }
+
+        public SelectList TypePhoneList { get; set; }
 
         [DisplayName("Comum Congregação")]
         [Required(ErrorMessage = "É necessário informar a comum Congregação")]
