@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
+using AgendaCCB.Web.Models;
 
 namespace AgendaCCB.Web.Controllers
 {
@@ -53,17 +54,18 @@ namespace AgendaCCB.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,IsMinistry")] PositionMinistry positionMinistry)
+        public async Task<IActionResult> Create(PositionMinistryViewModel positionMinistryVM)
         {
             if (ModelState.IsValid)
             {
+                var positionMinistry = this.MapTo(positionMinistryVM);
                 _context.Add(positionMinistry);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(positionMinistry);
+            return View(positionMinistryVM);
         }
-
+        
         // GET: PositionMinistry/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -77,7 +79,9 @@ namespace AgendaCCB.Web.Controllers
             {
                 return NotFound();
             }
-            return View(positionMinistry);
+
+            var positionMinistryVM = MapTo(positionMinistry);
+            return View(positionMinistryVM);
         }
 
         // POST: PositionMinistry/Edit/5
@@ -85,9 +89,9 @@ namespace AgendaCCB.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,IsMinistry")] PositionMinistry positionMinistry)
+        public async Task<IActionResult> Edit(int id, PositionMinistryViewModel positionMinistryVM)
         {
-            if (id != positionMinistry.Id)
+            if (id != positionMinistryVM.Id)
             {
                 return NotFound();
             }
@@ -96,12 +100,13 @@ namespace AgendaCCB.Web.Controllers
             {
                 try
                 {
+                    var positionMinistry = MapTo(positionMinistryVM);
                     _context.Update(positionMinistry);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PositionMinistryExists(positionMinistry.Id))
+                    if (!PositionMinistryExists(positionMinistryVM.Id))
                     {
                         return NotFound();
                     }
@@ -112,7 +117,7 @@ namespace AgendaCCB.Web.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(positionMinistry);
+            return View(positionMinistryVM);
         }
 
         // GET: PositionMinistry/Delete/5
@@ -147,6 +152,22 @@ namespace AgendaCCB.Web.Controllers
         private bool PositionMinistryExists(int id)
         {
             return _context.PositionMinistry.Any(e => e.Id == id);
+        }
+
+        private PositionMinistry MapTo(PositionMinistryViewModel positionMinistryVM)
+        {
+            var positionMinistry = new PositionMinistry();
+            positionMinistry.Description = positionMinistryVM.Description;
+            positionMinistry.IsMinistry = positionMinistryVM.IsMinistry;
+            return positionMinistry;
+        }
+
+        private PositionMinistryViewModel MapTo(PositionMinistry positionMinistry)
+        {
+            var positionMinistryVM = new PositionMinistryViewModel();
+            positionMinistryVM.Description = positionMinistry.Description;
+            positionMinistryVM.IsMinistry = positionMinistry.IsMinistry;
+            return positionMinistryVM;
         }
     }
 }

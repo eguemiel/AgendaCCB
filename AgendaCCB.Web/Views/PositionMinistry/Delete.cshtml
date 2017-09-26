@@ -1,36 +1,53 @@
-@model AgendaCCB.Data.Models.PositionMinistry
+﻿@model AgendaCCB.Data.Models.PositionMinistry
 
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Detalhes Cargo/Ministério</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>PositionMinistry</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <input type="hidden" asp-for="Id" />
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsMinistry)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsMinistry)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "PositionMinistry")</li>
+    <li class="breadcrumb-item active">Excluir</li>
+</ol>
+
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h3 class="panel-title">Dados Cargo/Ministério</h3>
+            </div>
         </div>
-    </form>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th class="col-md-3">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsMinistry)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.IsMinistry)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+<h3>Tem certeza que deseja excluir?</h3>
+@using (Html.BeginForm())
+{
+    <div class="form-actions">
+        <input type="submit" value="Excluir" class="btn btn-danger btn-submit" />
+        <a href="@Url.Action("Index")" class="btn btn-default">Voltar para a Lista</a>
+    </div>
+}

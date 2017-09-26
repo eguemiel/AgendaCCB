@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace AgendaCCB.Data.Models
 {
     public class PositionMinistryMetadata
     {
-        [Display(Description="Código")]
+        [DisplayName("Código")]
         public int Id { get; set; }
 
-        [Display(Description = "Descrição Cargo/Ministério")]
+        [DisplayName("Descrição Cargo/Ministério")]
         public string Description { get; set; }
 
-        [Display(Description = "É ministério")]
+        [DisplayName("É ministério")]
         public bool IsMinistry { get; set; }
     }
 

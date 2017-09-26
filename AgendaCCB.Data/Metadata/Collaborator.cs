@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace AgendaCCB.Data.Models
 {
@@ -22,6 +21,6 @@ namespace AgendaCCB.Data.Models
         public int IdCommonCongregationNavigation { get; set; }
     }
 
-    [ModelMetadataTypeAttribute(typeof(CollaboratorMetadata))]
+    [ModelMetadataType(typeof(CollaboratorMetadata))]
     public partial class Collaborator { }
 }

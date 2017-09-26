@@ -1,18 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace AgendaCCB.Data.Models
 {
     public class CommonCongregationMetadata
     {
-        [Display(Description="Código")]
+        [DisplayName("Código")]
         public int Id { get; set; }
 
-        [Display(Description = "Nome Comum")]
+        [DisplayName("Nome Comum")]
         public string Name { get; set; }
 
-        [Display(Description = "Código Cidade")]
+        [DisplayName("Código Cidade")]
         public int IdCity { get; set; }
+
+        [DisplayName("Nome Cidade")]
+        public int IdCityNavigation { get; set; }
     }
 
     [ModelMetadataType(typeof(CommonCongregationMetadata))]

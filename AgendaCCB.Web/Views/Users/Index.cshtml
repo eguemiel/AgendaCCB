@@ -1,20 +1,20 @@
-﻿@model IEnumerable<AgendaCCB.Data.Models.CommonCongregation>
+﻿@model IEnumerable<AgendaCCB.Data.Models.Users>
 
 @{
-    ViewData["Title"] = "Lista de Congregações";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>Lista de Congregações</h2>
+            <h2>Lista de Colaboradores</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li>
                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
                 <li>
-                    <a asp-action="Create" class="close-link" title="Criar nova Congregação"><i class="fa fa-plus-circle"></i></a>
+                    <a asp-action="Create" class="close-link" title="Criar novo Colaborador"><i class="fa fa-plus-circle"></i></a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -33,26 +33,54 @@
                                 </div>
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.DisplayNameFor(model => model.FullUserName)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.IdCityNavigation)
+                                @Html.DisplayNameFor(model => model.UserName)
                             </th>
-                            <th>Ações</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Blocked)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Created)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LastAccess)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Active)
+                            </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr class="even pointer">
-                                <td class="a-center ">
-                                    <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullUserName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                    @Html.DisplayFor(modelItem => item.UserName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.IdCityNavigation.Name)
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Blocked)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastAccess)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Active)
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fa fa-edit"></i></a> |

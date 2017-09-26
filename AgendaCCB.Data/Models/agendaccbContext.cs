@@ -11,12 +11,12 @@ namespace AgendaCCB.Data.Models
         public virtual DbSet<CommonCongregation> CommonCongregation { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumber { get; set; }
-        public virtual DbSet<PhoneNumberCollaborator> PhoneNumberCollaborator { get; set; }
         public virtual DbSet<PositionMinistry> PositionMinistry { get; set; }
         public virtual DbSet<State> State { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        {   
             optionsBuilder.UseSqlServer(@"Server=DART-JUNIOR\SQLEXPRESS;Database=agendaccb;Trusted_Connection=True;");
         }
 
@@ -93,17 +93,6 @@ namespace AgendaCCB.Data.Models
                     .HasConstraintName("FK_PhoneNumber_Collaborador");
             });
 
-            modelBuilder.Entity<PhoneNumberCollaborator>(entity =>
-            {
-                entity.ToTable("PhoneNumber_Collaborator");
-
-                entity.HasOne(d => d.IdCollaboratorNavigation)
-                    .WithMany(p => p.PhoneNumberCollaborator)
-                    .HasForeignKey(d => d.IdCollaborator)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_PhoneNumber_Collaborator_Collaborator");
-            });
-
             modelBuilder.Entity<PositionMinistry>(entity =>
             {
                 entity.Property(e => e.Description)
@@ -126,6 +115,33 @@ namespace AgendaCCB.Data.Models
                     .HasForeignKey(d => d.IdCountry)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_State_Country");
+            });
+
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.Property(e => e.Active).HasDefaultValueSql("0");
+
+                entity.Property(e => e.AnswerPassword).HasColumnType("varchar(150)");
+
+                entity.Property(e => e.Blocked).HasDefaultValueSql("0");
+
+                entity.Property(e => e.CountFailurePasswordFailure).HasDefaultValueSql("0");
+
+                entity.Property(e => e.CountFailureResponseFailure).HasDefaultValueSql("0");
+
+                entity.Property(e => e.Created).HasColumnType("datetime");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnType("varchar(150)");
+
+                entity.Property(e => e.LastAccess).HasColumnType("datetime");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasColumnType("varchar(20)");
+
+                entity.Property(e => e.QuestionPassword).HasColumnType("varchar(150)");
             });
         }
     }

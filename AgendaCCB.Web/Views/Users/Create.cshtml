@@ -1,0 +1,83 @@
+﻿@model AgendaCCB.Web.Models.UsersViewModel
+
+@{
+    ViewData["Title"] = "Criar Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Usuário</h2>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "Users")</li>
+    <li class="breadcrumb-item active">Criar</li>
+</ol>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Dados Usuário</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.FullUserName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.FullUserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FullUserName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.AnswerPassword, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.AnswerPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AnswerPassword, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.QuestionPassword, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.QuestionPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.QuestionPassword, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Active, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="panel-footer">
+            <input type="submit" class="btn btn-primary btn-submit" value="Criar" />
+            <a href="@Url.Action("Index", "Users")" class="btn btn-default">Cancelar</a>
+        </div>
+    </div>
+}
+
