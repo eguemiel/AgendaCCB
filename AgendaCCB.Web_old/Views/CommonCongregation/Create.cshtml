@@ -1,0 +1,46 @@
+﻿@model AgendaCCB.Web.Models.CommonCongregationViewModel
+
+@{
+    ViewData["Title"] = "Criar Congregação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Comum Congregação</h2>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "CommonCongregation")</li>
+    <li class="breadcrumb-item active">Criar</li>
+</ol>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Dados Congregação</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.IdCity, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.IdCity, ViewBag.CityList as IEnumerable<SelectListItem>, "Selecione...", htmlAttributes: new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.IdCity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="panel-footer">
+            <input type="submit" class="btn btn-primary btn-submit" value="Criar" />
+            <a href="@Url.Action("Index", "CommonCongregation")" class="btn btn-default">Cancelar</a>
+        </div>
+    </div>
+}

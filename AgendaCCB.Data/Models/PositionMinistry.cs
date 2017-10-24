@@ -14,6 +14,6 @@ namespace AgendaCCB.Data.Models
         public string Description { get; set; }
         public bool IsMinistry { get; set; }
 
-        public virtual ICollection<Collaborator> Collaborator { get; set; }
+        public ICollection<Collaborator> Collaborator { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace AgendaCCB.Data.Models
         public int IdCountry { get; set; }
         public string Code { get; set; }
 
-        public virtual ICollection<City> City { get; set; }
-        public virtual Country IdCountryNavigation { get; set; }
+        public Country IdCountryNavigation { get; set; }
+        public ICollection<City> City { get; set; }
     }
 }

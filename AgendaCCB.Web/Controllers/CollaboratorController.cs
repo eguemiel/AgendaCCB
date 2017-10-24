@@ -7,11 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
 using AgendaCCB.Web.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace AgendaCCB.Web.Controllers
 {
     public class CollaboratorController : BaseController
     {
+        public CollaboratorController(IConfiguration configuration) : base(configuration)
+        {
+        }
+        
         // GET: Collaborator
         public async Task<IActionResult> Index()
         {

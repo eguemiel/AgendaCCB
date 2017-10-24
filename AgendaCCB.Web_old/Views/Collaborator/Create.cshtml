@@ -1,0 +1,165 @@
+@model AgendaCCB.Web.Models.CollaboratorViewModel
+
+@{
+    ViewData["Title"] = "Criar Colaborador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Colaborador</h2>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "Collaborator")</li>
+    <li class="breadcrumb-item active">Criar</li>
+</ol>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Dados Colaborador</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.IdCommonCongregation, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.IdCommonCongregation, ViewBag.CommonList as IEnumerable<SelectListItem>, "Selecione...", htmlAttributes: new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.IdCommonCongregation, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.IdPositionMinisty, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.IdPositionMinisty, ViewBag.PositionMinistryList as IEnumerable<SelectListItem>, "Selecione...", htmlAttributes: new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.IdPositionMinisty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.TypePhone, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.TypePhone, ViewBag.TypePhoneList as IEnumerable<SelectListItem>, "Selecione...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TypePhone, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.LabelFor(model => model.IdPhoneNumber, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group">
+                            @Html.TextBox("PhoneNumber", "", new { @class = "form-control phoneNumber" })
+                            <span class="input-group-addon" id="addPhoneNumber"><i class="glyphicon glyphicon-plus"></i></span>
+                        </div>
+                        @Html.ValidationMessage("PhoneNumber", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.Label("", "Lista de Telefones", htmlAttributes: new { @class = "control-label" })
+                        <table class="table table-bordered table-striped" style="margin-bottom:0px !important">
+                            <tbody id="phoneNumberList">
+                                <tr id="0">
+                                    <td>
+                                        Nenhum item inserido
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="panel-footer">
+            <input type="submit" class="btn btn-primary btn-submit" value="Criar" />
+            <a href="@Url.Action("Index", "Collaborator")" class="btn btn-default">Cancelar</a>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $("#addPhoneNumber").click(function (e) {
+            var $phoneNumber = $("#PhoneNumber");
+            var $typePhone = $("#TypePhone");
+
+            if (!$phoneNumber.val() || !$typePhone.val()) {
+                $phoneNumber.attr('required', 'required');
+                $typePhone.attr('required', 'required');
+
+                var validator = $("form").validate();
+                validator.element($phoneNumber);
+                validator.element($typePhone);
+
+                return;
+            }
+
+            $phoneNumberList = $("#phoneNumberList");
+            if ($phoneNumberList.find('tr#0').length == 1) {
+                $tr = $phoneNumberList.find('tr');
+                $tr.remove();
+            }
+
+            if ($phoneNumberList.find('tr#' + $typePhone.val()).length == 0) {
+                var $index = $phoneNumberList.children().last().index();
+                if ($index == -1)
+                    $index = 0;
+                else
+                    $index = $index + 1;
+
+                var $element = "<tr id='" + $typePhone.val() + "'>"
+                    + "<input type= 'hidden' id= 'PhoneNumberList_" + $index + "__Phone' name= 'PhoneNumberList[" + $index + "].Phone' value= '" + $phoneNumber.val() + "'>"
+                    + "<input type= 'hidden' id= 'PhoneNumberList_" + $index + "__TypePhone' name= 'PhoneNumberList[" + $index + "].TypePhone' value= '" + $typePhone.val() + "'>"
+                    + "<td>" + $phoneNumber.val() + " - " + $typePhone.find("option:selected").text()
+                    + "<span style='float:right;'><i class='glyphicon glyphicon-remove' onclick='removeElement(this);'></i></span></td > "
+                    + "</tr > ";
+                $phoneNumberList.append($element)
+
+                $("#IdPhoneNumber").val("");
+            }
+            validatePhoneNumberList();
+        });
+
+        function validatePhoneNumberList() {
+            $tableCategories = $('#phoneNumberListtr[id="0"]').length;
+
+            $stringError = '<span id="phoneNumberList-error" class="text-danger">This field is required.</span>'
+
+            if ($tableCategories == 1) {
+                $('#phoneNumberList').parent().parent().append($stringError);
+                return true;
+            } else {
+                $('#phoneNumberList').parent().parent().find('.text-danger').remove();
+                return false;
+            }
+        }
+
+        function removeElement(element) {
+            $element = $(element).parents('tr');
+            $element.remove();
+
+            $phoneNumberList = $("#phoneNumberList");
+            if ($phoneNumberList.children().length == 0) {
+                var $phoneNumber = $("#PhoneNumber");
+                var $typePhone = $("#TypePhone");
+                $phoneNumber.attr('required', 'required');
+                $typePhone.attr('required', 'required');
+                var $element = "<tr id='0'><td>Nenhum item inserido</td></tr>";
+                $phoneNumberList.append($element);
+            } else {
+                updatePosition($phoneNumberList);
+            }
+        }
+
+        function updatePosition(phoneNumberList) {
+            $(phoneNumberList).children().each(function (i) {
+                var $this = $(this).children('input');
+                $this.attr("name", "PhoneNumberList[" + i + "].Phone");
+                $this.attr("id", "PhoneNumberList" + i + "__Phone");
+                $this.attr("name", "PhoneNumberList[" + i + "].TypePhone");
+                $this.attr("id", "PhoneNumberList" + i + "__TypePhone");
+            });
+        }
+    </script>
+}

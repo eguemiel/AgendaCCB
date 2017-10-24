@@ -7,16 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
 using AgendaCCB.Web.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace AgendaCCB.Web.Controllers
 {
-    public class CommonCongregationController : Controller
+    public class CommonCongregationController : BaseController
     {
-        private readonly agendaccbContext _context;
-
-        public CommonCongregationController(agendaccbContext context)
+        public CommonCongregationController(IConfiguration configuration) : base(configuration)
         {
-            _context = context;    
         }
 
         // GET: CommonCongregation

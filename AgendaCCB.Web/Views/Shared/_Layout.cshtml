@@ -1,4 +1,7 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+﻿@using AgendaCCB.Data.Models
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +21,7 @@
         <link rel="stylesheet" href="~/lib/vendors/bootstrap-daterangepicker/daterangepicker.css" />
         <!-- Custom Theme Style -->
         <link href="~/lib/build/css/custom.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/site.css"/>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -44,7 +48,7 @@
                         </div>
                         <div class="profile_info">
                             <span>Bem vindo Irmão,</span>
-                            <h2>Eguemiel Miquelin</h2>
+                            <h2>@UserManager.GetUserName(User)</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -57,24 +61,9 @@
                                 <li>
                                     <a><i class="fa fa-edit"></i> Cadastros <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="~/Collaborator">Colaborador</a></li>
-                                        <li><a href="~/CommonCongregation">Congregação</a></li>
+                                        <li><a href="~/Collaborator">Colaboradores</a></li>
+                                        <li><a href="~/CommonCongregation">Comum Congregação</a></li>
                                         <li><a href="~/PositionMinistry">Cargo / Ministério</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="menu_section">
-                            <h3>Live On</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="e_commerce.html">E-commerce</a></li>
-                                        <li><a href="projects.html">Projects</a></li>
-                                        <li><a href="project_detail.html">Project Detail</a></li>
-                                        <li><a href="contacts.html">Contacts</a></li>
-                                        <li><a href="profile.html">Profile</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -105,94 +94,12 @@
                         <div class="nav toggle">
                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                         </div>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">Eguemiel Miquelin
-                                    <span class=" fa fa-angle-down"></span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="javascript:;"> Perfil Cadastro</a></li>
-                                    <li>
-                                        <a href="javascript:;">
-                                            <span class="badge bg-red pull-right">50%</span>
-                                            <span>Configurações</span>
-                                        </a>
-                                    </li>
-                                    <li><a href="javascript:;">Ajuda</a></li>
-                                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>Sair do Sistema</a></li>
-                                </ul>
-                            </li>
-                            <li role="presentation" class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
-                                </a>
-                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="text-center">
-                                            <a>
-                                                <strong>See All Alerts</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        @Html.Partial("_LoginPartial")
                     </nav>
                 </div>
             </div>
             <!-- /top navigation -->
-            <div class="right_col" role="main">
+            <div class="right_col" role="main" style="min-height: 1704px;">
                 <div class="">
                     @RenderBody()
                 </div>
@@ -253,6 +160,23 @@
         <script src="~/lib/build/js/custom.min.js"></script>
 
         <script src="~/lib/bootstrap/dist/js/bootstrap-checkbox.min.js"></script>
+
+        <!-- Datatables -->
+        <script src="~/lib/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="~/lib/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+        <script src="~/lib/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+        <script src="~/lib/vendors/jszip/dist/jszip.min.js"></script>
+        <script src="~/lib/vendors/pdfmake/build/pdfmake.min.js"></script>
+        <script src="~/lib/vendors/pdfmake/build/vfs_fonts.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

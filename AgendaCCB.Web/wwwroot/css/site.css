@@ -1,22 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
+﻿
 /* Carousel */
 .carousel-caption p {
     font-size: 20px;
@@ -26,6 +8,26 @@ textarea {
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
+}
+
+.dataTables_length > label {
+    font-weight: normal !important;
+}
+
+#datatable_filter > label {
+    font-weight: normal !important;
+}
+
+.col_layoutaccount {
+    color: black;
+    width: 25%;
+    height: 100%;
+    position: fixed;
+    padding: 0px !important;
+}
+/* QR code generator */
+#qrCode {
+    margin: 15px;
 }
 
 /* Hide/rearrange for smaller screens */

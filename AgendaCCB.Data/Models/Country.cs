@@ -13,6 +13,6 @@ namespace AgendaCCB.Data.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<State> State { get; set; }
+        public ICollection<State> State { get; set; }
     }
 }

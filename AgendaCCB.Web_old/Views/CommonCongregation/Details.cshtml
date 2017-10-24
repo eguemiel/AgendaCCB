@@ -1,0 +1,58 @@
+﻿@model AgendaCCB.Data.Models.CommonCongregation
+
+@{
+    ViewData["Title"] = "Detalhes Congregação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Detalhes Congregação</h2>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "CommonCongregation")</li>
+    <li class="breadcrumb-item active">Detalhes</li>
+</ol>
+
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h3 class="panel-title">Dados Congregação</h3>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th class="col-md-3">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdCity)
+                    </th>
+
+                    <td>
+                        @Html.DisplayFor(model => model.IdCity)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdCityNavigation)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.IdCityNavigation.Name)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="form-actions">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-submit">Editar</a>
+    <a href="@Url.Action("Index")" class="btn btn-default">Voltar para a Lista</a>
+</div>

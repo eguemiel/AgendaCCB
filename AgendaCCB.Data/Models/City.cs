@@ -9,7 +9,7 @@ namespace AgendaCCB.Data.Models
         public string Name { get; set; }
         public int IdState { get; set; }
 
-        public virtual CommonCongregation CommonCongregation { get; set; }
-        public virtual State IdStateNavigation { get; set; }
+        public State IdStateNavigation { get; set; }
+        public CommonCongregation CommonCongregation { get; set; }
     }
 }

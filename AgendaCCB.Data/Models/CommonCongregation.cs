@@ -14,7 +14,7 @@ namespace AgendaCCB.Data.Models
         public string Name { get; set; }
         public int IdCity { get; set; }
 
-        public virtual ICollection<Collaborator> Collaborator { get; set; }
-        public virtual City IdCityNavigation { get; set; }
+        public City IdCityNavigation { get; set; }
+        public ICollection<Collaborator> Collaborator { get; set; }
     }
 }

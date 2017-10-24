@@ -1,4 +1,4 @@
-﻿// Write your Javascript code.
+﻿// Write your JavaScript code.
 $(document).ready(function () {
     $('input[type=text]').bind('blur', function (e) {
         if (e.which >= 97 && e.which <= 122) {
@@ -9,6 +9,32 @@ $(document).ready(function () {
         }
 
         $(this).val(($(this).val()).toUpperCase());
+    });
+
+    $("#datatable").DataTable({
+        "oLanguage": {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "_MENU_ resultados por página",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar ",
+            "oPaginate": {
+                "sNext": "Próximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Último"
+            },
+            "oAria": {
+                "sSortAscending": ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
+            }
+        }
     });
 
     $(".phoneNumber").focusout(function () {

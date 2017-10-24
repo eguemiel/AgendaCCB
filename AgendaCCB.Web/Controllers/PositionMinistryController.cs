@@ -7,16 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
 using AgendaCCB.Web.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace AgendaCCB.Web.Controllers
 {
-    public class PositionMinistryController : Controller
+    public class PositionMinistryController : BaseController
     {
-        private readonly agendaccbContext _context;
-
-        public PositionMinistryController(agendaccbContext context)
+        public PositionMinistryController(IConfiguration configuration) : base(configuration)
         {
-            _context = context;    
         }
 
         // GET: PositionMinistry

@@ -10,6 +10,6 @@ namespace AgendaCCB.Data.Models
         public string Type { get; set; }
         public int IdCollaborador { get; set; }
 
-        public virtual Collaborator IdCollaboradorNavigation { get; set; }
+        public Collaborator IdCollaboradorNavigation { get; set; }
     }
 }
