@@ -1,5 +1,17 @@
 ﻿// Write your JavaScript code.
 $(document).ready(function () {
+    $.fn.capitalize = function () {
+        $.each(this, function () {
+            var split = this.value.split(' ');
+            for (var i = 0, len = split.length; i < len; i++) {
+                split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toLowerCase();
+            }
+            debugger;
+            this.value = split.join(' ');
+        });
+        return this;
+    };
+    
     $('input[type=text]').bind('blur', function (e) {
         if (e.which >= 97 && e.which <= 122) {
             var newKey = e.which - 32;
@@ -8,7 +20,7 @@ $(document).ready(function () {
             e.charCode = newKey;
         }
 
-        $(this).val(($(this).val()).toUpperCase());
+        $(this).capitalize();
     });
 
     $("#datatable").DataTable({

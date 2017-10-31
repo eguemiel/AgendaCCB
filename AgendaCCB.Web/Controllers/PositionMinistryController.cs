@@ -157,6 +157,7 @@ namespace AgendaCCB.Web.Controllers
             var positionMinistry = new PositionMinistry();
             positionMinistry.Description = positionMinistryVM.Description;
             positionMinistry.IsMinistry = positionMinistryVM.IsMinistry;
+            positionMinistry.Id = positionMinistryVM.Id;
             return positionMinistry;
         }
 

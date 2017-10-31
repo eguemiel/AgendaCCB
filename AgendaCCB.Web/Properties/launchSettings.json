@@ -2,23 +2,25 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/AgendaCCB.Web",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:6015/",
-      "sslPort": 44381
+      "applicationUrl": "http://localhost:6025/",
+      "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:44381/",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      "launchUrl": "http://localhost:8808/"
     },
     "AgendaCCB.Web": {
-      "commandName": "Project",
+      "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "http://localhost:6025/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

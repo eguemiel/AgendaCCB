@@ -10,6 +10,7 @@ namespace AgendaCCB.Data.Models
             AspNetUserClaims = new HashSet<AspNetUserClaims>();
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
+            APPAuthorizationToUse = new APPAuthorizationToUse();
         }
 
         public string Id { get; set; }
@@ -31,5 +32,6 @@ namespace AgendaCCB.Data.Models
         public ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
         public ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public APPAuthorizationToUse APPAuthorizationToUse { get; set; }
     }
 }

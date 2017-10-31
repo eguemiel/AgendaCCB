@@ -1,10 +1,7 @@
-﻿using Prism.Mvvm;
+﻿using AgendaCCB.App.Services;
+using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace AgendaCCB.App.ViewModels
 {
@@ -12,9 +9,12 @@ namespace AgendaCCB.App.ViewModels
     {
         protected INavigationService _navigationService { get; }
 
+        protected readonly IAgendaCCBApiService _agendaCCBApiService;
+
         public BaseViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
+            _agendaCCBApiService = DependencyService.Get<IAgendaCCBApiService>();
         }
 
         private string _title;

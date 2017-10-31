@@ -1,6 +1,9 @@
 ﻿using Prism.Navigation;
 using Xamarin.Forms;
 using AgendaCCB.App.Controls;
+using Acr.UserDialogs;
+using AgendaCCB.App.Helpers;
+using System;
 
 namespace AgendaCCB.App.ViewModels
 {
@@ -47,23 +50,40 @@ namespace AgendaCCB.App.ViewModels
             AcessarCommand = new Command(ExecuteAcessarCommand);
             GreetingTitle = "A paz de Deus irmã(o)";
             Title = "Por favor confirme os dados para acesso";
+
+            PhoneNumber = "teste";
+            Code = "teste";
+            ExecuteAcessarCommand();
         }
 
         private async void ExecuteAcessarCommand()
         {
-            if (string.IsNullOrEmpty(PhoneNumber) || string.IsNullOrEmpty(Code))
+            try
             {
-                if (string.IsNullOrEmpty(PhoneNumber))
-                    PhoneNumberError = "Digite um número";
+                UserDialogs.Instance.ShowLoading(AppSettings.TextoAguarde, MaskType.Black);
+                if (string.IsNullOrEmpty(PhoneNumber) || string.IsNullOrEmpty(Code))
+                {
+                    if (string.IsNullOrEmpty(PhoneNumber))
+                        PhoneNumberError = "Digite um número";
+                    else
+                        PhoneNumberError = string.Empty;
+                    if (string.IsNullOrEmpty(Code))
+                        CodeError = "Digite o código";
+                    else
+                        CodeError = string.Empty;
+                }
                 else
-                    PhoneNumberError = string.Empty;
-                if (string.IsNullOrEmpty(Code))
-                    CodeError = "Digite o código";
-                else
-                    CodeError = string.Empty;
+                    await _navigationService.NavigateAsync("MainPrincipal");
             }
-            else
-                await _navigationService.NavigateAsync("MainPrincipal");
+            catch (Exception ex)
+            {
+                DefaultToasts.Erro(ex.Message);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
+            
         }
 
         private async void ExecuteCadastroUsuarioCommand()

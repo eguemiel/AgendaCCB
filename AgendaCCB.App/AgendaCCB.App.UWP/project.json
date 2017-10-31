@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "6.0.1",
     "Portable.Ninject": "3.3.1",
     "Prism.Core": "6.3.0",
     "Prism.Forms": "6.3.0",
@@ -8,7 +8,7 @@
     "Xamarin.Forms": "2.3.4.247"
   },
   "frameworks": {
-    "uap10.0": {}
+    "uap10.0.10586": {}
   },
   "runtimes": {
     "win10-arm": {},

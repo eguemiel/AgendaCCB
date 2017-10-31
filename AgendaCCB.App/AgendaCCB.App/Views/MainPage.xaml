@@ -8,7 +8,7 @@
              x:Class="AgendaCCB.App.Views.MainPage"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource DefaultBackgroundColor}">
-    <StackLayout BackgroundColor="{StaticResource DefaultBackgroundColor}" 
+    <ScrollView BackgroundColor="{StaticResource DefaultBackgroundColor}" 
                  Padding="40,40,40,40" 
                  VerticalOptions="Center">
         <Label Text="{Binding GreetingTitle}" 
@@ -44,5 +44,5 @@
                 </controls:ImageButton.Image>
             </controls:ImageButton>
         </StackLayout>
-    </StackLayout>
+    </ScrollView>
 </ContentPage>

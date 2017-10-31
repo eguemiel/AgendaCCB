@@ -7,6 +7,7 @@ namespace AgendaCCB.Data.Models
     {
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Collaborator> Collaborator { get; set; }
+        public virtual DbSet<APPAuthorizationToUse> APPAuthorizationToUse { get; set; }
         public virtual DbSet<CommonCongregation> CommonCongregation { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumber { get; set; }
@@ -22,7 +23,6 @@ namespace AgendaCCB.Data.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=DART-JUNIOR\SQLEXPRESS;Database=agendaccb;Trusted_Connection=True;");
             }
         }
@@ -131,6 +131,20 @@ namespace AgendaCCB.Data.Models
                     .HasForeignKey(d => d.IdCountry)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_State_Country");
+            });
+
+            modelBuilder.Entity<APPAuthorizationToUse>(entity =>
+            {
+                entity.Property(e => e.PhoneNumber)
+                    .IsRequired()
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.UserCreatorNavigation)
+                    .WithOne(p => p.APPAuthorizationToUse)
+                    .HasForeignKey<AspNetUsers>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_APPAuthorizationToUse_AspNetUsers");
             });
         }
     }
