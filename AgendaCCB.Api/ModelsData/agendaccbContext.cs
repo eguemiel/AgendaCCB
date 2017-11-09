@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace AgendaCCB.Data.Models
+namespace AgendaCCB.Api.ModelsData
 {
     public partial class agendaccbContext : DbContext
     {
@@ -21,15 +22,11 @@ namespace AgendaCCB.Data.Models
         public virtual DbSet<PositionMinistry> PositionMinistry { get; set; }
         public virtual DbSet<State> State { get; set; }
 
-        public agendaccbContext(DbContextOptions<agendaccbContext> options)
-            : base(options)
-        {
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=DART-JUNIOR\SQLEXPRESS;Database=agendaccb;Trusted_Connection=True;");
             }
         }
@@ -61,7 +58,7 @@ namespace AgendaCCB.Data.Models
                     .WithMany(p => p.AppauthorizationToUse)
                     .HasForeignKey(d => d.UserCreator)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AppauthorizationToUse_AspNetUsers");
+                    .HasConstraintName("FK_APPAuthorizationToUse_AspNetUsers");
             });
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
@@ -196,7 +193,7 @@ namespace AgendaCCB.Data.Models
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdCityNavigation)
+                entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.CommonCongregation)
                     .HasForeignKey<CommonCongregation>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)

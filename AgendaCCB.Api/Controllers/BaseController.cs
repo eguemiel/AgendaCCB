@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using AgendaCCB.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Web.Http;
 
 namespace AgendaCCB.Api.Controllers
 {
-    public abstract class BaseController : Controller
+    public abstract class BaseController : ApiController
     {
         IConfiguration _configuration;
 

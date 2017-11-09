@@ -3,9 +3,11 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using AgendaCCB.Api.Models;
-using System;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using AgendaCCB.Api.Authorization;
+using System.Net.Http;
+using System.Net;
 
 namespace AgendaCCB.Api.Controllers
 {
@@ -17,27 +19,53 @@ namespace AgendaCCB.Api.Controllers
         }
 
         // GET api/values
+        [BasicAuthentication]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-            var collaboratorsBD = _context.Collaborator
-                                          .Include("PhoneNumber")
-                                          .Include("IdCommonCongregationNavigation")
-                                          .Include("IdPositionMinistyNavigation").ToList();
+            try
+            {
+                var collaboratorsBD = _context.Collaborator
+                                              .Include("PhoneNumber")
+                                              .Include("IdCommonCongregationNavigation")
+                                              .Include("IdPositionMinistyNavigation").ToList();
 
-            var collaborators = await MapTo(collaboratorsBD);
-            return Ok(collaborators);
+                var collaborators = MapTo(collaboratorsBD);
+
+                var apiRetorno = new ApiReturn(){Status=(int)HttpStatusCode.OK, Object=collaborators };
+
+                return new ObjectResult(apiRetorno);
+            }
+            catch (System.Exception ex)
+            {
+                var apiRetorno = new ApiReturn() { Status = (int)HttpStatusCode.BadRequest, Message = ex.Message };
+                return new ObjectResult(apiRetorno);
+            }
         }
 
         // GET api/values/5
+        [BasicAuthentication]
         [HttpGet("{id}")]
-        public Collaborator Get(int id)
+        public IActionResult Get(int id)
         {
-            var collaborator = MapTo(_context.Collaborator.ToList().Find(c => c.Id == id));
-            return collaborator;
+            try
+            {
+                var collaborator = MapTo(_context.Collaborator.ToList().Find(c => c.Id == id));
+
+                HttpStatusCode statusCode = collaborator == null ? HttpStatusCode.NotFound : HttpStatusCode.OK;
+
+                var apiRetorno = new ApiReturn { Status = (int)statusCode, Object = collaborator };
+
+                return new ObjectResult(apiRetorno);
+            }
+            catch (System.Exception ex)
+            {
+                var apiRetorno = new ApiReturn { Status = (int)HttpStatusCode.BadRequest, Message = ex.Message };
+                return new ObjectResult(apiRetorno);
+            }
         }
 
-        private async Task<List<Collaborator>> MapTo(List<Data.Models.Collaborator> collaboratorsBD)
+        private List<Collaborator> MapTo(List<Data.Models.Collaborator> collaboratorsBD)
         {
             List<Collaborator> collaborators = new List<Collaborator>();
 
@@ -46,11 +74,14 @@ namespace AgendaCCB.Api.Controllers
                 collaborators.Add(MapTo(collaborator));
             }
 
-            return await Task.FromResult(collaborators);
+            return collaborators;
         }
 
         private Collaborator MapTo(Data.Models.Collaborator collaboratorBD)
         {
+            if (collaboratorBD == null)
+                return null;
+
             var phoneNumbers = new List<PhoneNumber>();
 
             foreach (var phone in collaboratorBD.PhoneNumber)

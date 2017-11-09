@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AgendaCCB.Data.Models
+namespace AgendaCCB.Api.ModelsData
 {
     public partial class AppauthorizationToUse
     {

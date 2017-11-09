@@ -27,7 +27,7 @@ namespace AgendaCCB.Api
         {
             services.AddDbContext<agendaccbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            
             services.AddMvc();
         }
 
@@ -38,7 +38,7 @@ namespace AgendaCCB.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvc();
         }
     }
