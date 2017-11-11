@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
-using AgendaCCB.App.Services.Api.Common;
 using AgendaCCB.App.Models;
 using AgendaCCB.App.Helpers;
+using AgendaCCB.App.Services.Commom;
 
 namespace AgendaCCB.App.Services.Api
 {
-    public class ApiLoginService : ApiBasicService
+    public class ApiLoginService : AgendaCCBApiService
     {
         public async Task<ApiReturn<UserAppSessionSerializeModel>> Login(string user, string password)
         {

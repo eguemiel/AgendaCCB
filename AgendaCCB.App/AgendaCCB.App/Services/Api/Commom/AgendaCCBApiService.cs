@@ -1,28 +1,31 @@
-﻿using AgendaCCB.App.Models;
-using AgendaCCB.App.Services.AppServices;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Text;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using AgendaCCB.App.Models;
+using Newtonsoft.Json;
 using Xamarin.Forms;
+using System.Text;
+using System.Net;
+using AgendaCCB.App.Services.AppServices;
 
-namespace AgendaCCB.App.Services.Api.Common
+[assembly: Dependency(typeof(AgendaCCB.App.Services.Commom.AgendaCCBApiService))]
+namespace AgendaCCB.App.Services.Commom
 {
-    public class ApiBasicService : IApiBasicService
+    public class AgendaCCBApiService : IAgendaCCBApiService
     {
-        private const string BaseUrl = "http://agendaccbapi.azurewebsites.net/api/";
-        public const string BasicAuthHeader = "Basic YWdlbmRhRGVmYXVsdDpISkR0QDJ5RW5JJDQmWkRjKXRBcm00";
+        //public const string BaseUrl = "http://10.0.2.2:9998/api/";
+        public const string BaseUrl = "agendaccbapi.azurewebsites.net/api/";
+        public const string BasicAuthHeader = "Basic YWdlbmRhRGVmYXVsdDpISkR0QDJ5RW5JJDQmWkRjKXR";
 
-        public static Action ComportamentoSessaoExpirada { get; set; } = () => { };
-        public bool TentarRelogarUsuario { get; set; }
+        public static Action BehaviorIfNotLogged { get; set; } = () => { };
+        public bool TryLoginUser { get; set; }
 
-        public ApiBasicService()
+        public AgendaCCBApiService()
         {
-            TentarRelogarUsuario = true;
+            TryLoginUser = true;
         }
 
         public async Task<ApiReturn> PostAsync(string urlApi, object body, Dictionary<string, string> headers = null, bool basicAuthentication = false)
@@ -46,7 +49,7 @@ namespace AgendaCCB.App.Services.Api.Common
 
                     responseMessage = await client.PostAsync(requestUri, data).ConfigureAwait(false);
 
-                    if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TentarRelogarUsuario)
+                    if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TryLoginUser)
                     {
                         bool refreshSuccess = await new UserService().TryRefreshToken();
 
@@ -61,7 +64,7 @@ namespace AgendaCCB.App.Services.Api.Common
                         else
                         {
                             new UserService().Logout();
-                            Device.BeginInvokeOnMainThread(ApiBasicService.ComportamentoSessaoExpirada);
+                            Device.BeginInvokeOnMainThread(AgendaCCBApiService.BehaviorIfNotLogged);
                             return null;
                         }
                     }
@@ -88,7 +91,7 @@ namespace AgendaCCB.App.Services.Api.Common
             }
         }
 
-        public async Task<ApiReturn> GetAsync(string urlApi, Dictionary<string, string> headers = null, bool basicAuthentication = false)
+        public async Task<ApiReturn> GetAsync(string urlApi, Dictionary<string, string> headers = null, bool basicAuthentication = true)
         {
             using (var client = new HttpClient())
             {
@@ -100,9 +103,9 @@ namespace AgendaCCB.App.Services.Api.Common
 
                 try
                 {
-                    responseMessage = await client.GetAsync(requestUri).ConfigureAwait(false);                    
+                    responseMessage = await client.GetAsync(requestUri).ConfigureAwait(false);
 
-                    if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TentarRelogarUsuario)
+                    if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TryLoginUser)
                     {
                         bool refreshSuccess = await new UserService().TryRefreshToken();
 
@@ -117,7 +120,7 @@ namespace AgendaCCB.App.Services.Api.Common
                         else
                         {
                             new UserService().Logout();
-                            Device.BeginInvokeOnMainThread(ApiBasicService.ComportamentoSessaoExpirada);
+                            Device.BeginInvokeOnMainThread(AgendaCCBApiService.BehaviorIfNotLogged);
                             return null;
                         }
                     }
@@ -160,12 +163,12 @@ namespace AgendaCCB.App.Services.Api.Common
             }
             else
             {
-                var UserService = new UserService();
-                UserAppSession usuarioAppSessao = UserService.GetUsuario(true);
+                var userService = new UserService();
+                UserAppSession userAppSession = userService.GetUsuario(true);
 
-                if (!string.IsNullOrEmpty(usuarioAppSessao.Token))
+                if (!string.IsNullOrEmpty(userAppSession.Token))
                 {
-                    headers.Add(authKey, $"Bearer {usuarioAppSessao.Token}");
+                    headers.Add(authKey, $"Bearer {userAppSession.Token}");
                 }
             }
 
@@ -177,6 +180,6 @@ namespace AgendaCCB.App.Services.Api.Common
                 client.DefaultRequestHeaders.Add(item.Key, item.Value);
             }
         }
-       
+
     }
 }

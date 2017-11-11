@@ -11,6 +11,7 @@ using PropertyChanged;
 using Acr.UserDialogs;
 using AgendaCCB.App.Helpers;
 using AgendaCCB.App.Controls;
+using AgendaCCB.App.Services.Api;
 
 namespace AgendaCCB.App.ViewModels
 {
@@ -27,7 +28,6 @@ namespace AgendaCCB.App.ViewModels
             ShowCollaboratorCommand = new Command<Collaborator>(ExecuteShowCategoriaCommand);
             Task.Run(async () =>
             {
-
                 Collaborators = new ObservableCollection<Collaborator>(await LoadCollaborators());
                 RaisePropertyChanged(nameof(Collaborators));
             });
@@ -43,7 +43,9 @@ namespace AgendaCCB.App.ViewModels
         {
             IList<Collaborator> collaborators = new List<Collaborator>();
 
-            collaborators = await _agendaCCBApiService.GetAllCollaborators();
+            var api = new ApiColaboratorService();
+
+            collaborators = await api.GetAllCollaborators();
 
             return collaborators;
         }

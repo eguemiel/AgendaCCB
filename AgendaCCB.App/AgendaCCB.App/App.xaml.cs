@@ -1,6 +1,9 @@
 ﻿using Prism.Ninject;
 using AgendaCCB.App.Views;
 using Xamarin.Forms;
+using AgendaCCB.App.Services.AppServices;
+using AgendaCCB.App.Models;
+using AgendaCCB.App.Services;
 
 namespace AgendaCCB.App
 {
@@ -12,7 +15,13 @@ namespace AgendaCCB.App
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync("NavigationPage/MainPage");
+            var userService = new UserService();
+            UserAppSession userAppSession = userService.GetUsuario(true);
+
+            AgendaCCBApiService.BehaviorIfNotLogged = async () =>
+            {
+                await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            };
         }
 
         protected override void RegisterTypes()

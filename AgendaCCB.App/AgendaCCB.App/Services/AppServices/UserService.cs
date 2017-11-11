@@ -8,7 +8,7 @@ namespace AgendaCCB.App.Services.AppServices
 {
     public class UserService : BaseService
     {
-        public void GravaSessaoUsuario(UserAppSession UserAppSession)
+        public void SaveSessionUser(UserAppSession UserAppSession)
         {
             using (Realm realm = CreateNewRealmInstance())
             {
@@ -34,7 +34,7 @@ namespace AgendaCCB.App.Services.AppServices
             return GetUser(CreateNewRealmInstance(), desconectaObjetoRealm);            
         }
 
-        public void AtualizaFlagTutorial(bool visualizado = true)
+        public void UpdateFlagTutorial(bool visualizado = true)
         {
             Realm realm = CreateNewRealmInstance();
             var userSession = GetUser(realm);
@@ -90,7 +90,7 @@ namespace AgendaCCB.App.Services.AppServices
         public async Task<ApiReturn> Login(string phoneNumber, string token)
         {
             var api = new ApiLoginService();
-            api.TentarRelogarUsuario = false;
+            api.TryLoginUser = false;
 
             ApiReturn<UserAppSessionSerializeModel> objectReturned = await api.Login(phoneNumber, token);            
 
@@ -100,7 +100,7 @@ namespace AgendaCCB.App.Services.AppServices
                 sessao.Logged = true;
                 sessao.PhoneNumber = phoneNumber;
                 sessao.Token = token;
-                GravaSessaoUsuario(sessao);
+                SaveSessionUser(sessao);
             }         
 
             return objectReturned.NoType();        

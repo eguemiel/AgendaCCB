@@ -1,36 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AgendaCCB.App.Views.MainPrincipal">
-    <ContentPage.ToolbarItems>
-        <!--<ToolbarItem Text="About" Command="{Binding AboutCommand}"/>
-        <ToolbarItem Text="Buscar" Command="{Binding SearchCommand}"/>-->
-    </ContentPage.ToolbarItems>
-    <ListView 
+    <TabbedPage.Children>
+        <ContentPage Title="Tab1" >
+            <ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding Collaborators}"
         SeparatorVisibility="None">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell Height="60">
-                    <StackLayout Padding="5, 10"
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="60">
+                            <StackLayout Padding="5, 10"
                                  Orientation="Vertical" 
                                  VerticalOptions="FillAndExpand" 
                                  HorizontalOptions="FillAndExpand"
-                                 BackgroundColor="Azure">                            
-                        <Label Text="{Binding Name}"
+                                 BackgroundColor="Azure">
+                                <Label Text="{Binding Name}"
 							   FontSize="Large"                   
                                TextColor="#696969"/>
 
-                        <Label Text="{Binding FullDescriptionList}"
+                                <Label Text="{Binding FullDescriptionList}"
 							    FontSize="Small"
                                 TextColor="#4169E1"/>
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
-</ContentPage>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ContentPage>
+        <ContentPage Title="Page2">
+            
+        </ContentPage>
+    </TabbedPage.Children>
+</TabbedPage>

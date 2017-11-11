@@ -2,7 +2,7 @@
 
 namespace AgendaCCB.App.Views
 {
-    public partial class MainPrincipal : ContentPage
+    public partial class MainPrincipal : TabbedPage
     {
         public MainPrincipal()
         {
