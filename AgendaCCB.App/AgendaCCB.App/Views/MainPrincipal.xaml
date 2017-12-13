@@ -4,17 +4,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"
+            xmlns:local="clr-namespace:AgendaCCB.App.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="AgendaCCB.App.Views.MainPrincipal">
+             x:Class="AgendaCCB.App.Views.MainPrincipal"
+            Title="{Binding Title}">
+    
     <TabbedPage.Children>
-        <ContentPage Title="Tab1" >
+        <ContentPage Title="Colaboradores" >
+            <local:ListView 
+        HasUnevenRows="True"
+        ItemsSource="{Binding Collaborators}"
+        SeparatorVisibility="None"
+                ItemTappedCommand="{Binding ItemTappedCommand}"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="70">
+                            <StackLayout Padding="5, 10"
+                                 Orientation="Vertical" 
+                                 VerticalOptions="FillAndExpand" 
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="Azure">
+                                <Label Text="{Binding Name}"
+							   FontSize="Large"                   
+                               TextColor="#696969"/>
+
+                                <Label Text="{Binding FullDescriptionList}"
+							    FontSize="Small"
+                                TextColor="#4169E1"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </local:ListView>
+        </ContentPage>
+        <ContentPage Title="Úteis">
             <ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding Collaborators}"
         SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell Height="60">
+                        <ViewCell Height="70">
                             <StackLayout Padding="5, 10"
                                  Orientation="Vertical" 
                                  VerticalOptions="FillAndExpand" 
@@ -33,8 +64,32 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ContentPage>
-        <ContentPage Title="Page2">
-            
+
+        <ContentPage Title="Casa de Oração">
+            <ListView 
+        HasUnevenRows="True"
+        ItemsSource="{Binding Collaborators}"
+        SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="70">
+                            <StackLayout Padding="5, 10"
+                                 Orientation="Vertical" 
+                                 VerticalOptions="FillAndExpand" 
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="Azure">
+                                <Label Text="{Binding Name}"
+							   FontSize="Large"                   
+                               TextColor="#696969"/>
+
+                                <Label Text="{Binding FullDescriptionList}"
+							    FontSize="Small"
+                                TextColor="#4169E1"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </ContentPage>
     </TabbedPage.Children>
 </TabbedPage>

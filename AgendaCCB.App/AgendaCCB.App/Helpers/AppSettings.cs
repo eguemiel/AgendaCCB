@@ -10,9 +10,9 @@ namespace AgendaCCB.App.Helpers
             "publish_actions"
         };
 
-        public static string TextoAguarde { get { return "Aguarde..."; } }
+        public static string WaitingText { get { return "Aguarde..."; } }
 
         public static string AppName  { get { return "Agenda CCB"; }}
-        public static string TelaInicial { get { return "PaginaPrincipalBottomBar"; }}
+        public static string HomeApplication { get { return "MainPrincipal"; }}
     }
 }

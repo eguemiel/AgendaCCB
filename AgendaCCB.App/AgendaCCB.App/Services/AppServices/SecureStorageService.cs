@@ -6,34 +6,14 @@ namespace AgendaCCB.App.Services.AppServices
 {
     public class SecureStorageService
     {
-        public string ObterChaveRealm()
-        {
-            Account account = AccountStore.Create().FindAccountsForService("Realm").FirstOrDefault();
-
-            if (account == null)
-                return null;
-
-            return account.Properties["Chave"];
+        public string GetRealmKey()
+        {   
+            return "YWdlbmRhY2NiMjAxN2FnZW5kYWNjYjIwMTdhZ2VuZGFjY2IyMDE3";
         }
 
-        public void SalvarChaveRealm(string chave)
+        public void SaveRealmKey(string key)
         {
-            AccountStore store = AccountStore.Create();
-            IEnumerable<Account> accounts = store.FindAccountsForService("Realm");
-            Account account;
-
-            if (accounts.Any())
-            {
-                account = accounts.FirstOrDefault();
-                account.Properties["Chave"] = chave;
-            }
-            else
-            {
-                account = new Account();
-                account.Properties.Add("Chave", chave);
-            }
-            
-            store.Save(account, "Realm");
+            return;
         }
 
     }

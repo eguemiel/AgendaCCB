@@ -13,11 +13,6 @@ namespace AgendaCCB.App.Models
         {
             get { return Status >= 200 && Status < 300; }
         }
-
-        public static explicit operator ApiReturn(Task<ApiReturn> v)
-        {
-            throw new NotImplementedException();
-        }       
     }
 
     public class ApiReturn<T>
@@ -31,10 +26,6 @@ namespace AgendaCCB.App.Models
             get { return Status >= 200 && Status < 300; }
         }
 
-        public static explicit operator ApiReturn<T>(Task<ApiReturn> v)
-        {
-            throw new NotImplementedException();
-        }
 
         public ApiReturn()
         {

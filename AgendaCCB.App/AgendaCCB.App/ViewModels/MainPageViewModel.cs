@@ -4,6 +4,8 @@ using AgendaCCB.App.Controls;
 using Acr.UserDialogs;
 using AgendaCCB.App.Helpers;
 using System;
+using AgendaCCB.App.Models;
+using AgendaCCB.App.Services.AppServices;
 
 namespace AgendaCCB.App.ViewModels
 {
@@ -50,17 +52,13 @@ namespace AgendaCCB.App.ViewModels
             AcessarCommand = new Command(ExecuteAcessarCommand);
             GreetingTitle = "A paz de Deus irmã(o)";
             Title = "Por favor confirme os dados para acesso";
-
-            PhoneNumber = "teste";
-            Code = "teste";
-            ExecuteAcessarCommand();
         }
 
         private async void ExecuteAcessarCommand()
         {
             try
             {
-                UserDialogs.Instance.ShowLoading(AppSettings.TextoAguarde, MaskType.Black);
+                UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
                 if (string.IsNullOrEmpty(PhoneNumber) || string.IsNullOrEmpty(Code))
                 {
                     if (string.IsNullOrEmpty(PhoneNumber))
@@ -73,7 +71,22 @@ namespace AgendaCCB.App.ViewModels
                         CodeError = string.Empty;
                 }
                 else
-                    await _navigationService.NavigateAsync("MainPrincipal");
+                {
+                    UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
+
+                    ApiReturn loginReturn = await new UserService().Login(PhoneNumber, Code);
+
+                    if (loginReturn.Success)
+                    {
+                        await _navigationService.NavigateAsync("myapp:///NavigationPage/" + AppSettings.HomeApplication);
+                    }
+                    else
+                    {
+                        DefaultToasts.Erro(loginReturn.Message);
+                    }
+
+                    UserDialogs.Instance.HideLoading();
+                }
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ namespace AgendaCCB.App.Services.Api
     {
         public async Task<ApiReturn<UserAppSessionSerializeModel>> Login(string user, string password)
         {
-            ApiReturn apiRetorno = await PostAsync(UrlApi.Login, new { Login = user, Senha = password }, basicAuthentication: true);
+            ApiReturn apiRetorno = await PostAsync(UrlApi.Login, new { PhoneNumber = user, Token = password }, basicAuthentication: true);
             UserAppSessionSerializeModel model = null;
 
             if (apiRetorno.Success)

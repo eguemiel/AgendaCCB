@@ -4,6 +4,8 @@ using Xamarin.Forms;
 using AgendaCCB.App.Services.AppServices;
 using AgendaCCB.App.Models;
 using AgendaCCB.App.Services;
+using AgendaCCB.App.Services.Commom;
+using AgendaCCB.App.Helpers;
 
 namespace AgendaCCB.App
 {
@@ -17,19 +19,27 @@ namespace AgendaCCB.App
 
             var userService = new UserService();
             UserAppSession userAppSession = userService.GetUsuario(true);
-
             AgendaCCBApiService.BehaviorIfNotLogged = async () =>
             {
                 await NavigationService.NavigateAsync("NavigationPage/MainPage");
             };
+
+            if (userAppSession.Logged)
+            {
+                NavigationService.NavigateAsync($"NavigationPage/{AppSettings.HomeApplication}");
+            }
+            else
+            {
+                NavigationService.NavigateAsync("NavigationPage/MainPage");
+            }
         }
 
         protected override void RegisterTypes()
         {
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<MainPage>();
-            Container.RegisterTypeForNavigation<CadastroUsuario>();
             Container.RegisterTypeForNavigation<MainPrincipal>();
+            Container.RegisterTypeForNavigation<CollaboratorPage>();
         }
     }
 }

@@ -4,6 +4,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
              xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"
+             xmlns:customControls="clr-namespace:AgendaCCB.App.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AgendaCCB.App.Views.MainPage"
              NavigationPage.HasNavigationBar="False"
@@ -11,6 +12,13 @@
     <ScrollView BackgroundColor="{StaticResource DefaultBackgroundColor}" 
                  Padding="40,40,40,40" 
                  VerticalOptions="Center">
+        <Image Source="{customControls:ImageResource AgendaCCB.App.Images.logo.png}"
+                   VerticalOptions="Fill"
+                   HorizontalOptions="Center"
+                   HeightRequest="150"
+                   WidthRequest="250"
+                   MinimumHeightRequest="100"
+                   MinimumWidthRequest="150" />
         <Label Text="{Binding GreetingTitle}" 
                TextColor="{StaticResource DefaultLabelTextColor}" 
                FontSize="Medium" 

@@ -19,12 +19,13 @@ namespace AgendaCCB.App.Droid
             ToolbarResource = Resource.Layout.toolbar;
 
             base.OnCreate(bundle);
-            UserDialogs.Init(this);
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            UserDialogs.Init(() => (Activity)Forms.Context);
             XfxControls.Init();
 
             DependencyService.Register<ImageButtonRenderer>();
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App(new AndroidInitializer()));
         }
     }

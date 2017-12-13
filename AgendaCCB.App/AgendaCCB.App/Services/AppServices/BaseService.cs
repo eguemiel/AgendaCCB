@@ -17,14 +17,14 @@ namespace AgendaCCB.App.Services.AppServices
         public Realm CreateNewRealmInstance()
         {
             var service = new SecureStorageService();
-            string chave = service.ObterChaveRealm();
+            string chave = service.GetRealmKey();
 
             if (String.IsNullOrEmpty(chave))
             {               
                 GerarAndSalvarNovaChaveRealm(out chave);
             }
 
-            realmConfig.EncryptionKey = Convert.FromBase64String(chave);
+            //realmConfig.EncryptionKey = Convert.FromBase64String(chave);
             
             try
             {
@@ -43,7 +43,7 @@ namespace AgendaCCB.App.Services.AppServices
             byte[] bytesChave = new Byte[64];
             new Random().NextBytes(bytesChave);
             chaveGerada = Convert.ToBase64String(bytesChave);
-            new SecureStorageService().SalvarChaveRealm(chaveGerada);
+            new SecureStorageService().SaveRealmKey(chaveGerada);
         }
     }
 }

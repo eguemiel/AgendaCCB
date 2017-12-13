@@ -22,15 +22,30 @@ namespace AgendaCCB.App.ViewModels
 
         public Command<Collaborator> ShowCollaboratorCommand { get; }
 
+        public Command ItemTappedCommand { get; set; }
+
         public MainPrincipalViewModel(INavigationService navigationService) : base(navigationService)
         {
-
+            Title = "Agenda CCB" + DateTime.Now.Year;
             ShowCollaboratorCommand = new Command<Collaborator>(ExecuteShowCategoriaCommand);
             Task.Run(async () =>
-            {
+            {   
                 Collaborators = new ObservableCollection<Collaborator>(await LoadCollaborators());
                 RaisePropertyChanged(nameof(Collaborators));
             });
+
+            this.ItemTappedCommand = new Command(async item =>
+            {
+                var collaboratorItem = (Collaborator)item;
+                var navigationParams = new NavigationParameters
+                {
+                    { "Collaborator", collaboratorItem }
+                };
+
+                CanNavigate = false;
+                await _navigationService.NavigateAsync("CollaboratorPage", navigationParams);
+                CanNavigate = true;
+            }, canExecute: (x) => CanNavigate);
 
         }
 

@@ -2,9 +2,9 @@
 
 namespace AgendaCCB.App.Views
 {
-    public partial class CadastroUsuario : ContentPage
+    public partial class CollaboratorPage : ContentPage
     {
-        public CadastroUsuario()
+        public CollaboratorPage()
         {
             InitializeComponent();
         }

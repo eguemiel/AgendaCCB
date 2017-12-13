@@ -2,6 +2,7 @@
 using AgendaCCB.App.Services.Api;
 using Newtonsoft.Json;
 using Realms;
+using System;
 using System.Threading.Tasks;
 
 namespace AgendaCCB.App.Services.AppServices
@@ -16,7 +17,7 @@ namespace AgendaCCB.App.Services.AppServices
 
                 using (var trans = realm.BeginWrite())
                 {
-                    userSession.Id = UserAppSession.Id;
+                    userSession.Id = Convert.ToInt64(UserAppSession.Id);
                     userSession.PhoneNumber = UserAppSession.PhoneNumber;
                     userSession.Token = UserAppSession.Token;
                     userSession.TutorialVisualized = UserAppSession.TutorialVisualized;

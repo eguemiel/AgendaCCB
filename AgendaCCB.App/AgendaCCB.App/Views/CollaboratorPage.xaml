@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AgendaCCB.App.Views.CollaboratorPage"
+             Title="{Binding Title}">
+    <StackLayout Spacing="0" BindingContext="{Binding Collaborator}">
+        <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold" />
+        <Label Text="{Binding CommumCongregation}" FontSize="Medium" />
+        <Label Text="{Binding PositionMinistry}" FontSize="Medium" />
+        <StackLayout>
+            <ListView 
+        HasUnevenRows="True"
+        ItemsSource="{Binding PhoneNumber}"
+        SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="70">
+                            <StackLayout Padding="5, 10"
+                                 Orientation="Vertical" 
+                                 VerticalOptions="FillAndExpand" 
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="Azure">
+                                <Label Text="{Binding Number}"
+							   FontSize="Large"                   
+                               TextColor="#696969"/>
+
+                                <Label Text="{Binding PhoneType}"
+							    FontSize="Small"
+                                TextColor="#4169E1"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

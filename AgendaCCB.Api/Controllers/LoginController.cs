@@ -24,12 +24,31 @@ namespace AgendaCCB.Api.Controllers
                 if (model == null)
                     throw new Exception();
 
-                var success = _context.AppauthorizationToUse.Where(ap => ap.PhoneNumber == model.PhoneNumber && ap.Token == ap.Token && !ap.Used.Value).Any();
-                var status = success ? (int)HttpStatusCode.OK : (int)HttpStatusCode.Unauthorized;
+                var result = _context.AppauthorizationToUse.Where(ap => ap.PhoneNumber == model.PhoneNumber && ap.Token == model.Token && !ap.Used.Value);
+                var status = result.Any() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.Unauthorized;
 
-                var apiRetorno = new ApiReturn() { Status = status, Object = success };
+                var apiReturn = new ApiReturn();
 
-                return new ObjectResult(apiRetorno);
+                if(result.Any())
+                {
+                    var user = result.FirstOrDefault();
+                    apiReturn.Status = status;
+                    apiReturn.Message = "User Authorized";
+                    apiReturn.Object = new
+                    {
+                        Id = user.Id,
+                        PhoneNumber = user.PhoneNumber,
+                        Token = user.Token,                        
+                        Logged = true
+                    };
+                }else
+                {
+                    apiReturn.Status = status;
+                    apiReturn.Message = "User Unauthorized";
+                    apiReturn.Object = null;
+                }
+
+                return new ObjectResult(apiReturn);
             }
             catch (Exception)
             {

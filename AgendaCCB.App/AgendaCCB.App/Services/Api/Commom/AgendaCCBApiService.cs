@@ -11,14 +11,14 @@ using System.Text;
 using System.Net;
 using AgendaCCB.App.Services.AppServices;
 
-[assembly: Dependency(typeof(AgendaCCB.App.Services.Commom.AgendaCCBApiService))]
+
 namespace AgendaCCB.App.Services.Commom
 {
     public class AgendaCCBApiService : IAgendaCCBApiService
     {
         //public const string BaseUrl = "http://10.0.2.2:9998/api/";
-        public const string BaseUrl = "agendaccbapi.azurewebsites.net/api/";
-        public const string BasicAuthHeader = "Basic YWdlbmRhRGVmYXVsdDpISkR0QDJ5RW5JJDQmWkRjKXR";
+        public const string BaseUrl = "http://agendaccbapi.azurewebsites.net/api/";
+        public const string BasicAuthHeader = "Basic YWdlbmRhRGVmYXVsdDpISkR0QDJ5RW5JJDQmWkRjKXRBcm00";
 
         public static Action BehaviorIfNotLogged { get; set; } = () => { };
         public bool TryLoginUser { get; set; }
