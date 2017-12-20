@@ -20,9 +20,19 @@ namespace AgendaCCB.Web.Controllers
         // GET: Collaborator
         public async Task<IActionResult> Index()
         {
-            var collaborators = _context.Collaborator.Include(c => c.IdCommonCongregationNavigation).Include(c => c.IdPositionMinistyNavigation);
+            var query = from collaborator in _context.Collaborator
+                        join pmc in _context.PositionMinistryCollaborator on collaborator.Id equals pmc.IdCollaborator
+                        join pm in _context.PositionMinistry on pmc.IdPositionMinistry equals pm.Id
+                        select new
+                        {
+                            IdCollaborator = collaborator.Id,
+                            Name = collaborator.Name,
+                            IdPositionMinistry = pm.Id,
+                            IsMinistry = pm.IsMinistry,
+                            DescriptionMinistry = pm.Description
+                        };
 
-            return View(await collaborators.ToListAsync());
+            return View(await query.ToListAsync());
         }
 
         // GET: Collaborator/Details/5
@@ -35,7 +45,7 @@ namespace AgendaCCB.Web.Controllers
 
             var collaborator = await _context.Collaborator
                 .Include(c => c.IdCommonCongregationNavigation)
-                .Include(c => c.IdPositionMinistyNavigation)
+                .Include(c => c.IdCommonCongregation)
                 .Include("PhoneNumber")
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (collaborator == null)
@@ -160,7 +170,7 @@ namespace AgendaCCB.Web.Controllers
 
             var collaborator = await _context.Collaborator
                 .Include(c => c.IdCommonCongregationNavigation)
-                .Include(c => c.IdPositionMinistyNavigation)
+                .Include(c => c.IdCommonCongregation)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (collaborator == null)
             {
@@ -191,7 +201,7 @@ namespace AgendaCCB.Web.Controllers
             Collaborator collaborator = new Collaborator();
 
             collaborator.IdCommonCongregation = collaboratorVM.IdCommonCongregation;
-            collaborator.IdPositionMinisty = collaboratorVM.IdPositionMinisty;
+            collaborator.IdCommonCongregation = collaboratorVM.IdPositionMinisty;
             collaborator.Name = collaboratorVM.Name;
             collaborator.Id = collaboratorVM.Id;
 
@@ -216,7 +226,7 @@ namespace AgendaCCB.Web.Controllers
             CollaboratorViewModel collaboratorVM = new CollaboratorViewModel();
 
             collaboratorVM.IdCommonCongregation = collaborator.IdCommonCongregation;
-            collaboratorVM.IdPositionMinisty = collaborator.IdPositionMinisty;
+            collaboratorVM.IdPositionMinisty = collaborator.IdCommonCongregation;
             collaboratorVM.Name = collaborator.Name;
 
             collaborator.PhoneNumber = _context.PhoneNumber.Where(p => p.IdCollaborador == collaborator.Id).ToList();

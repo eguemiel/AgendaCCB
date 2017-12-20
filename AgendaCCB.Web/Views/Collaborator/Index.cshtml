@@ -30,7 +30,7 @@
                             @Html.DisplayNameFor(model => model.IdCommonCongregationNavigation)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.IdPositionMinistyNavigation)
+                            @Html.DisplayNameFor(model => model.PositionMinistryCollaborator)
                         </th>
                         <th>Ações</th>
                     </tr>
@@ -45,9 +45,13 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.IdCommonCongregationNavigation.Name)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdPositionMinistyNavigation.Description)
-                            </td>
+                            @foreach (var subItem in item.PositionMinistryCollaborator)
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => subItem.IdPositionMinistry)
+                                </td>
+                            }
+                            
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fa fa-edit"></i></a> |
                                 <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes"><i class="fa fa-eye"></i></a> |

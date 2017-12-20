@@ -19,10 +19,12 @@ namespace AgendaCCB.Data.Models
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumber { get; set; }
         public virtual DbSet<PositionMinistry> PositionMinistry { get; set; }
+        public virtual DbSet<PositionMinistryCollaborator> PositionMinistryCollaborator { get; set; }
         public virtual DbSet<State> State { get; set; }
+        public virtual DbSet<UsefulPhone> UsefulPhone { get; set; }
 
         public agendaccbContext(DbContextOptions<agendaccbContext> options)
-            : base(options)
+           : base(options)
         {
         }
 
@@ -30,17 +32,17 @@ namespace AgendaCCB.Data.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=DART-JUNIOR\SQLEXPRESS;Database=agendaccb;Trusted_Connection=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"data source=sql7001.smarterasp.net;Database=DB_A2C52A_agendaccb;User Id=DB_A2C52A_agendaccb_admin;Password=juh2iamah36G;");
             }
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AppauthorizationToUse>(entity =>
             {
-                entity.ToTable("AppauthorizationToUse");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.ToTable("APPAuthorizationToUse");
 
                 entity.Property(e => e.Created).HasColumnType("datetime");
 
@@ -61,14 +63,14 @@ namespace AgendaCCB.Data.Models
                     .WithMany(p => p.AppauthorizationToUse)
                     .HasForeignKey(d => d.UserCreator)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AppauthorizationToUse_AspNetUsers");
+                    .HasConstraintName("FK_APPAuthorizationToUse_AspNetUsers");
             });
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
             {
-                entity.HasIndex(e => e.RoleId);
-
-                entity.Property(e => e.RoleId).IsRequired();
+                entity.Property(e => e.RoleId)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetRoleClaims)
@@ -77,9 +79,6 @@ namespace AgendaCCB.Data.Models
 
             modelBuilder.Entity<AspNetRoles>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedName)
-                    .HasName("RoleNameIndex");
-
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name).HasMaxLength(256);
@@ -89,9 +88,9 @@ namespace AgendaCCB.Data.Models
 
             modelBuilder.Entity<AspNetUserClaims>(entity =>
             {
-                entity.HasIndex(e => e.UserId);
-
-                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserClaims)
@@ -102,9 +101,9 @@ namespace AgendaCCB.Data.Models
             {
                 entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
 
-                entity.HasIndex(e => e.UserId);
-
-                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserLogins)
@@ -114,10 +113,6 @@ namespace AgendaCCB.Data.Models
             modelBuilder.Entity<AspNetUserRoles>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.RoleId });
-
-                entity.HasIndex(e => e.RoleId);
-
-                entity.HasIndex(e => e.UserId);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetUserRoles)
@@ -130,13 +125,6 @@ namespace AgendaCCB.Data.Models
 
             modelBuilder.Entity<AspNetUsers>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedEmail)
-                    .HasName("EmailIndex");
-
-                entity.HasIndex(e => e.NormalizedUserName)
-                    .HasName("UserNameIndex")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Email).HasMaxLength(256);
@@ -179,21 +167,35 @@ namespace AgendaCCB.Data.Models
                     .HasForeignKey(d => d.IdCommonCongregation)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Collaborator_CommonCongregation");
-
-                entity.HasOne(d => d.IdPositionMinistyNavigation)
-                    .WithMany(p => p.Collaborator)
-                    .HasForeignKey(d => d.IdPositionMinisty)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Collaborator_PositionMinistry");
             });
 
             modelBuilder.Entity<CommonCongregation>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
+                entity.Property(e => e.Address)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.District)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FaxPhoneNumber)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ZipCode)
+                    .HasMaxLength(10)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.IdCityNavigation)
@@ -238,6 +240,23 @@ namespace AgendaCCB.Data.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<PositionMinistryCollaborator>(entity =>
+            {
+                entity.ToTable("PositionMinistry_Collaborator");
+
+                entity.HasOne(d => d.IdCollaboratorNavigation)
+                    .WithMany(p => p.PositionMinistryCollaborator)
+                    .HasForeignKey(d => d.IdCollaborator)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PositionMinistry_Collaborator_Collaborator");
+
+                entity.HasOne(d => d.IdPositionMinistryNavigation)
+                    .WithMany(p => p.PositionMinistryCollaborator)
+                    .HasForeignKey(d => d.IdPositionMinistry)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PositionMinistry_Collaborator_PositionMinistry");
+            });
+
             modelBuilder.Entity<State>(entity =>
             {
                 entity.Property(e => e.Code)
@@ -255,6 +274,19 @@ namespace AgendaCCB.Data.Models
                     .HasForeignKey(d => d.IdCountry)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_State_Country");
+            });
+
+            modelBuilder.Entity<UsefulPhone>(entity =>
+            {
+                entity.Property(e => e.LocalName)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNumber)
+                    .IsRequired()
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
             });
         }
     }

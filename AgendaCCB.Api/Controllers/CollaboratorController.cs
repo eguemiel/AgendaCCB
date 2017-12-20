@@ -97,7 +97,7 @@ namespace AgendaCCB.Api.Controllers
                 Id = collaboratorBD.Id,
                 CommumCongregation = collaboratorBD.IdCommonCongregationNavigation.Name,
                 Name = collaboratorBD.Name,
-                PositionMinistry = collaboratorBD.IdPositionMinistyNavigation.Description,
+                PositionMinistry = collaboratorBD.Name,
                 PhoneNumber = phoneNumbers
             };
 

@@ -7,13 +7,13 @@ namespace AgendaCCB.Data.Models
     {
         public PositionMinistry()
         {
-            Collaborator = new HashSet<Collaborator>();
+            PositionMinistryCollaborator = new HashSet<PositionMinistryCollaborator>();
         }
 
         public int Id { get; set; }
         public string Description { get; set; }
         public bool IsMinistry { get; set; }
 
-        public ICollection<Collaborator> Collaborator { get; set; }
+        public ICollection<PositionMinistryCollaborator> PositionMinistryCollaborator { get; set; }
     }
 }
