@@ -35,5 +35,30 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
+        <StackLayout>
+            <ListView 
+        HasUnevenRows="True"
+        ItemsSource="{Binding PositionMinistry}"
+        SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="70">
+                            <StackLayout Padding="5, 10"
+                                 Orientation="Vertical" 
+                                 VerticalOptions="FillAndExpand" 
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="Azure">
+                                <Label Text="{Binding Description}"
+							   FontSize="Large"                   
+                               TextColor="#696969"/>
+                                <Label Text="{Binding IsMinistry}"
+							    FontSize="Small"
+                                TextColor="#4169E1"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </StackLayout>
 </ContentPage>

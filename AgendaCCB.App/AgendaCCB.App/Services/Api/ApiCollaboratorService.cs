@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AgendaCCB.App.Services.Api
 {
-    public class ApiColaboratorService : AgendaCCBApiService
+    public class ApiCollaboratorService : AgendaCCBApiService
     {
         public async Task<IList<Collaborator>> GetAllCollaborators()
         {

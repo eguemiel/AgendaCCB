@@ -20,6 +20,10 @@ namespace AgendaCCB.App.ViewModels
     {
         public ObservableCollection<Collaborator> Collaborators { get; set; }
 
+        public ObservableCollection<UsefulPhone> UsefulPhones { get; set; }
+
+        public ObservableCollection<PhoneCongregation> PhoneCongregations { get; set; }
+
         public Command<Collaborator> ShowCollaboratorCommand { get; }
 
         public Command ItemTappedCommand { get; set; }
@@ -58,11 +62,33 @@ namespace AgendaCCB.App.ViewModels
         {
             IList<Collaborator> collaborators = new List<Collaborator>();
 
-            var api = new ApiColaboratorService();
+            var api = new ApiCollaboratorService();
 
             collaborators = await api.GetAllCollaborators();
 
             return collaborators;
+        }
+
+        private async Task<IList<UsefulPhone>> LoadUsefulPhones()
+        {
+            IList<UsefulPhone> usefulPhones = new List<UsefulPhone>();
+
+            var api = new ApiCollaboratorService();
+
+            usefulPhones = await api.GetAllCollaborators();
+
+            return usefulPhones;
+        }
+
+        private async Task<IList<PhoneCongregation>> LoadPhoneCongregations()
+        {
+            IList<PhoneCongregation> phoneCongregations = new List<PhoneCongregation>();
+
+            var api = new ApiCollaboratorService();
+
+            phoneCongregations = await api.GetAllCollaborators();
+
+            return phoneCongregations;
         }
     }
 }

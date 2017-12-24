@@ -25,10 +25,7 @@ namespace AgendaCCB.Api.Controllers
         {
             try
             {
-                var collaboratorsBD = _context.Collaborator
-                                              .Include("PhoneNumber")
-                                              .Include("IdCommonCongregationNavigation")
-                                              .Include("IdPositionMinistyNavigation").ToList();
+                var collaboratorsBD = _context.GetAllColaborators().ToList();
 
                 var collaborators = MapTo(collaboratorsBD);
 
@@ -83,6 +80,7 @@ namespace AgendaCCB.Api.Controllers
                 return null;
 
             var phoneNumbers = new List<PhoneNumber>();
+            var positionMinistryList = new List<PositionMinistry>();
 
             foreach (var phone in collaboratorBD.PhoneNumber)
             {
@@ -92,12 +90,21 @@ namespace AgendaCCB.Api.Controllers
                     PhoneType = phone.Type.ToString()
                 });
             }
+
+            foreach (var positionMinistry in collaboratorBD.PositionMinistryCollaborator)
+            {
+                positionMinistryList.Add(new PositionMinistry
+                {
+                    Description = positionMinistry.IdPositionMinistryNavigation.Description,
+                    IsMinistry = positionMinistry.IdPositionMinistryNavigation.IsMinistry
+                });
+            }
+
             var collaborator = new Collaborator()
             {
                 Id = collaboratorBD.Id,
                 CommumCongregation = collaboratorBD.IdCommonCongregationNavigation.Name,
-                Name = collaboratorBD.Name,
-                PositionMinistry = collaboratorBD.Name,
+                Name = collaboratorBD.Name,                
                 PhoneNumber = phoneNumbers
             };
 

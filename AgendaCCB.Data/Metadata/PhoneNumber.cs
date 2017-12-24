@@ -6,18 +6,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AgendaCCB.Data.Models
 {
-    public class UsefulPhoneMetadata
+    public class PhoneNumberMetadata
     {
         [DisplayName("Código")]
         public int Id { get; set; }
 
-        [DisplayName("Nome do Local")]
-        public string LocalName { get; set; }
+        [DisplayName("Número Telefone")]
+        public string Number { get; set; }
 
-        [DisplayName("Telefone")]
-        public string PhoneNumber { get; set; }
+        [DisplayName("Tipo Telefone")]
+        public string Type { get; set; }
     }
 
-    [ModelMetadataType(typeof(UsefulPhoneMetadata))]
-    public partial class UsefulPhone { }
+    [ModelMetadataType(typeof(PhoneNumberMetadata))]
+    public partial class PhoneNumber { }
 }

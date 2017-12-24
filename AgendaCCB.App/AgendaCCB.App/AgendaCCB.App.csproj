@@ -42,10 +42,16 @@
     <Compile Include="Helpers\UrlApi.cs" />
     <Compile Include="Models\ApiReturn.cs" />
     <Compile Include="Models\Collaborator.cs" />
+    <Compile Include="Models\PhoneCongregation.cs" />
+    <Compile Include="Models\PhoneNumber.cs" />
+    <Compile Include="Models\PositionMinistry.cs" />
+    <Compile Include="Models\UsefulPhone.cs" />
     <Compile Include="Models\UserAppSession.cs" />
     <Compile Include="Models\UserAppSessionSerializeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Api\ApiColaboratorService.cs" />
+    <Compile Include="Services\Api\ApiPhoneCongregationService.cs" />
+    <Compile Include="Services\Api\ApiUsefulPhoneService.cs" />
+    <Compile Include="Services\Api\ApiCollaboratorService.cs" />
     <Compile Include="Services\Api\ApiLoginService.cs" />
     <Compile Include="Services\AppServices\BaseService.cs" />
     <Compile Include="Services\AppServices\SecureStorageService.cs" />

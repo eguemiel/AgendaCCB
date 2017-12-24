@@ -14,15 +14,8 @@ namespace AgendaCCB.Api.Models
 
         public string CommumCongregation { get; set; }
 
-        public string PositionMinistry { get; set; }
-
         public List<PhoneNumber> PhoneNumber { get; set; }
-    }
 
-    public class PhoneNumber
-    {
-        public string Number { get; set; }
-
-        public string PhoneType { get; set; }
-    }
+        public List<PositionMinistry> PositionMinistry { get; set; }
+    }   
 }
