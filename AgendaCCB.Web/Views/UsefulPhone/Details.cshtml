@@ -1,0 +1,48 @@
+﻿@model AgendaCCB.Data.Models.UsefulPhone
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalhes Telefones Úteis</h2>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "UsefulPhone")</li>
+    <li class="breadcrumb-item active">Detalhes</li>
+</ol>
+
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h3 class="panel-title">Dados Telefones Úteis</h3>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th class="col-md-3">
+                        @Html.DisplayNameFor(model => model.LocalName)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.LocalName)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="form-actions">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-submit">Editar</a>
+    <a href="@Url.Action("Index")" class="btn btn-default">Voltar para a Lista</a>
+</div>

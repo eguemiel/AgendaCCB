@@ -20,40 +20,27 @@ namespace AgendaCCB.Web.Controllers
         // GET: Collaborator
         public async Task<IActionResult> Index()
         {
-            var query = from collaborator in _context.Collaborator
-                        join pmc in _context.PositionMinistryCollaborator on collaborator.Id equals pmc.IdCollaborator
-                        join pm in _context.PositionMinistry on pmc.IdPositionMinistry equals pm.Id
-                        select new
-                        {
-                            IdCollaborator = collaborator.Id,
-                            Name = collaborator.Name,
-                            IdPositionMinistry = pm.Id,
-                            IsMinistry = pm.IsMinistry,
-                            DescriptionMinistry = pm.Description
-                        };
+            var collaborators = _context.GetAllColaborators();
 
-            return View(await query.ToListAsync());
+            return View(await collaborators.ToListAsync());
         }
 
         // GET: Collaborator/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var collaborator = await _context.Collaborator
-                .Include(c => c.IdCommonCongregationNavigation)
-                .Include(c => c.IdCommonCongregation)
-                .Include("PhoneNumber")
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var collaborator = _context.GetCollaboratorById(id);
+                
             if (collaborator == null)
             {
                 return NotFound();
             }
 
-            return View(collaborator);
+            return View(await collaborator);
         }
 
         // GET: Collaborator/Create
@@ -81,21 +68,21 @@ namespace AgendaCCB.Web.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.CommonList = new SelectList(_context.CommonCongregation, "Id", "Name", collaboratorVM.IdCommonCongregation);
-            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinisty);
+            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
 
             return View(collaboratorVM);
         }
 
         // GET: Collaborator/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var collaborator = await _context.Collaborator.SingleOrDefaultAsync(m => m.Id == id);
+            var collaborator = await _context.GetCollaboratorById(id);
             if (collaborator == null)
             {
                 return NotFound();
@@ -104,7 +91,7 @@ namespace AgendaCCB.Web.Controllers
             var collaboratorVM = MapTo(collaborator);
 
             ViewBag.CommonList = new SelectList(_context.CommonCongregation, "Id", "Name", collaboratorVM.IdCommonCongregation);
-            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinisty);
+            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
             
             return View(collaboratorVM);
@@ -126,6 +113,9 @@ namespace AgendaCCB.Web.Controllers
                     var oldPhoneNumbersObj = _context.PhoneNumber.AsNoTracking()
                         .Where(pn => pn.IdCollaborador == collaborator.Id && !collaborator.PhoneNumber.Select(p => p.Id).Contains(pn.Id));
 
+                    var oldPositionMinistryObj = _context.PositionMinistryCollaborator.AsNoTracking()
+                        .Where(pmc => pmc.IdCollaborator == collaborator.Id && !collaborator.PositionMinistryCollaborator.Select(p => p.Id).Contains(pmc.Id));
+
                     foreach (var phoneNumber in collaborator.PhoneNumber)
                     {
                         if (phoneNumber.Id == new int())
@@ -137,6 +127,19 @@ namespace AgendaCCB.Web.Controllers
                     foreach (var oldPhoneNumber in oldPhoneNumbersObj)
                     {
                         _context.PhoneNumber.Remove(oldPhoneNumber);
+                    }
+
+                    foreach (var positionMinistry in collaborator.PositionMinistryCollaborator)
+                    {
+                        if (positionMinistry.Id == new int())
+                            _context.PositionMinistryCollaborator.Add(positionMinistry);
+                        else
+                            _context.PositionMinistryCollaborator.Update(positionMinistry);
+                    }
+
+                    foreach (var oldPositionMinistry in oldPositionMinistryObj)
+                    {
+                        _context.PositionMinistryCollaborator.Remove(oldPositionMinistry);
                     }
 
                     _context.Update(collaborator);
@@ -156,28 +159,26 @@ namespace AgendaCCB.Web.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["IdCommonCongregation"] = new SelectList(_context.CommonCongregation, "Id", "Name", collaboratorVM.IdCommonCongregation);
-            ViewData["IdPositionMinisty"] = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinisty);
+            ViewData["IdPositionMinistry"] = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
             return View(collaboratorVM);
         }
 
         // GET: Collaborator/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var collaborator = await _context.Collaborator
-                .Include(c => c.IdCommonCongregationNavigation)
-                .Include(c => c.IdCommonCongregation)
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var collaborator = _context.GetCollaboratorById(id);
+
             if (collaborator == null)
             {
                 return NotFound();
             }
 
-            return View(collaborator);
+            return View(await collaborator);
         }
 
         // POST: Collaborator/Delete/5
@@ -201,11 +202,12 @@ namespace AgendaCCB.Web.Controllers
             Collaborator collaborator = new Collaborator();
 
             collaborator.IdCommonCongregation = collaboratorVM.IdCommonCongregation;
-            collaborator.IdCommonCongregation = collaboratorVM.IdPositionMinisty;
+            collaborator.IdCommonCongregation = collaboratorVM.IdPositionMinistry;
             collaborator.Name = collaboratorVM.Name;
             collaborator.Id = collaboratorVM.Id;
 
             collaborator.PhoneNumber = new List<PhoneNumber>();
+            collaborator.PositionMinistryCollaborator = new List<PositionMinistryCollaborator>();
 
             foreach (var phone in collaboratorVM.PhoneNumberList)
             {
@@ -218,6 +220,15 @@ namespace AgendaCCB.Web.Controllers
                 });
             }
 
+            foreach (var positionMinistry in collaboratorVM.PositionMinistryList)
+            {
+                collaborator.PositionMinistryCollaborator.Add(new PositionMinistryCollaborator()
+                {
+                    IdCollaborator = collaboratorVM.Id,
+                    IdPositionMinistry = positionMinistry.Id
+                });
+            }
+
             return collaborator;
         }
 
@@ -226,12 +237,13 @@ namespace AgendaCCB.Web.Controllers
             CollaboratorViewModel collaboratorVM = new CollaboratorViewModel();
 
             collaboratorVM.IdCommonCongregation = collaborator.IdCommonCongregation;
-            collaboratorVM.IdPositionMinisty = collaborator.IdCommonCongregation;
+            collaboratorVM.IdPositionMinistry = collaborator.IdCommonCongregation;
             collaboratorVM.Name = collaborator.Name;
 
             collaborator.PhoneNumber = _context.PhoneNumber.Where(p => p.IdCollaborador == collaborator.Id).ToList();
 
             collaboratorVM.PhoneNumberList = new List<PhoneNumberViewModel>();
+            collaboratorVM.PositionMinistryList = new List<PositionMinistryViewModel>();
 
             foreach (var phone in collaborator.PhoneNumber)
             {
@@ -240,8 +252,15 @@ namespace AgendaCCB.Web.Controllers
                 phoneViewModel.Phone = phone.Number;
                 phoneViewModel.TypePhone = (TypePhone)Enum.Parse(typeof(TypePhone), phone.Type);
 
-                collaboratorVM.PhoneNumberList.Add(phoneViewModel);
-                
+                collaboratorVM.PhoneNumberList.Add(phoneViewModel);                
+            }
+
+            foreach (var positionMinistry in collaborator.PositionMinistryCollaborator)
+            {
+                var positionMinistryVM = new PositionMinistryViewModel();
+                positionMinistryVM.Id = positionMinistry.IdPositionMinistry;
+                positionMinistryVM.Description = _context.PositionMinistry.SingleOrDefault(pm => pm.Id == positionMinistry.IdPositionMinistry).Description;
+                collaboratorVM.PositionMinistryList.Add(positionMinistryVM);
             }
 
             return collaboratorVM;

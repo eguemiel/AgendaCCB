@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AgendaCCB.Data.Models
 {
@@ -7,22 +8,32 @@ namespace AgendaCCB.Data.Models
     {
         public IQueryable<Collaborator> GetAllColaborators()
         {
-            return Collaborator.Include("PhoneNumber");
+            var collaborators = Collaborator
+                                    .Include("PhoneNumber")
+                                    .Include("PositionMinistryCollaborator")
+                                    .Include(c => c.IdCommonCongregationNavigation);
+
+            foreach (var item in collaborators)
+            {
+                foreach (var subitem in item.PositionMinistryCollaborator)
+                {
+                    subitem.IdPositionMinistryNavigation = new Models.PositionMinistry();
+                    subitem.IdPositionMinistryNavigation = PositionMinistry.FirstOrDefault(pm => pm.Id == subitem.IdPositionMinistry);
+                }
+            }
+
+            return collaborators;
         }
 
-        public Collaborator GetCollaboratorById(int id)
+        public async Task<Collaborator> GetCollaboratorById(int id)
         {
-            return GetAllColaborators().FirstOrDefault(c => c.Id == id);
+            return await GetAllColaborators().SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public void AddCategoria(Collaborator collaborator)
-        {
-            Collaborator.Add(collaborator);
-        }
 
-        public void DeleteCollaborator(int id)
+        public async void DeleteCollaborator(int id)
         {
-            var obj = GetCollaboratorById(id);
+            var obj = await GetCollaboratorById(id);
 
             foreach (var phoneNumber in obj.PhoneNumber)
             {
@@ -32,13 +43,13 @@ namespace AgendaCCB.Data.Models
             Collaborator.Remove(obj);
         }
 
-        public void EditCollaborator(Collaborator collaborator)
+        public async void EditCollaborator(Collaborator collaborator)
         {
             using (var transaction = Database.BeginTransaction())
             {
                 try
                 {
-                    var oldCollaborator = GetCollaboratorById(collaborator.Id);
+                    var oldCollaborator = await GetCollaboratorById(collaborator.Id);
 
                     Collaborator.Update(collaborator);
 

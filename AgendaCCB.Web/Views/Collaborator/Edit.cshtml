@@ -25,20 +25,59 @@
         <div class="panel-body">
             <div class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
                         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         @Html.LabelFor(model => model.IdCommonCongregation, htmlAttributes: new { @class = "control-label" })
                         @Html.DropDownListFor(model => model.IdCommonCongregation, ViewBag.CommonList as IEnumerable<SelectListItem>, "Selecione...", htmlAttributes: new { @class = "form-control", @required = "required" })
                         @Html.ValidationMessageFor(model => model.IdCommonCongregation, "", new { @class = "text-danger" })
                     </div>
-                    <div class="col-xs-4">
-                        @Html.LabelFor(model => model.IdPositionMinisty, htmlAttributes: new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.IdPositionMinisty, ViewBag.PositionMinistryList as IEnumerable<SelectListItem>, "Selecione...", htmlAttributes: new { @class = "form-control", @required = "required" })
-                        @Html.ValidationMessageFor(model => model.IdPositionMinisty, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            @Html.LabelFor(model => model.IdPositionMinistry, htmlAttributes: new { @class = "control-label" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.IdPositionMinistry, ViewBag.PositionMinistryList as IEnumerable<SelectListItem>, "Selecione...", htmlAttributes: new { @class = "form-control", @required = "required" })
+                                <span class="input-group-addon" id="addPositionMinistry"><i class="glyphicon glyphicon-plus"></i></span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.IdPositionMinistry, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-xs-6">
+                            @Html.Label("", "Lista de Cargos", htmlAttributes: new { @class = "control-label" })
+                            <table class="table table-bordered table-striped" style="margin-bottom:0px !important">
+                                <tbody id="positionMinistryList">
+                                    @{var auxPositionMinistry = 0;}
+                                    @if (Model.PositionMinistryList != null && Model.PositionMinistryList.Count > 0)
+                                    {
+                                        foreach (var positionMinistryList in Model.PositionMinistryList)
+                                        {
+                                            var phoneId = string.Format("PositionMinistryList[{0}].Id", auxPositionMinistry);
+                                            var typePhone = string.Format("PositionMinistryList[{0}].Description", auxPositionMinistry);
+
+                                            <tr id="@positionMinistryList.Id">
+                                                @Html.Hidden(phoneId, positionMinistryList.Id)
+                                                @Html.Hidden(typePhone, positionMinistryList.Description)
+                                                <td>
+                                                    @positionMinistryList.Description
+                                                    <span style="float:right;"><i class="glyphicon glyphicon-remove" onclick="removePositionMinistry(this);"></i></span>
+                                                </td>
+                                            </tr>
+                                            auxPositionMinistry++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr id="0">
+                                            <td>
+                                                Nenhum item inserido
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -68,25 +107,25 @@
                                         var typePhone = string.Format("PhoneNumberList[{0}].TypePhone", auxCategory);
                                         var phoneNumber = string.Format("PhoneNumberList[{0}].Phone", auxCategory);
                                         var typePhoneDesc = EnumHelper<TypePhone>.GetDisplayValue(phoneNumberList.TypePhone);
-                                        <tr id="@phoneNumberList.Id">
-                                            @Html.Hidden(phoneId, phoneNumberList.Id)
-                                            @Html.Hidden(typePhone, phoneNumberList.TypePhone)
-                                            @Html.Hidden(phoneNumber, phoneNumberList.Phone)
-                                            <td>
-                                                @phoneNumberList.Phone - @typePhoneDesc
-                                                <span style="float:right;"><i class="glyphicon glyphicon-remove" onclick="removeElement(this);"></i></span>
-                                            </td>
-                                        </tr>
+                                <tr id="@phoneNumberList.Id">
+                                    @Html.Hidden(phoneId, phoneNumberList.Id)
+                                    @Html.Hidden(typePhone, phoneNumberList.TypePhone)
+                                    @Html.Hidden(phoneNumber, phoneNumberList.Phone)
+                                    <td>
+                                        @phoneNumberList.Phone - @typePhoneDesc
+                                        <span style="float:right;"><i class="glyphicon glyphicon-remove" onclick="removeElement(this);"></i></span>
+                                    </td>
+                                </tr>
                                         auxCategory++;
                                     }
                                 }
                                 else
                                 {
-                                    <tr id="0">
-                                        <td>
-                                            Nenhum item inserido
-                                        </td>
-                                    </tr>
+                                <tr id="0">
+                                    <td>
+                                        Nenhum item inserido
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
@@ -101,12 +140,12 @@
             <a href="@Url.Action("Index", "Collaborator")" class="btn btn-default">Cancelar</a>
         </div>
     </div>
-}
-
-
+                                    }
 
 @section Scripts {
     <script type="text/javascript">
+        //Phone Number Scripts
+
         $("#addPhoneNumber").click(function (e) {
             var $phoneNumber = $("#PhoneNumber");
             var $typePhone = $("#TypePhone");
@@ -197,8 +236,86 @@
                         $(elem).attr("id", "PhoneNumberList_" + index + "__Id");
                     }
                 });
-                
+
             });
         }
+
+        //Position Ministry Scripts
+
+        $("#addPositionMinistry").click(function (e) {
+            var $positionMinistry = $("#IdPositionMinistry");
+
+            if (!$positionMinistry.val()) {
+                $positionMinistry.attr('required', 'required');
+
+                var validator = $("form").validate();
+                validator.element($positionMinistry);
+
+                return;
+            }
+
+            $positionMinistryList = $("#positionMinistryList");
+            if ($positionMinistryList.find('tr#0').length == 1) {
+                $tr = $positionMinistryList.find('tr');
+                $tr.remove();
+            }
+
+            if ($positionMinistryList.find('tr#' + $positionMinistry.val()).length == 0) {
+                var $index = $positionMinistryList.children().last().index();
+                if ($index == -1)
+                    $index = 0;
+                else
+                    $index = $index + 1;
+
+                var $element = "<tr id='" + $positionMinistry.val() + "'>"
+                    + "<input type= 'hidden' id= 'PositionMinistryList_" + $index + "__Id' name= 'PositionMinistryList[" + $index + "].Id' value= '" + $positionMinistry.val() + "'>"
+                    + "<input type= 'hidden' id= 'PositionMinistryList_" + $index + "__Description' name= 'PositionMinistryList[" + $index + "].Description' value= '" + $positionMinistry.find("option:selected").text() + "'>"
+                    + "<td>" + $positionMinistry.find("option:selected").text()
+                    + "<span style='float:right;'><i class='glyphicon glyphicon-remove' onclick='removePositionMinistry(this);'></i></span></td > "
+                    + "</tr > ";
+                $positionMinistryList.append($element)
+
+                $("#IdPositionMinistry").val("");
+            }
+            validatePositionMinistryList();
+        });
+
+        function validatePositionMinistryList() {
+            $tablePositionMinistry = $('#positionMinistryList tr[id="0"]').length;
+
+            $stringError = '<span id="positionMinistryList-error" class="text-danger">This field is required.</span>'
+
+            if ($tablePositionMinistry == 1) {
+                $('#positionMinistryList').parent().parent().append($stringError);
+                return true;
+            } else {
+                $('#positionMinistryList').parent().parent().find('.text-danger').remove();
+                return false;
+            }
+        }
+
+        function removePositionMinistry(element) {
+            $element = $(element).parents('tr');
+            $element.remove();
+
+            $positionMinistryList = $("#positionMinistryList");
+            if ($positionMinistryList.children().length == 0) {
+                var $positionMinistry = $("#IdPositionMinistry");
+                $positionMinistry.attr('required', 'required');
+                var $element = "<tr id='0'><td>Nenhum item inserido</td></tr>";
+                $positionMinistryList.append($element);
+            } else {
+                updatePositionMinistry($positionMinistryList);
+            }
+        }
+
+        function updatePositionMinistry(positionMinistryList) {
+            $(positionMinistryList).children().each(function (i) {
+                var $this = $(this).children('input');
+                $this.attr("name", "PositionMinistryCollaborator[" + i + "].IdPositionMinistry");
+                $this.attr("id", "PositionMinistryCollaborator" + i + "__IdPositionMinistry");
+            });
+        }
+
     </script>
 }

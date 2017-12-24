@@ -16,7 +16,7 @@ namespace AgendaCCB.Web.Models
         {
             Id = collaboratorViewModel.Id;
             Name = collaboratorViewModel.Name;
-            IdPositionMinisty = collaboratorViewModel.IdPositionMinisty;
+            IdPositionMinistry = collaboratorViewModel.IdPositionMinistry;
             IdCommonCongregation = collaboratorViewModel.IdCommonCongregation;
         }
 
@@ -29,7 +29,7 @@ namespace AgendaCCB.Web.Models
 
         [DisplayName("Cargo")]
         [Required(ErrorMessage = "É necessário informar um cargo")]
-        public int IdPositionMinisty { get; set; }
+        public int IdPositionMinistry { get; set; }
 
         [DisplayName("Telefone")]
         [Required(ErrorMessage = "É necessário informar ao menos um telefone")]
@@ -38,7 +38,11 @@ namespace AgendaCCB.Web.Models
         [DisplayName("Tipo")]
         public int TypePhone { get; set; }
 
+        [DisplayName("Telefone")]
         public List<PhoneNumberViewModel> PhoneNumberList { get; set; }
+
+        [DisplayName("Cargo")]
+        public List<PositionMinistryViewModel> PositionMinistryList { get; set; }
 
         public SelectList TypePhoneList { get; set; }
 

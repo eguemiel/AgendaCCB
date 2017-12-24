@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace AgendaCCB.Data.Models
@@ -14,11 +15,17 @@ namespace AgendaCCB.Data.Models
         [DisplayName("Cargo/Ministério")]
         public int IdPositionMinistyNavigation { get; set; }
 
-        [DisplayName("Código Telefone")]
+        [DisplayName("Telefone")]
         public int IdPhoneNumber { get; set; }
 
-        [DisplayName("Código Comum Congregação")]
-        public int IdCommonCongregationNavigation { get; set; }
+        [DisplayName("Comum Congregação")]
+        public CommonCongregation IdCommonCongregationNavigation { get; set; }
+
+        [DisplayName("Telefone")]
+        public ICollection<PhoneNumber> PhoneNumber { get; set; }
+
+        [DisplayName("Cargo Ministério")]
+        public ICollection<PositionMinistryCollaborator> PositionMinistryCollaborator { get; set; }
     }
 
     [ModelMetadataType(typeof(CollaboratorMetadata))]

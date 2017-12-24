@@ -7,7 +7,7 @@ namespace AgendaCCB.Data.Models
     {
         public CommonCongregation()
         {
-            Collaborator = new HashSet<Collaborator>();
+            Collaborator = new HashSet<Collaborator>();            
         }
 
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace AgendaCCB.Data.Models
         public string PhoneNumber { get; set; }
         public string FaxPhoneNumber { get; set; }
 
-        public City IdCityNavigation { get; set; }
+        public City CityNavigation { get; set; }
         public ICollection<Collaborator> Collaborator { get; set; }
     }
 }

@@ -37,7 +37,11 @@
                     </th>
 
                     <td>
-                        @Html.DisplayFor(model => model.PhoneNumber.FirstOrDefault().Number)
+                        @foreach (var item in Model.PhoneNumber)
+                        {
+                            @Html.DisplayFor(model => item.Number)
+                            <br />
+                        }
                     </td>
                 </tr>
                 <tr>
@@ -50,10 +54,14 @@
                 </tr>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdPositionMinistyNavigation)
+                        @Html.DisplayNameFor(model => model.PositionMinistryCollaborator)
                     </th>
                     <td>
-                        @Html.DisplayFor(model => model.IdPositionMinistyNavigation.Description)
+                        @foreach (var item in Model.PositionMinistryCollaborator)
+                        {
+                            @Html.DisplayFor(model => item.IdPositionMinistryNavigation.Description)
+                            <br />
+                        }
                     </td>
                 </tr>
         </table>

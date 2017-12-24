@@ -18,10 +18,10 @@ namespace AgendaCCB.Web.Controllers
         }
 
         // GET: CommonCongregation
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var agendaccbContext = _context.CommonCongregation.Include(c => c.IdCityNavigation);
-            return View(await agendaccbContext.ToListAsync());
+            var commonCongregations = _context.CommonCongregation.Include(c => c.CityNavigation);
+            return View(commonCongregations.ToList());
         }
 
         // GET: CommonCongregation/Details/5
@@ -33,7 +33,7 @@ namespace AgendaCCB.Web.Controllers
             }
 
             var commonCongregation = await _context.CommonCongregation
-                .Include(c => c.IdCityNavigation)
+                .Include(c => c.CityNavigation)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (commonCongregation == null)
             {
@@ -46,7 +46,7 @@ namespace AgendaCCB.Web.Controllers
         // GET: CommonCongregation/Create
         public IActionResult Create()
         {
-            ViewBag.CityList = new SelectList(_context.City, "Id", "Name");
+            ViewBag.CityList = new SelectList(_context.City.Where(c => c.IdState == 26), "Id", "Name");
             return View();
         }
 
@@ -55,7 +55,7 @@ namespace AgendaCCB.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IdCity")] CommonCongregationViewModel commonCongregationVM)
+        public async Task<IActionResult> Create(CommonCongregationViewModel commonCongregationVM)
         {
             var commonCongregation = new CommonCongregation();
             if (ModelState.IsValid)
@@ -65,7 +65,7 @@ namespace AgendaCCB.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["Id"] = new SelectList(_context.City, "Id", "Name", commonCongregation.Id);
+            ViewBag.CityList = new SelectList(_context.City, "Id", "Name", commonCongregation.Id);
             return View(commonCongregation);
         }
 
@@ -74,7 +74,12 @@ namespace AgendaCCB.Web.Controllers
             return new CommonCongregation()
             {
                 IdCity = commonCongregationVM.IdCity,
-                Name = commonCongregationVM.Name
+                Name = commonCongregationVM.Name,
+                Address = commonCongregationVM.Address,
+                District = commonCongregationVM.District,
+                FaxPhoneNumber = commonCongregationVM.FaxPhoneNumber,
+                PhoneNumber = commonCongregationVM.PhoneNumber,
+                ZipCode = commonCongregationVM.ZipCode
             };
         }
 
@@ -91,7 +96,7 @@ namespace AgendaCCB.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["Id"] = new SelectList(_context.City, "Id", "Name", commonCongregation.Id);
+            ViewBag.CityList = new SelectList(_context.City, "Id", "Name", commonCongregation.Id);
             return View(commonCongregation);
         }
 
@@ -100,7 +105,7 @@ namespace AgendaCCB.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdCity")] CommonCongregation commonCongregation)
+        public async Task<IActionResult> Edit(int id, CommonCongregation commonCongregation)
         {
             if (id != commonCongregation.Id)
             {
@@ -140,7 +145,7 @@ namespace AgendaCCB.Web.Controllers
             }
 
             var commonCongregation = await _context.CommonCongregation
-                .Include(c => c.IdCityNavigation)
+                .Include(c => c.CityNavigation)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (commonCongregation == null)
             {

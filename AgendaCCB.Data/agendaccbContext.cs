@@ -198,9 +198,9 @@ namespace AgendaCCB.Data.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdCityNavigation)
+                entity.HasOne(d => d.CityNavigation)
                     .WithOne(p => p.CommonCongregation)
-                    .HasForeignKey<CommonCongregation>(d => d.Id)
+                    .HasForeignKey<CommonCongregation>(d => d.IdCity)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CommonCongregation_City");
             });
