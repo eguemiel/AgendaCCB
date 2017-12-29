@@ -46,7 +46,11 @@ namespace AgendaCCB.Web.Controllers
         // GET: Collaborator/Create
         public IActionResult Create()
         {
-            ViewBag.CommonList = new SelectList(_context.CommonCongregation, "Id", "Name");
+            ViewBag.CommonList = _context.CommonCongregation.Select(p => new SelectListItem
+            {
+                Text = p.Name + "-" + p.CityNavigation.Name,
+                Value = p.Id.ToString()
+            });
             ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description");
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
 
@@ -67,7 +71,14 @@ namespace AgendaCCB.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CommonList = new SelectList(_context.CommonCongregation, "Id", "Name", collaboratorVM.IdCommonCongregation);
+
+            ViewBag.CommonList = _context.CommonCongregation.Select(p => new SelectListItem
+            {
+                Text = p.Name + "-" + p.CityNavigation.Name,
+                Value = p.Id.ToString(),
+                Selected = p.Id == collaboratorVM.IdCommonCongregation                
+            });
+            
             ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
 
@@ -90,7 +101,13 @@ namespace AgendaCCB.Web.Controllers
 
             var collaboratorVM = MapTo(collaborator);
 
-            ViewBag.CommonList = new SelectList(_context.CommonCongregation, "Id", "Name", collaboratorVM.IdCommonCongregation);
+            ViewBag.CommonList = _context.CommonCongregation.Select(p => new SelectListItem
+            {
+                Text = p.Name + "-" + p.CityNavigation.Name,
+                Value = p.Id.ToString(),
+                Selected = p.Id == collaboratorVM.IdCommonCongregation
+            });
+
             ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
             
@@ -158,7 +175,13 @@ namespace AgendaCCB.Web.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["IdCommonCongregation"] = new SelectList(_context.CommonCongregation, "Id", "Name", collaboratorVM.IdCommonCongregation);
+            ViewBag.CommonList = _context.CommonCongregation.Select(p => new SelectListItem
+            {
+                Text = p.Name + "-" + p.CityNavigation.Name,
+                Value = p.Id.ToString(),
+                Selected = p.Id == collaboratorVM.IdCommonCongregation
+            });
+
             ViewData["IdPositionMinistry"] = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
             return View(collaboratorVM);
         }

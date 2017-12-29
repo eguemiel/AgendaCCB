@@ -10,17 +10,22 @@
       <!--DefaultTextColor = F9F9F7-->
       <!--DefaultPlaceHolderColor = A6C1CF-->
       <!--COLOR TO CHOOSE = A6C1CF-->
-      <Color x:Key="DefaultBackgroundColor">#BDDDED</Color>
-      <Color x:Key="DefaultButtonColor">#3D7896</Color>
-      <Color x:Key="DefaultTextColor">#f9f9f7</Color>
+      <Color x:Key="DefaultBackgroundColor">#F6F6F6</Color>
+      <Color x:Key="DefaultButtonColor">#1E56A0</Color>
+      <Color x:Key="DefaultButtonTextColor">#F6F6F6</Color>
+      <Color x:Key="DefaultTextColor">#163172</Color>
       <Color x:Key="DefaultPlaceHolderColor">#A6C1CF</Color>
-      <Color x:Key="DefaultLabelTextColor">#3d404c</Color>
-
+      <Color x:Key="DefaultLabelTextColor">#1E56A0</Color>
+      <Color x:Key="BarBackgroundColor">#1E56A0</Color>
+      <Color x:Key="BarTextColor">#D6E4F0</Color>
+      <Color x:Key="SearchBarTextColor">#D6E4F0</Color>
       <Style x:Key="AccessButton" TargetType="Button">
-        <Setter Property="TextColor" Value="{StaticResource DefaultTextColor}"></Setter>
+        <Setter Property="TextColor" Value="{StaticResource DefaultButtonTextColor}"></Setter>
         <Setter Property="BackgroundColor" Value="{StaticResource DefaultButtonColor}"></Setter>
       </Style>
-      
+      <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{StaticResource BarBackgroundColor}"/>        
+      </Style>
     </ResourceDictionary>
   </prism:PrismApplication.Resources>
 </prism:PrismApplication>

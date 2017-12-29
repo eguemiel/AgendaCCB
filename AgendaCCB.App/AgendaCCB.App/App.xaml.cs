@@ -32,6 +32,8 @@ namespace AgendaCCB.App
             {
                 NavigationService.NavigateAsync("NavigationPage/MainPage");
             }
+
+            
         }
 
         protected override void RegisterTypes()
@@ -40,6 +42,7 @@ namespace AgendaCCB.App
             Container.RegisterTypeForNavigation<MainPage>();
             Container.RegisterTypeForNavigation<MainPrincipal>();
             Container.RegisterTypeForNavigation<CollaboratorPage>();
+            Container.RegisterTypeForNavigation<CongregationPhonePage>();
         }
     }
 }

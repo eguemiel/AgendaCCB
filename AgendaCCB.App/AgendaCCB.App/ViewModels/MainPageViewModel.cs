@@ -78,6 +78,7 @@ namespace AgendaCCB.App.ViewModels
 
                     if (loginReturn.Success)
                     {
+                        UserDialogs.Instance.HideLoading();                        
                         await _navigationService.NavigateAsync("myapp:///NavigationPage/" + AppSettings.HomeApplication);
                     }
                     else
@@ -85,7 +86,7 @@ namespace AgendaCCB.App.ViewModels
                         DefaultToasts.Erro(loginReturn.Message);
                     }
 
-                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.HideLoading();                    
                 }
             }
             catch (Exception ex)
@@ -95,8 +96,7 @@ namespace AgendaCCB.App.ViewModels
             finally
             {
                 UserDialogs.Instance.HideLoading();
-            }
-            
+            }            
         }
 
         private async void ExecuteCadastroUsuarioCommand()

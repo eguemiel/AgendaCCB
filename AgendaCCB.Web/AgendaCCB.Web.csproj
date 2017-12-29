@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-AgendaCCB.Web-1733E1D3-C257-4BB8-9FD3-A007F91AD29F</UserSecretsId>
+    <ApplicationIcon>wwwroot\images\agendaCCB.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

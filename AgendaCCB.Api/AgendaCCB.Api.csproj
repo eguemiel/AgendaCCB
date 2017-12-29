@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Authorization\" />
+    <Folder Include="Helpers\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -9,8 +9,7 @@ using System.Net;
 
 namespace AgendaCCB.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/PhoneCongregation")]
+    [Route("api/[controller]")]
     public class PhoneCongregationController : BaseController
     {
         public PhoneCongregationController(IConfiguration configuration) : base(configuration)
@@ -24,10 +23,8 @@ namespace AgendaCCB.Api.Controllers
             try
             {
                 var phoneCongregationsBD = _context.CommonCongregation
-                                    .Where(cc => (cc.Address != null && cc.Address != string.Empty) &&
-                                                 (cc.PhoneNumber != null && cc.PhoneNumber != string.Empty) ||
-                                                 (cc.FaxPhoneNumber != null && cc.FaxPhoneNumber != string.Empty) ||
-                                                 (cc.ZipCode != null && cc.ZipCode != string.Empty));
+                            .Where(cc => cc.Address != null && cc.Address != string.Empty &&
+                                         cc.PhoneNumber != null && cc.PhoneNumber != string.Empty);
 
                 var phoneCongregations = MapTo(phoneCongregationsBD);
 
@@ -63,7 +60,7 @@ namespace AgendaCCB.Api.Controllers
             {
                Name = phoneCongregationBD.Name,
                Address = phoneCongregationBD.Address,
-               City = phoneCongregationBD.CityNavigation.Name,
+               City = phoneCongregationBD.CityNavigation == null ? _context.City.SingleOrDefault(c => c.Id == phoneCongregationBD.IdCity).Name : phoneCongregationBD.CityNavigation.Name,
                District = phoneCongregationBD.District,
                FaxPhoneNumber = phoneCongregationBD.FaxPhoneNumber,
                PhoneNumber = phoneCongregationBD.PhoneNumber,

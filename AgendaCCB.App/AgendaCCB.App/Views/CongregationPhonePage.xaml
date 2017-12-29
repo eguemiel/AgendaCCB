@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:local="clr-namespace:AgendaCCB.App.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AgendaCCB.App.Views.CongregationPhonePage"
+             Title="{Binding Title}">
+    <StackLayout Spacing="5" 
+                 BindingContext="{Binding PhoneCongregation}" 
+                 Padding="16, 10">
+        <Label Text="Nome:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold" />
+        <Label Text="Cidade:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <Label Text="{Binding City}" FontSize="Large" />
+        <Label Text="Endereço:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <Label Text="{Binding Address}" FontSize="Large" />
+        <Label Text="Bairro:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <Label Text="{Binding District}" FontSize="Large" />
+        <Label Text="CEP:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <Label Text="{Binding ZipCode}" FontSize="Large" />
+        <Label Text="Telefone:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <local:LabelClickable Text="{Binding PhoneNumber}" FontSize="Large" x:Name="lblPhoneCongregation" />
+        <Label Text="Fax:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <local:LabelClickable Text="{Binding FaxPhoneNumber}" FontSize="Large" x:Name="lblFaxCongregation"/>
+    </StackLayout>
+</ContentPage>

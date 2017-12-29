@@ -32,6 +32,13 @@ namespace AgendaCCB.App.ViewModels
             set { SetProperty(ref _canNavigate, value); }
         }
 
+        private bool _canExecute = true;
+        public bool CanExecute
+        {
+            get { return _canExecute; }
+            set { SetProperty(ref _canExecute, value); }
+        }
+
         public virtual void OnNavigatedFrom(NavigationParameters parameters)
         {
         }

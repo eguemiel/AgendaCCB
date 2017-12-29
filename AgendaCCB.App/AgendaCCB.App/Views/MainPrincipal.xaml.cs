@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using AgendaCCB.App.Controls;
+using Xamarin.Forms;
 
 namespace AgendaCCB.App.Views
 {

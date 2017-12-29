@@ -16,6 +16,8 @@ namespace AgendaCCB.Api.Models
 
         public List<PhoneNumber> PhoneNumber { get; set; }
 
-        public List<PositionMinistry> PositionMinistry { get; set; }
+        public List<PositionMinistry> PositionMinistryList { get; set; }
+
+        public string PositionMinistry { get; set; }
     }   
 }

@@ -68,46 +68,51 @@ namespace AgendaCCB.Api.Controllers
 
             foreach (var collaborator in collaboratorsBD)
             {
-                collaborators.Add(MapTo(collaborator));
+                collaborators.AddRange(MapTo(collaborator));
             }
 
             return collaborators;
         }
 
-        private Collaborator MapTo(Data.Models.Collaborator collaboratorBD)
+        private List<Collaborator> MapTo(Data.Models.Collaborator collaboratorBD)
         {
             if (collaboratorBD == null)
                 return null;
 
-            var phoneNumbers = new List<PhoneNumber>();
-            var positionMinistryList = new List<PositionMinistry>();
-
-            foreach (var phone in collaboratorBD.PhoneNumber)
-            {
-                phoneNumbers.Add(new PhoneNumber
-                {
-                    Number = phone.Number,
-                    PhoneType = phone.Type.ToString()
-                });
-            }
+            List<Collaborator> collaborator = new List<Collaborator>();
 
             foreach (var positionMinistry in collaboratorBD.PositionMinistryCollaborator)
             {
-                positionMinistryList.Add(new PositionMinistry
+                var phoneNumbers = new List<PhoneNumber>();
+                var positionMinistryList = new List<PositionMinistry>();
+
+                foreach (var phone in collaboratorBD.PhoneNumber)
                 {
-                    Description = positionMinistry.IdPositionMinistryNavigation.Description,
-                    IsMinistry = positionMinistry.IdPositionMinistryNavigation.IsMinistry
+                    phoneNumbers.Add(new PhoneNumber
+                    {
+                        Number = phone.Number,
+                        PhoneType = EnumHelper<TypePhone>.GetDisplayValue(EnumHelper<TypePhone>.Parse(phone.Type))
+                    });
+                }
+
+                foreach (var position in collaboratorBD.PositionMinistryCollaborator)
+                {
+                    positionMinistryList.Add(new PositionMinistry{
+                        Description = position.IdPositionMinistryNavigation.Description,
+                        IsMinistry = position.IdPositionMinistryNavigation.IsMinistry
+                    });
+                }
+
+                collaborator.Add(new Collaborator()
+                {
+                    Id = collaboratorBD.Id,
+                    CommumCongregation = collaboratorBD.IdCommonCongregationNavigation.Name,
+                    Name = collaboratorBD.Name,
+                    PhoneNumber = phoneNumbers,
+                    PositionMinistry = positionMinistry.IdPositionMinistryNavigation.Description,
+                    PositionMinistryList = positionMinistryList
                 });
             }
-
-            var collaborator = new Collaborator()
-            {
-                Id = collaboratorBD.Id,
-                CommumCongregation = collaboratorBD.IdCommonCongregationNavigation.Name,
-                Name = collaboratorBD.Name,                
-                PhoneNumber = phoneNumbers
-            };
-
             return collaborator;
         }
     }

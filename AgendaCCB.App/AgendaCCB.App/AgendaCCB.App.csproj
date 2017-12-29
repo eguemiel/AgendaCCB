@@ -37,8 +37,10 @@
   <ItemGroup>
     <Compile Include="Controls\DefaultToasts.cs" />
     <Compile Include="Controls\ImageResourceExtension.cs" />
+    <Compile Include="Controls\LabelClickable.cs" />
     <Compile Include="Controls\ListView.cs" />
     <Compile Include="Helpers\AppSettings.cs" />
+    <Compile Include="Helpers\Group.cs" />
     <Compile Include="Helpers\UrlApi.cs" />
     <Compile Include="Models\ApiReturn.cs" />
     <Compile Include="Models\Collaborator.cs" />
@@ -60,10 +62,14 @@
     <Compile Include="Services\Api\Commom\AgendaCCBApiService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CollaboratorPageViewModel.cs" />
+    <Compile Include="ViewModels\CongregationPhonePageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MainPrincipalViewModel.cs" />
     <Compile Include="Views\CollaboratorPage.xaml.cs">
       <DependentUpon>CollaboratorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CongregationPhonePage.xaml.cs">
+      <DependentUpon>CongregationPhonePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPrincipal.xaml.cs">
       <DependentUpon>MainPrincipal.xaml</DependentUpon>
@@ -193,16 +199,25 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\seta_direita.png" />
+    <EmbeddedResource Include="Images\seta_direita.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
     <EmbeddedResource Include="Images\logo.png">
       <CustomToolNamespace>AgendaCCB.App.Images</CustomToolNamespace>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\CollaboratorPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\CongregationPhonePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

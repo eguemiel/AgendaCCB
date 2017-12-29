@@ -9,7 +9,7 @@
              x:Class="AgendaCCB.App.Views.MainPage"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource DefaultBackgroundColor}">
-    <ScrollView BackgroundColor="{StaticResource DefaultBackgroundColor}" 
+    <StackLayout BackgroundColor="{StaticResource DefaultBackgroundColor}" 
                  Padding="40,40,40,40" 
                  VerticalOptions="Center">
         <Image Source="{customControls:ImageResource AgendaCCB.App.Images.logo.png}"
@@ -31,12 +31,14 @@
                               Text="{Binding PhoneNumber}"
                               PlaceholderColor="{StaticResource DefaultPlaceHolderColor}"
                               TextColor="{StaticResource DefaultTextColor}"
-                              ErrorText="{Binding PhoneNumberError}">
+                              ErrorText="{Binding PhoneNumberError}"
+                              Keyboard="Telephone">
             </customEntry:XfxEntry>
             <customEntry:XfxEntry Placeholder="Informe o código para ativação" 
                               Text="{Binding Code}"
                               PlaceholderColor="{StaticResource DefaultPlaceHolderColor}"
                               TextColor="{StaticResource DefaultTextColor}"
+                              IsPassword="True"
                               ErrorText="{Binding CodeError}">
             </customEntry:XfxEntry>
             <controls:ImageButton Text="CONFIRMAR CÓDIGO" 
@@ -52,5 +54,5 @@
                 </controls:ImageButton.Image>
             </controls:ImageButton>
         </StackLayout>
-    </ScrollView>
+    </StackLayout>
 </ContentPage>

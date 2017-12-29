@@ -1,0 +1,49 @@
+﻿@model AgendaCCB.Data.Models.AppauthorizationToUse
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AppauthorizationToUse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Token)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Token)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Used)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Used)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserCreatorNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserCreatorNavigation.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

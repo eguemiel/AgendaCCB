@@ -56,6 +56,9 @@ $(document).ready(function () {
         phone = element.val().replace(/\D/g, '');
         if (phone.length > 10) {
             element.mask("(99) 99999-999?9");
+        } else if (phone.length == 3)
+        {
+            element.mask("999");
         } else {
             element.mask("(99) 9999-9999?9");
         }

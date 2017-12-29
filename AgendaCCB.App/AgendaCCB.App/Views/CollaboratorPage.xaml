@@ -2,63 +2,63 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:local="clr-namespace:AgendaCCB.App.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"             
              x:Class="AgendaCCB.App.Views.CollaboratorPage"
              Title="{Binding Title}">
-    <StackLayout Spacing="0" BindingContext="{Binding Collaborator}">
+    <StackLayout Spacing="5" 
+                 BindingContext="{Binding Collaborator}" 
+                 Padding="16, 10">
+        <Label Text="Nome:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
         <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold" />
+        <Label Text="Comum Congregação:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
         <Label Text="{Binding CommumCongregation}" FontSize="Medium" />
-        <Label Text="{Binding PositionMinistry}" FontSize="Medium" />
-        <StackLayout>
-            <ListView 
-        HasUnevenRows="True"
-        ItemsSource="{Binding PhoneNumber}"
-        SeparatorVisibility="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="70">
-                            <StackLayout Padding="5, 10"
-                                 Orientation="Vertical" 
-                                 VerticalOptions="FillAndExpand" 
+        <Label Text="Telefones:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <local:ListView         
+            HasUnevenRows="True"
+            ItemsSource="{Binding PhoneNumber}"
+            ItemTapped="ListView_ItemTapped"
+            SeparatorVisibility="Default">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell Height="60">
+                        <StackLayout Padding="0,10"
+                                 VerticalOptions="FillAndExpand"          
                                  HorizontalOptions="FillAndExpand"
-                                 BackgroundColor="Azure">
-                                <Label Text="{Binding Number}"
-							   FontSize="Large"                   
+                                 BackgroundColor="{StaticResource DefaultBackgroundColor}">
+                            <Label Text="{Binding Number}"
+							   FontSize="Medium"                   
                                TextColor="#696969"/>
 
-                                <Label Text="{Binding PhoneType}"
+                            <Label Text="{Binding PhoneType}"
 							    FontSize="Small"
                                 TextColor="#4169E1"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
-        <StackLayout>
-            <ListView 
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </local:ListView>
+        <Label Text="Ministério/Cargo:" FontSize="Small" TextColor="{StaticResource DefaultLabelTextColor}"/>
+        <ListView 
+        ItemsSource="{Binding PositionMinistryList}"
         HasUnevenRows="True"
-        ItemsSource="{Binding PositionMinistry}"
         SeparatorVisibility="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="70">
-                            <StackLayout Padding="5, 10"
-                                 Orientation="Vertical" 
-                                 VerticalOptions="FillAndExpand" 
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell Height="60">
+                        <StackLayout Padding="0,10"
+                                 VerticalOptions="FillAndExpand"          
                                  HorizontalOptions="FillAndExpand"
-                                 BackgroundColor="Azure">
-                                <Label Text="{Binding Description}"
-							   FontSize="Large"                   
-                               TextColor="#696969"/>
-                                <Label Text="{Binding IsMinistry}"
+                                 BackgroundColor="{StaticResource DefaultBackgroundColor}">
+                            <Label Text="{Binding Description}"
+							   FontSize="Medium"/>
+                            <Label Text="{Binding MinistryDescription}"
 							    FontSize="Small"
                                 TextColor="#4169E1"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 </ContentPage>

@@ -1,35 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"
+             xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"            
             xmlns:local="clr-namespace:AgendaCCB.App.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AgendaCCB.App.Views.MainPrincipal"
-            Title="{Binding Title}">
-    
+            Title="{Binding Title}"
+            BackgroundColor="{StaticResource DefaultBackgroundColor}"
+            BarBackgroundColor="{StaticResource BarBackgroundColor}"
+            BarTextColor="{StaticResource BarTextColor}">
     <TabbedPage.Children>
-        <ContentPage Title="Colaboradores" >
-            <local:ListView 
+        <ContentPage Title="Colaboradores">
+            <StackLayout>
+                <SearchBar Placeholder="Buscar..." 
+                           Text="{Binding SearchText}"
+                           SearchCommand="{Binding SearchCommand}"
+                           BackgroundColor="{StaticResource SearchBarTextColor}">
+                </SearchBar>
+                <local:ListView 
         HasUnevenRows="True"
-        ItemsSource="{Binding Collaborators}"
-        SeparatorVisibility="None"
-                ItemTappedCommand="{Binding ItemTappedCommand}"
-                >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="70">
-                            <StackLayout Padding="5, 10"
+        IsGroupingEnabled="true" 
+		GroupDisplayBinding="{Binding Key}"
+        ItemsSource="{Binding CollaboratorsList}"
+        SeparatorVisibility="Default"
+                ItemTappedCommand="{Binding ItemTappedCommand}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell Height="60">
+                                <StackLayout Padding="16, 10"
                                  Orientation="Vertical" 
                                  VerticalOptions="FillAndExpand" 
                                  HorizontalOptions="FillAndExpand"
-                                 BackgroundColor="Azure">
-                                <Label Text="{Binding Name}"
-							   FontSize="Large"                   
+                                 BackgroundColor="{StaticResource DefaultBackgroundColor}">
+                                    <Label Text="{Binding Name}"
+							   FontSize="Medium"                   
                                TextColor="#696969"/>
 
-                                <Label Text="{Binding FullDescriptionList}"
+                                    <Label Text="{Binding FullDescriptionList}"
+							    FontSize="Small"
+                                TextColor="#4169E1"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </local:ListView>
+            </StackLayout>
+        </ContentPage>        
+        <ContentPage Title="Casa de Oração">
+            <local:ListView 
+        HasUnevenRows="True"
+        ItemsSource="{Binding PhoneCongregations}"
+                ItemTappedCommand="{Binding PhoneCongregationListTappedCommand}"
+        SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="60">
+                            <StackLayout Padding="16, 10"
+                                 Orientation="Vertical" 
+                                 VerticalOptions="FillAndExpand" 
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="{StaticResource DefaultBackgroundColor}">
+                                <Label Text="{Binding Name}"
+							   FontSize="Medium"                   
+                               TextColor="#696969"/>
+                                <Label Text="{Binding City}"
 							    FontSize="Small"
                                 TextColor="#4169E1"/>
                             </StackLayout>
@@ -39,57 +74,31 @@
             </local:ListView>
         </ContentPage>
         <ContentPage Title="Úteis">
-            <ListView 
+            <local:ListView 
         HasUnevenRows="True"
-        ItemsSource="{Binding Collaborators}"
-        SeparatorVisibility="None">
+        ItemsSource="{Binding UsefulPhones}"
+        SeparatorVisibility="Default"
+                ItemTappedCommand="{Binding UsefulListTappedCommand}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell Height="70">
-                            <StackLayout Padding="5, 10"
+                        <ViewCell Height="60">
+                            <StackLayout Padding="16, 10"
                                  Orientation="Vertical" 
                                  VerticalOptions="FillAndExpand" 
                                  HorizontalOptions="FillAndExpand"
-                                 BackgroundColor="Azure">
-                                <Label Text="{Binding Name}"
-							   FontSize="Large"                   
+                                 BackgroundColor="{StaticResource DefaultBackgroundColor}">
+                                <Label Text="{Binding LocalName}"
+							   FontSize="Medium"                   
                                TextColor="#696969"/>
 
-                                <Label Text="{Binding FullDescriptionList}"
+                                <Label Text="{Binding PhoneNumber}"
 							    FontSize="Small"
                                 TextColor="#4169E1"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
-        </ContentPage>
-
-        <ContentPage Title="Casa de Oração">
-            <ListView 
-        HasUnevenRows="True"
-        ItemsSource="{Binding Collaborators}"
-        SeparatorVisibility="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="70">
-                            <StackLayout Padding="5, 10"
-                                 Orientation="Vertical" 
-                                 VerticalOptions="FillAndExpand" 
-                                 HorizontalOptions="FillAndExpand"
-                                 BackgroundColor="Azure">
-                                <Label Text="{Binding Name}"
-							   FontSize="Large"                   
-                               TextColor="#696969"/>
-
-                                <Label Text="{Binding FullDescriptionList}"
-							    FontSize="Small"
-                                TextColor="#4169E1"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            </local:ListView>
         </ContentPage>
     </TabbedPage.Children>
 </TabbedPage>
