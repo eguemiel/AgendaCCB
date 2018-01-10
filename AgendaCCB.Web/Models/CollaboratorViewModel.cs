@@ -27,16 +27,14 @@ namespace AgendaCCB.Web.Models
         [Required(ErrorMessage = "É necessário informar um nome")]
         public string Name { get; set; }
 
-        [DisplayName("Cargo")]
-        [Required(ErrorMessage = "É necessário informar um cargo")]
-        public int IdPositionMinistry { get; set; }
+        [DisplayName("Cargo / Ministério")]
+        public int? IdPositionMinistry { get; set; }
 
         [DisplayName("Telefone")]
-        [Required(ErrorMessage = "É necessário informar ao menos um telefone")]
-        public int IdPhoneNumber { get; set; }
+        public int? IdPhoneNumber { get; set; }
 
         [DisplayName("Tipo")]
-        public int TypePhone { get; set; }
+        public int? TypePhone { get; set; }
 
         [DisplayName("Telefone")]
         public List<PhoneNumberViewModel> PhoneNumberList { get; set; }

@@ -20,8 +20,8 @@ namespace AgendaCCB.Api.Models
         [DisplayName("Celular Empresa")]
         CompanyCellNumber = 2,
         [DisplayName("Fixo Particular")]
-        PrivateTelephoneNumber = 3,
+        PrivatePhoneNumber = 3,
         [DisplayName("Fixo Empresa")]
-        CompanyTelephoneNumber = 4
+        CompanyPhoneNumber = 4
     }
 }

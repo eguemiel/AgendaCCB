@@ -9,18 +9,9 @@ namespace AgendaCCB.Data.Models
         public IQueryable<Collaborator> GetAllColaborators()
         {
             var collaborators = Collaborator
-                                    .Include("PhoneNumber")
-                                    .Include("PositionMinistryCollaborator")
-                                    .Include(c => c.IdCommonCongregationNavigation);
-
-            foreach (var item in collaborators)
-            {
-                foreach (var subitem in item.PositionMinistryCollaborator)
-                {
-                    subitem.IdPositionMinistryNavigation = new Models.PositionMinistry();
-                    subitem.IdPositionMinistryNavigation = PositionMinistry.FirstOrDefault(pm => pm.Id == subitem.IdPositionMinistry);
-                }
-            }
+                                    .Include(c => c.PhoneNumber)
+                                    .Include("PositionMinistryCollaborator.IdPositionMinistryNavigation")
+                                    .Include(c => c.IdCommonCongregationNavigation);          
 
             return collaborators;
         }

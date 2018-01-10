@@ -50,8 +50,8 @@ namespace AgendaCCB.Web.Controllers
             {
                 Text = p.Name + "-" + p.CityNavigation.Name,
                 Value = p.Id.ToString()
-            });
-            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description");
+            }).OrderBy(c => c.Text);
+            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description").OrderBy(p => p.Text);
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
 
             return View();
@@ -69,17 +69,18 @@ namespace AgendaCCB.Web.Controllers
                 Collaborator collaborator = this.MapTo(collaboratorVM);
                 _context.Add(collaborator);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Registro inserido com sucesso";
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CommonList = _context.CommonCongregation.Select(p => new SelectListItem
+            ViewBag.CommonList = _context.CommonCongregation.Select(c => new SelectListItem
             {
-                Text = p.Name + "-" + p.CityNavigation.Name,
-                Value = p.Id.ToString(),
-                Selected = p.Id == collaboratorVM.IdCommonCongregation                
-            });
+                Text = c.Name + " - " + c.CityNavigation.Name,
+                Value = c.Id.ToString(),
+                Selected = c.Id == collaboratorVM.IdCommonCongregation                
+            }).OrderBy(c => c.Text);
             
-            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
+            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry).OrderBy(p => p.Text);
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
 
             return View(collaboratorVM);
@@ -103,12 +104,12 @@ namespace AgendaCCB.Web.Controllers
 
             ViewBag.CommonList = _context.CommonCongregation.Select(p => new SelectListItem
             {
-                Text = p.Name + "-" + p.CityNavigation.Name,
+                Text = p.Name + " - " + p.CityNavigation.Name,
                 Value = p.Id.ToString(),
                 Selected = p.Id == collaboratorVM.IdCommonCongregation
-            });
+            }).OrderBy(c => c.Text);
 
-            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry);
+            ViewBag.PositionMinistryList = new SelectList(_context.PositionMinistry, "Id", "Description", collaboratorVM.IdPositionMinistry).OrderBy(p => p.Text);
             ViewBag.TypePhoneList = EnumHelper<TypePhone>.GetSelectListEnum();
             
             return View(collaboratorVM);
@@ -173,6 +174,7 @@ namespace AgendaCCB.Web.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "Registro alterado com sucesso";
                 return RedirectToAction("Index");
             }
             ViewBag.CommonList = _context.CommonCongregation.Select(p => new SelectListItem
@@ -210,8 +212,24 @@ namespace AgendaCCB.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var collaborator = await _context.Collaborator.SingleOrDefaultAsync(m => m.Id == id);
+
+            var phoneNumbers = _context.PhoneNumber.Where(m => m.IdCollaborador == id);
+
+            var positionMinistry = _context.PositionMinistryCollaborator.Where(pm => pm.IdCollaborator == id);
+
+            foreach (var item in phoneNumbers)
+            {
+                _context.PhoneNumber.Remove(item);
+            }
+
+            foreach (var item in positionMinistry)
+            {
+                _context.PositionMinistryCollaborator.Remove(item);
+            }
+
             _context.Collaborator.Remove(collaborator);
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Registro removido com sucesso";
             return RedirectToAction("Index");
         }
 
@@ -224,8 +242,7 @@ namespace AgendaCCB.Web.Controllers
         {
             Collaborator collaborator = new Collaborator();
 
-            collaborator.IdCommonCongregation = collaboratorVM.IdCommonCongregation;
-            collaborator.IdCommonCongregation = collaboratorVM.IdPositionMinistry;
+            collaborator.IdCommonCongregation = collaboratorVM.IdCommonCongregation;            
             collaborator.Name = collaboratorVM.Name;
             collaborator.Id = collaboratorVM.Id;
 
@@ -260,7 +277,6 @@ namespace AgendaCCB.Web.Controllers
             CollaboratorViewModel collaboratorVM = new CollaboratorViewModel();
 
             collaboratorVM.IdCommonCongregation = collaborator.IdCommonCongregation;
-            collaboratorVM.IdPositionMinistry = collaborator.IdCommonCongregation;
             collaboratorVM.Name = collaborator.Name;
 
             collaborator.PhoneNumber = _context.PhoneNumber.Where(p => p.IdCollaborador == collaborator.Id).ToList();

@@ -6,7 +6,7 @@ $(document).ready(function () {
             for (var i = 0, len = split.length; i < len; i++) {
                 split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toLowerCase();
             }
-            debugger;
+
             this.value = split.join(' ');
         });
         return this;

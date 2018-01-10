@@ -41,38 +41,69 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdCommonCongregationNavigation.Name)
-                            </td>
-                            <td>
-                                @foreach (var subItem in item.PositionMinistryCollaborator)
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdCommonCongregationNavigation.Name)
+                        </td>
+                        <td>
+                            @foreach (var subItem in item.PositionMinistryCollaborator)
                                 {
 
-                                    @Html.DisplayFor(modelItem => subItem.IdPositionMinistryNavigation.Description)
-                                    <br>
+                                @Html.DisplayFor(modelItem => subItem.IdPositionMinistryNavigation.Description)
+                                <br>
                                 }
-                            </td>
-                            <td>
+                        </td>
+                        <td>
 
-                                @foreach (var subItem in item.PhoneNumber)
-                                {   
-                                    @Html.DisplayFor(modelItem => subItem.Number)
-                                    <br>
+                            @foreach (var subItem in item.PhoneNumber)
+                                {
+                                @Html.DisplayFor(modelItem => subItem.Number)
+                                <br>
                                 }
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fa fa-edit"></i></a> |
-                                <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes"><i class="fa fa-eye"></i></a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id" title="Excluir"><i class="fa fa-remove"></i></a>
-                            </td>
-                        </tr>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fa fa-edit"></i></a> |
+                            <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes"><i class="fa fa-eye"></i></a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" title="Excluir"><i class="fa fa-remove"></i></a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
+</div>
+
+<div id="bottom-fixed-message">
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Sucesso!</strong> @TempData["Success"].ToString()
+    </div>
+}
+@if (TempData["Info"] != null)
+{
+    <div class="alert alert-info alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Info!</strong> @TempData["Info"].ToString()
+    </div>
+}
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-warning alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Atenção!</strong> @TempData["Warning"].ToString()
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissable">        
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Erro!</strong> @TempData["Error"].ToString()
+    </div>
+}
 </div>

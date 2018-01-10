@@ -18,6 +18,25 @@
     font-weight: normal !important;
 }
 
+#bottom-fixed-message {
+    position: fixed;
+    top: 81px;
+    left: 0;
+    right: 0;
+    padding: 0px;
+    z-index: 555;
+    text-align: right;
+}
+
+#bottom-fixed-message .alert {
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+    clear: both;
+    margin-bottom: 0;
+    min-width: 340px;
+}
+
 .col_layoutaccount {
     color: black;
     width: 25%;

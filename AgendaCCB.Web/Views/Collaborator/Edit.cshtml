@@ -1,4 +1,4 @@
-@model AgendaCCB.Web.Models.CollaboratorViewModel
+﻿@model AgendaCCB.Web.Models.CollaboratorViewModel
 @using AgendaCCB.Web.Models
 
 @{
@@ -45,7 +45,7 @@
                             @Html.ValidationMessageFor(model => model.IdPositionMinistry, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-xs-6">
-                            @Html.Label("", "Lista de Cargos", htmlAttributes: new { @class = "control-label" })
+                            @Html.Label("", "Lista de Cargos / Ministérios", htmlAttributes: new { @class = "control-label" })
                             <table class="table table-bordered table-striped" style="margin-bottom:0px !important">
                                 <tbody id="positionMinistryList">
                                     @{var auxPositionMinistry = 0;}
@@ -181,8 +181,9 @@
                     + "<span style='float:right;'><i class='glyphicon glyphicon-remove' onclick='removeElement(this);'></i></span></td > "
                     + "</tr > ";
                 $phoneNumberList.append($element)
-
-                $("#IdPhoneNumber").val("");
+                
+                $("#PhoneNumber").val("");
+                $("#TypePhone").val("");   
             }
             validatePhoneNumberList();
         });
@@ -190,15 +191,15 @@
         function validatePhoneNumberList() {
             $tableCategories = $('#phoneNumberListtr[id="0"]').length;
 
-            $stringError = '<span id="phoneNumberList-error" class="text-danger">This field is required.</span>'
-
             if ($tableCategories == 1) {
-                $('#phoneNumberList').parent().parent().append($stringError);
+                $('#TypePhone').prop("required", true);
+                $('#PhoneNumber').prop("required", true);
                 return true;
             } else {
-                $('#phoneNumberList').parent().parent().find('.text-danger').remove();
+                $('#TypePhone').prop("required", false);
+                $('#PhoneNumber').prop("required", false);
                 return false;
-            }
+            }        
         }
 
         function removeElement(element) {
@@ -283,13 +284,11 @@
         function validatePositionMinistryList() {
             $tablePositionMinistry = $('#positionMinistryList tr[id="0"]').length;
 
-            $stringError = '<span id="positionMinistryList-error" class="text-danger">This field is required.</span>'
-
             if ($tablePositionMinistry == 1) {
-                $('#positionMinistryList').parent().parent().append($stringError);
+                $('#IdPositionMinistry').prop("required", true);
                 return true;
             } else {
-                $('#positionMinistryList').parent().parent().find('.text-danger').remove();
+                $('#IdPositionMinistry').prop("required", false);
                 return false;
             }
         }
@@ -311,11 +310,21 @@
 
         function updatePositionMinistry(positionMinistryList) {
             $(positionMinistryList).children().each(function (i) {
-                var $this = $(this).children('input');
-                $this.attr("name", "PositionMinistryCollaborator[" + i + "].IdPositionMinistry");
-                $this.attr("id", "PositionMinistryCollaborator" + i + "__IdPositionMinistry");
+
+                var $thisElementPosition = $(this).children('input');
+                var index = i;
+                $thisElementPosition.each(function (i, elem) {
+                    var $this = elem.id;
+
+                    if (~$this.indexOf("__Description")) {
+                        $this.attr("name", "PositionMinistryList[" + i + "].Description");
+                        $this.attr("id", "PositionMinistryList_" + i + "__Description");
+                    } else {
+                        $this.attr("name", "PositionMinistryList[" + i + "].Id");
+                        $this.attr("id", "PositionMinistryList_" + i + "__Id");
+                    }
+                });
             });
         }
-
     </script>
 }
