@@ -17,6 +17,7 @@
       <Color x:Key="DefaultPlaceHolderColor">#A6C1CF</Color>
       <Color x:Key="DefaultLabelTextColor">#1E56A0</Color>
       <Color x:Key="BarBackgroundColor">#1E56A0</Color>
+      <Color x:Key="GroupHeaderTemplateColor">#327ad9</Color>      
       <Color x:Key="BarTextColor">#D6E4F0</Color>
       <Color x:Key="SearchBarTextColor">#D6E4F0</Color>
       <Style x:Key="AccessButton" TargetType="Button">

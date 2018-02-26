@@ -63,4 +63,8 @@ $(document).ready(function () {
             element.mask("(99) 9999-9999?9");
         }
     }).trigger('focusout');
+
+    $("#bottom-fixed-message").fadeTo(2000, 500).slideUp(500, function () {
+        $("#bottom-fixed-message").slideUp(500);
+    });
 });

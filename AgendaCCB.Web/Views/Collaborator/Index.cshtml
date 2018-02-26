@@ -78,32 +78,36 @@
 </div>
 
 <div id="bottom-fixed-message">
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissable">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Sucesso!</strong> @TempData["Success"].ToString()
-    </div>
-}
-@if (TempData["Info"] != null)
-{
-    <div class="alert alert-info alert-dismissable">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Info!</strong> @TempData["Info"].ToString()
-    </div>
-}
-@if (TempData["Warning"] != null)
-{
-    <div class="alert alert-warning alert-dismissable">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Atenção!</strong> @TempData["Warning"].ToString()
-    </div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger alert-dismissable">        
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Erro!</strong> @TempData["Error"].ToString()
-    </div>
-}
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <h4 class="title">Sucesso</h4>
+            @TempData["Success"].ToString()
+        </div>
+
+
+    }
+    @if (TempData["Info"] != null)
+    {
+        <div class="alert alert-info alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Info!</strong> @TempData["Info"].ToString()
+        </div>
+    }
+    @if (TempData["Warning"] != null)
+    {
+        <div class="alert alert-warning alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Atenção!</strong> @TempData["Warning"].ToString()
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Erro!</strong> @TempData["Error"].ToString()
+        </div>
+    }
 </div>
+

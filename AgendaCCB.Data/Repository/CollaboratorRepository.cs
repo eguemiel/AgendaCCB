@@ -11,7 +11,7 @@ namespace AgendaCCB.Data.Models
             var collaborators = Collaborator
                                     .Include(c => c.PhoneNumber)
                                     .Include("PositionMinistryCollaborator.IdPositionMinistryNavigation")
-                                    .Include(c => c.IdCommonCongregationNavigation);          
+                                    .Include(c => c.IdCommonCongregationNavigation).OrderBy(c => c.Name);          
 
             return collaborators;
         }

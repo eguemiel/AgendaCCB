@@ -42,7 +42,12 @@
     <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\Group.cs" />
     <Compile Include="Helpers\UrlApi.cs" />
+    <Compile Include="ModelsRealm\PhoneCongregationRealm.cs" />
+    <Compile Include="ModelsRealm\PhoneNumberRealm.cs" />
+    <Compile Include="ModelsRealm\PositionMinistryRealm.cs" />
+    <Compile Include="ModelsRealm\UsefulPhoneRealm.cs" />
     <Compile Include="Models\ApiReturn.cs" />
+    <Compile Include="ModelsRealm\CollaboratorRealm.cs" />
     <Compile Include="Models\Collaborator.cs" />
     <Compile Include="Models\PhoneCongregation.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
@@ -57,6 +62,7 @@
     <Compile Include="Services\Api\ApiLoginService.cs" />
     <Compile Include="Services\AppServices\BaseService.cs" />
     <Compile Include="Services\AppServices\SecureStorageService.cs" />
+    <Compile Include="Services\AppServices\CollaboratorService.cs" />
     <Compile Include="Services\AppServices\UserService.cs" />
     <Compile Include="Services\Api\Commom\IAgendaCCBApiService.cs" />
     <Compile Include="Services\Api\Commom\AgendaCCBApiService.cs" />

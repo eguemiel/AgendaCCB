@@ -83,7 +83,7 @@ namespace AgendaCCB.App.ViewModels
                     }
                     else
                     {
-                        DefaultToasts.Erro(loginReturn.Message);
+                        DefaultToasts.Error(loginReturn.Message);
                     }
 
                     UserDialogs.Instance.HideLoading();                    
@@ -91,7 +91,7 @@ namespace AgendaCCB.App.ViewModels
             }
             catch (Exception ex)
             {
-                DefaultToasts.Erro(ex.Message);
+                DefaultToasts.Error(ex.Message);
             }
             finally
             {

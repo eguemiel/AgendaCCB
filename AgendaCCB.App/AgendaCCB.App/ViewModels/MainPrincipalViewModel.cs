@@ -9,6 +9,9 @@ using Acr.UserDialogs;
 using AgendaCCB.App.Helpers;
 using AgendaCCB.App.Services.Api;
 using System.Linq;
+using AgendaCCB.App.Controls;
+using AgendaCCB.App.Services.AppServices;
+using AgendaCCB.App.ModelsRealm;
 
 namespace AgendaCCB.App.ViewModels
 {
@@ -34,7 +37,7 @@ namespace AgendaCCB.App.ViewModels
                 }
             }
         }
-
+        public bool IsRefreshing { get; set; }
         public List<Collaborator> Collaborators { get; set; }
         public IEnumerable<Group<string, Collaborator>> CollaboratorsList { get; set; }
         public List<UsefulPhone> UsefulPhones { get; set; }
@@ -44,11 +47,13 @@ namespace AgendaCCB.App.ViewModels
         public Command UsefulListTappedCommand { get; set; }
         public Command PhoneCongregationListTappedCommand { get; set; }
         public Command SearchCommand { get; set; }
+        public Command RefreshCollaboratorCommand { get; set; }
 
         public MainPrincipalViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Agenda CCB " + DateTime.Now.Year;
             ShowCollaboratorCommand = new Command<Collaborator>(ExecuteShowCategoriaCommand);
+            RefreshCollaboratorCommand = new Command(ExecuteRefreshCollaboratorCommand);
             Task.Run(async () =>
             {
                 UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
@@ -100,6 +105,26 @@ namespace AgendaCCB.App.ViewModels
             });
         }
 
+        private void ExecuteRefreshCollaboratorCommand()
+        {
+            IsRefreshing = true;
+            var collaboratorService = new CollaboratorService();
+            Task.Run(async () =>
+            {
+                UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
+                Collaborators = new List<Collaborator>(await collaboratorService.GetAllCollaboratorsFromApi());
+                UsefulPhones = new List<UsefulPhone>(await LoadUsefulPhones());
+                PhoneCongregations = new List<PhoneCongregation>(await LoadPhoneCongregations());
+                CollaboratorsList = ListCollaborator(string.Empty);
+                RaisePropertyChanged(nameof(Collaborators));
+                RaisePropertyChanged(nameof(UsefulPhones));
+                RaisePropertyChanged(nameof(PhoneCongregations));
+                UserDialogs.Instance.HideLoading();
+                DefaultToasts.Success("Dados atualizados com sucesso.");
+                IsRefreshing = false;
+            });
+        }
+
         public IEnumerable<Group<string, Collaborator>> ListCollaborator(string filtro = "")
         {
             IEnumerable<Collaborator> filteredCollaborators = Collaborators;
@@ -119,11 +144,13 @@ namespace AgendaCCB.App.ViewModels
 
         private async Task<IList<Collaborator>> LoadCollaborators()
         {
-            IList<Collaborator> collaborators = new List<Collaborator>();
+            var collaboratorService = new CollaboratorService();
+            List<Collaborator> collaborators = new List<Collaborator>();
 
-            var api = new ApiCollaboratorService();
-
-            collaborators = await api.GetAllCollaborators();
+            collaborators = collaboratorService.GetAllCollaboratorsFromRealm().ToList();
+            
+            if(!collaborators.Any())
+                collaborators = await collaboratorService.GetAllCollaboratorsFromApi();
 
             return collaborators;
         }

@@ -13,7 +13,7 @@ namespace AgendaCCB.App.Services.Api
 {
     public class ApiCollaboratorService : AgendaCCBApiService
     {
-        public async Task<IList<Collaborator>> GetAllCollaborators()
+        public async Task<ApiReturn<IList<Collaborator>>> GetAllCollaborators()
         {
             try
             {
@@ -25,7 +25,7 @@ namespace AgendaCCB.App.Services.Api
                     collaborators = JsonConvert.DeserializeObject<IList<Collaborator>>(apiReturn.Object.ToString());
                 }
 
-                return collaborators;
+                return new ApiReturn<IList<Collaborator>>(apiReturn, collaborators);
             }
             catch (Exception ex)
             {

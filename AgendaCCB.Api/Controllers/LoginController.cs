@@ -29,22 +29,35 @@ namespace AgendaCCB.Api.Controllers
 
                 var apiReturn = new ApiReturn();
 
-                if(result.Any())
+                if (result.Any() && !result.FirstOrDefault().Used.Value)
                 {
                     var user = result.FirstOrDefault();
+
                     apiReturn.Status = status;
-                    apiReturn.Message = "User Authorized";
+                    apiReturn.Message = "Usuário Autorizado";
                     apiReturn.Object = new
                     {
                         Id = user.Id,
                         PhoneNumber = user.PhoneNumber,
-                        Token = user.Token,                        
+                        Token = user.Token,
                         Logged = true
                     };
-                }else
+
+                    user.Used = true;
+
+                    _context.AppauthorizationToUse.Update(user);
+                    _context.SaveChanges();
+                }
+                else if (result.FirstOrDefault().Used.Value)
                 {
                     apiReturn.Status = status;
-                    apiReturn.Message = "User Unauthorized";
+                    apiReturn.Message = "Acesso não autorizado. Token já utilizado";
+                    apiReturn.Object = null;
+                }
+                else
+                {
+                    apiReturn.Status = status;
+                    apiReturn.Message = "Acesso não autorizado";
                     apiReturn.Object = null;
                 }
 

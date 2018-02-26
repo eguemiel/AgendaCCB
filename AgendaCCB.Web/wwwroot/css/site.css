@@ -28,13 +28,20 @@
     text-align: right;
 }
 
-#bottom-fixed-message .alert {
-    margin-top: 10px;
-    margin-right: 10px;
-    float: right;
-    clear: both;
-    margin-bottom: 0;
-    min-width: 340px;
+    #bottom-fixed-message .alert {
+        margin-top: -60px;
+        margin-right: 10px;
+        float: right;
+        clear: both;
+        margin-bottom: 0;
+        min-width: 320px;
+        text-align: left;
+    }
+
+.title {
+    display: block;
+    margin-bottom: .4em;
+    margin-top: 0;
 }
 
 .col_layoutaccount {

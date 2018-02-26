@@ -66,7 +66,7 @@ namespace AgendaCCB.Api.Controllers
         {
             List<Collaborator> collaborators = new List<Collaborator>();
 
-            foreach (var collaborator in collaboratorsBD)
+            foreach (var collaborator in collaboratorsBD.OrderBy(c => c.Name))
             {
                 collaborators.AddRange(MapTo(collaborator));
             }
@@ -109,7 +109,6 @@ namespace AgendaCCB.Api.Controllers
                     CommumCongregation = collaboratorBD.IdCommonCongregationNavigation.Name,
                     Name = collaboratorBD.Name,
                     PhoneNumber = phoneNumbers,
-                    PositionMinistry = positionMinistry.IdPositionMinistryNavigation.Description,
                     PositionMinistryList = positionMinistryList
                 });
             }
