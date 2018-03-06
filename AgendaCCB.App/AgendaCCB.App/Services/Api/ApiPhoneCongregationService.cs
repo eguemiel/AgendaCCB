@@ -13,7 +13,7 @@ namespace AgendaCCB.App.Services.Api
 {
     public class ApiPhoneCongregationService : AgendaCCBApiService
     {
-        public async Task<IList<PhoneCongregation>> GetAllPhoneCongregations()
+        public async Task<ApiReturn<IList<PhoneCongregation>>> GetAllPhoneCongregations()
         {
             try
             {
@@ -25,7 +25,7 @@ namespace AgendaCCB.App.Services.Api
                     PhoneCongregations = JsonConvert.DeserializeObject<IList<PhoneCongregation>>(apiReturn.Object.ToString());
                 }
 
-                return PhoneCongregations;
+                return new ApiReturn<IList<PhoneCongregation>>(apiReturn, PhoneCongregations);
             }
             catch (Exception ex)
             {

@@ -3,15 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:customEntry="clr-namespace:Xfx;assembly=Xfx.Controls"            
-            xmlns:local="clr-namespace:AgendaCCB.App.Controls"
+             xmlns:local="clr-namespace:AgendaCCB.App.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AgendaCCB.App.Views.MainPrincipal"
             Title="{Binding Title}"
             BackgroundColor="{StaticResource DefaultBackgroundColor}"
             BarBackgroundColor="{StaticResource BarBackgroundColor}"
-            BarTextColor="{StaticResource BarTextColor}">
+            BarTextColor="{StaticResource BarTextColor}">    
     <TabbedPage.Children>
-        <ContentPage Title="Colaboradores">
+        <ContentPage Title="Colaboradores" Icon="icon.png">
             <StackLayout>
                 <SearchBar Placeholder="Buscar..." 
                            Text="{Binding SearchText}"
@@ -24,7 +24,7 @@
 		GroupDisplayBinding="{Binding Key}"                    
         ItemsSource="{Binding CollaboratorsList}"
         IsPullToRefreshEnabled="True"
-        RefreshCommand="{Binding RefreshCollaboratorCommand}"
+        RefreshCommand="{Binding RefreshListCommand}"
         IsRefreshing="{Binding IsRefreshing}"
         SeparatorVisibility="Default"
                 ItemTappedCommand="{Binding ItemTappedCommand}">
@@ -59,11 +59,14 @@
                     </ListView.ItemTemplate>
                 </local:ListView>
             </StackLayout>
-        </ContentPage>        
-        <ContentPage Title="Casa de Oração">
+        </ContentPage>
+        <ContentPage Title="Casa de Oração" Icon="icon.png">
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding PhoneCongregations}"
+                IsPullToRefreshEnabled="True"
+        RefreshCommand="{Binding RefreshListCommand}"
+        IsRefreshing="{Binding IsRefreshing}"
                 ItemTappedCommand="{Binding PhoneCongregationListTappedCommand}"
         SeparatorVisibility="Default">
                 <ListView.ItemTemplate>
@@ -86,12 +89,15 @@
                 </ListView.ItemTemplate>
             </local:ListView>
         </ContentPage>
-        <ContentPage Title="Úteis">
+        <ContentPage Title="Úteis" Icon="icon.png">
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding UsefulPhones}"
         SeparatorVisibility="Default"
-                ItemTappedCommand="{Binding UsefulListTappedCommand}">
+                ItemTappedCommand="{Binding UsefulListTappedCommand}"
+                IsPullToRefreshEnabled="True"
+        RefreshCommand="{Binding RefreshListCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="60">

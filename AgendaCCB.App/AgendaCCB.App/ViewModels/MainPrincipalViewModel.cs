@@ -12,6 +12,7 @@ using System.Linq;
 using AgendaCCB.App.Controls;
 using AgendaCCB.App.Services.AppServices;
 using AgendaCCB.App.ModelsRealm;
+using Plugin.Connectivity;
 
 namespace AgendaCCB.App.ViewModels
 {
@@ -47,25 +48,36 @@ namespace AgendaCCB.App.ViewModels
         public Command UsefulListTappedCommand { get; set; }
         public Command PhoneCongregationListTappedCommand { get; set; }
         public Command SearchCommand { get; set; }
-        public Command RefreshCollaboratorCommand { get; set; }
+        public Command RefreshListCommand { get; set; }
 
         public MainPrincipalViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Agenda CCB " + DateTime.Now.Year;
+
             ShowCollaboratorCommand = new Command<Collaborator>(ExecuteShowCategoriaCommand);
-            RefreshCollaboratorCommand = new Command(ExecuteRefreshCollaboratorCommand);
+            RefreshListCommand = new Command(ExecuteRefreshListCommand);
             Task.Run(async () =>
-            {
-                UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
-                Collaborators = new List<Collaborator>(await LoadCollaborators());
-                UsefulPhones = new List<UsefulPhone>(await LoadUsefulPhones());
-                PhoneCongregations = new List<PhoneCongregation>(await LoadPhoneCongregations());
-                CollaboratorsList = ListCollaborator(string.Empty);
-                RaisePropertyChanged(nameof(Collaborators));
-                RaisePropertyChanged(nameof(UsefulPhones));
-                RaisePropertyChanged(nameof(PhoneCongregations));
-                UserDialogs.Instance.HideLoading();
-            });
+                {
+                    try
+                    {
+
+                        UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
+                        Collaborators = new List<Collaborator>(await LoadCollaborators());
+                        UsefulPhones = new List<UsefulPhone>(await LoadUsefulPhones());
+                        PhoneCongregations = new List<PhoneCongregation>(await LoadPhoneCongregations());
+                        CollaboratorsList = ListCollaborator(string.Empty);
+                        RaisePropertyChanged(nameof(Collaborators));
+                        RaisePropertyChanged(nameof(UsefulPhones));
+                        RaisePropertyChanged(nameof(PhoneCongregations));
+                        UserDialogs.Instance.HideLoading();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        DefaultToasts.Error(ex.Message);
+                        UserDialogs.Instance.HideLoading();
+                    }
+                });
 
             this.ItemTappedCommand = new Command(async item =>
             {
@@ -100,28 +112,43 @@ namespace AgendaCCB.App.ViewModels
             }, canExecute: (x) => CanNavigate);
 
             this.SearchCommand = new Command(item =>
-            {   
+            {
                 CollaboratorsList = ListCollaborator(SearchText);
             });
         }
 
-        private void ExecuteRefreshCollaboratorCommand()
+        private void ExecuteRefreshListCommand()
         {
             IsRefreshing = true;
             var collaboratorService = new CollaboratorService();
+            var phoneCongregationService = new PhoneCongregationService();
+            var usefulPhoneService = new UsefulPhoneService();
+
             Task.Run(async () =>
             {
-                UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
-                Collaborators = new List<Collaborator>(await collaboratorService.GetAllCollaboratorsFromApi());
-                UsefulPhones = new List<UsefulPhone>(await LoadUsefulPhones());
-                PhoneCongregations = new List<PhoneCongregation>(await LoadPhoneCongregations());
-                CollaboratorsList = ListCollaborator(string.Empty);
-                RaisePropertyChanged(nameof(Collaborators));
-                RaisePropertyChanged(nameof(UsefulPhones));
-                RaisePropertyChanged(nameof(PhoneCongregations));
-                UserDialogs.Instance.HideLoading();
-                DefaultToasts.Success("Dados atualizados com sucesso.");
-                IsRefreshing = false;
+                try
+                {
+                    UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
+                    collaboratorService.CleanCollaborators();
+                    usefulPhoneService.CleanUsefulPhones();
+                    phoneCongregationService.CleanPhoneCongregations();
+                    Collaborators = new List<Collaborator>(await collaboratorService.GetAllCollaboratorsFromApi());
+                    UsefulPhones = new List<UsefulPhone>(await usefulPhoneService.GetAllUsefulPhonesFromApi());
+                    PhoneCongregations = new List<PhoneCongregation>(await phoneCongregationService.GetAllPhonesFromApi());
+                    CollaboratorsList = ListCollaborator(string.Empty);
+                    RaisePropertyChanged(nameof(Collaborators));
+                    RaisePropertyChanged(nameof(UsefulPhones));
+                    RaisePropertyChanged(nameof(PhoneCongregations));
+                    UserDialogs.Instance.HideLoading();
+                    DefaultToasts.Success("Dados atualizados com sucesso.");
+                    IsRefreshing = false;
+                }
+                catch (Exception ex)
+                {
+                    DefaultToasts.Error(ex.Message);
+                    UserDialogs.Instance.HideLoading();
+                    IsRefreshing = false;
+                }
             });
         }
 
@@ -144,37 +171,63 @@ namespace AgendaCCB.App.ViewModels
 
         private async Task<IList<Collaborator>> LoadCollaborators()
         {
-            var collaboratorService = new CollaboratorService();
-            List<Collaborator> collaborators = new List<Collaborator>();
+            try
+            {
+                var collaboratorService = new CollaboratorService();
+                List<Collaborator> collaborators = new List<Collaborator>();
 
-            collaborators = collaboratorService.GetAllCollaboratorsFromRealm().ToList();
-            
-            if(!collaborators.Any())
-                collaborators = await collaboratorService.GetAllCollaboratorsFromApi();
+                collaborators = collaboratorService.GetAllCollaboratorsFromRealm().ToList();
 
-            return collaborators;
+                if (!collaborators.Any())
+                    collaborators = await collaboratorService.GetAllCollaboratorsFromApi();
+
+                return collaborators;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);                
+            }
         }
 
         private async Task<IList<UsefulPhone>> LoadUsefulPhones()
         {
-            IList<UsefulPhone> usefulPhones = new List<UsefulPhone>();
+            try
+            {
+                var usefulPhoneService = new UsefulPhoneService();
+                List<UsefulPhone> phones = new List<UsefulPhone>();
 
-            var api = new ApiUsefulPhoneService();
+                phones = usefulPhoneService.GetAllUsefulPhonesFromRealm().ToList();
 
-            usefulPhones = await api.GetAllUsefulPhones();
+                if (!phones.Any())
+                    phones = await usefulPhoneService.GetAllUsefulPhonesFromApi();
 
-            return usefulPhones;
+                return phones;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         private async Task<IList<PhoneCongregation>> LoadPhoneCongregations()
         {
-            IList<PhoneCongregation> phoneCongregations = new List<PhoneCongregation>();
+            try
+            {
+                var phoneService = new PhoneCongregationService();
+                List<PhoneCongregation> phones = new List<PhoneCongregation>();
 
-            var api = new ApiPhoneCongregationService();
+                phones = phoneService.GetAllPhonesFromRealm().ToList();
 
-            phoneCongregations = await api.GetAllPhoneCongregations();
+                if (!phones.Any())
+                    phones = await phoneService.GetAllPhonesFromApi();
 
-            return phoneCongregations;
+                return phones;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

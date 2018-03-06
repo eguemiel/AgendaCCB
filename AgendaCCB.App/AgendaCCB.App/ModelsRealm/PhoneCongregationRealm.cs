@@ -1,4 +1,5 @@
 ﻿using Realms;
+using System;
 using System.ComponentModel;
 
 namespace AgendaCCB.App.ModelsRealm
@@ -6,7 +7,7 @@ namespace AgendaCCB.App.ModelsRealm
     public class PhoneCongregationRealm : RealmObject
     {
         [PrimaryKey]
-        public long RealmId { get; set; }
+        public string RealmId { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
         public string City { get; set; }
         public string Address { get; set; }

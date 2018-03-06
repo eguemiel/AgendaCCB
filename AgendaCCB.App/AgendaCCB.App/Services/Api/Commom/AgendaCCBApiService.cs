@@ -10,7 +10,7 @@ using Xamarin.Forms;
 using System.Text;
 using System.Net;
 using AgendaCCB.App.Services.AppServices;
-
+using Plugin.Connectivity;
 
 namespace AgendaCCB.App.Services.Commom
 {
@@ -37,54 +37,60 @@ namespace AgendaCCB.App.Services.Commom
                 var requestUri = $"{BaseUrl}{urlApi}";
 
                 HttpResponseMessage responseMessage = null;
-
-                try
+                if (CrossConnectivity.Current.IsConnected)
                 {
-                    StringContent data = new StringContent("");
-                    if (body != null)
+                    try
                     {
-                        string json = JsonConvert.SerializeObject(body);
-                        data = new StringContent(json, Encoding.UTF8, "application/json");
-                    }
-
-                    responseMessage = await client.PostAsync(requestUri, data).ConfigureAwait(false);
-
-                    if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TryLoginUser)
-                    {
-                        bool refreshSuccess = await new UserService().TryRefreshToken();
-
-                        if (refreshSuccess)
+                        StringContent data = new StringContent("");
+                        if (body != null)
                         {
-                            using (var clientRetry = new HttpClient())
+                            string json = JsonConvert.SerializeObject(body);
+                            data = new StringContent(json, Encoding.UTF8, "application/json");
+                        }
+
+                        responseMessage = await client.PostAsync(requestUri, data).ConfigureAwait(false);
+
+                        if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TryLoginUser)
+                        {
+                            bool refreshSuccess = await new UserService().TryRefreshToken();
+
+                            if (refreshSuccess)
                             {
-                                PrepareHeaders(clientRetry, headers, basicAuthentication);
-                                responseMessage = await client.PostAsync(requestUri, data).ConfigureAwait(false);
+                                using (var clientRetry = new HttpClient())
+                                {
+                                    PrepareHeaders(clientRetry, headers, basicAuthentication);
+                                    responseMessage = await client.PostAsync(requestUri, data).ConfigureAwait(false);
+                                }
+                            }
+                            else
+                            {
+                                new UserService().Logout();
+                                Device.BeginInvokeOnMainThread(AgendaCCBApiService.BehaviorIfNotLogged);
+                                return null;
                             }
                         }
-                        else
+
+                        using (var responseStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
                         {
-                            new UserService().Logout();
-                            Device.BeginInvokeOnMainThread(AgendaCCBApiService.BehaviorIfNotLogged);
-                            return null;
+                            return JsonConvert.DeserializeObject<ApiReturn>(
+                                await new StreamReader(responseStream)
+                                    .ReadToEndAsync().ConfigureAwait(false));
                         }
                     }
-
-                    using (var responseStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    catch (Exception ex)
                     {
-                        return JsonConvert.DeserializeObject<ApiReturn>(
-                            await new StreamReader(responseStream)
-                                .ReadToEndAsync().ConfigureAwait(false));
+                        if (responseMessage == null)
+                        {
+                            responseMessage = new HttpResponseMessage();
+                        }
+
+                        responseMessage.StatusCode = HttpStatusCode.InternalServerError;
+                        responseMessage.ReasonPhrase = string.Format("RestHttpClient.SendRequest Erro: {0}", ex);
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    if (responseMessage == null)
-                    {
-                        responseMessage = new HttpResponseMessage();
-                    }
-
-                    responseMessage.StatusCode = HttpStatusCode.InternalServerError;
-                    responseMessage.ReasonPhrase = string.Format("RestHttpClient.SendRequest Erro: {0}", ex);
+                    throw new Exception("Sem acesso a internet");
                 }
 
                 return null;
@@ -101,46 +107,54 @@ namespace AgendaCCB.App.Services.Commom
 
                 HttpResponseMessage responseMessage = null;
 
-                try
+                if (CrossConnectivity.Current.IsConnected)
                 {
-                    responseMessage = await client.GetAsync(requestUri).ConfigureAwait(false);
 
-                    if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TryLoginUser)
+                    try
                     {
-                        bool refreshSuccess = await new UserService().TryRefreshToken();
+                        responseMessage = await client.GetAsync(requestUri).ConfigureAwait(false);
 
-                        if (refreshSuccess)
+                        if (responseMessage.StatusCode == HttpStatusCode.Unauthorized && !basicAuthentication && TryLoginUser)
                         {
-                            using (var clientRetry = new HttpClient())
+                            bool refreshSuccess = await new UserService().TryRefreshToken();
+
+                            if (refreshSuccess)
                             {
-                                PrepareHeaders(clientRetry, headers, basicAuthentication);
-                                responseMessage = await clientRetry.GetAsync(requestUri).ConfigureAwait(false);
+                                using (var clientRetry = new HttpClient())
+                                {
+                                    PrepareHeaders(clientRetry, headers, basicAuthentication);
+                                    responseMessage = await clientRetry.GetAsync(requestUri).ConfigureAwait(false);
+                                }
+                            }
+                            else
+                            {
+                                new UserService().Logout();
+                                Device.BeginInvokeOnMainThread(AgendaCCBApiService.BehaviorIfNotLogged);
+                                return null;
                             }
                         }
-                        else
+
+                        using (var responseStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
                         {
-                            new UserService().Logout();
-                            Device.BeginInvokeOnMainThread(AgendaCCBApiService.BehaviorIfNotLogged);
-                            return null;
+                            return JsonConvert.DeserializeObject<ApiReturn>(
+                                await new StreamReader(responseStream)
+                                    .ReadToEndAsync().ConfigureAwait(false));
                         }
                     }
-
-                    using (var responseStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    catch (System.Exception ex)
                     {
-                        return JsonConvert.DeserializeObject<ApiReturn>(
-                            await new StreamReader(responseStream)
-                                .ReadToEndAsync().ConfigureAwait(false));
+                        if (responseMessage == null)
+                        {
+                            responseMessage = new HttpResponseMessage();
+                        }
+
+                        responseMessage.StatusCode = HttpStatusCode.InternalServerError;
+                        responseMessage.ReasonPhrase = string.Format("RestHttpClient.SendRequest Erro: {0}", ex);
                     }
                 }
-                catch (System.Exception ex)
+                else
                 {
-                    if (responseMessage == null)
-                    {
-                        responseMessage = new HttpResponseMessage();
-                    }
-
-                    responseMessage.StatusCode = HttpStatusCode.InternalServerError;
-                    responseMessage.ReasonPhrase = string.Format("RestHttpClient.SendRequest Erro: {0}", ex);
+                    throw new Exception("Sem acesso a internet");
                 }
 
                 return null;

@@ -16,21 +16,16 @@ namespace AgendaCCB.App.Services.AppServices
         {
             using (Realm realm = CreateNewRealmInstance())
             {
-                var collaboratorRealm = GetCollaborator(realm, collaborator);
-
-                realm.Write(() =>
-                {
-                    if (collaboratorRealm == null)
-                        realm.Add(collaborator);
-                    else
-                        realm.Add(collaborator, true);
-                });
+                realm.Write(() => realm.Add(collaborator));
             }
-        }        
-
-        private CollaboratorRealm GetCollaborator(Realm realm, CollaboratorRealm collaborator)
+        }    
+        
+        public void CleanCollaborators()
         {
-            return realm.All<CollaboratorRealm>().FirstOrDefault(c => c.Id == collaborator.Id);
+            using (Realm realm = CreateNewRealmInstance())
+            {
+                realm.Write(() => realm.RemoveAll<CollaboratorRealm>());
+            }
         }
 
         public async Task<List<Collaborator>> GetAllCollaboratorsFromApi()

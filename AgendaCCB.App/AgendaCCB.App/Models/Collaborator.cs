@@ -27,6 +27,7 @@ namespace AgendaCCB.App.Models
             collaboratorRealm.Id = Id;
             ((List<PhoneNumberRealm>)collaboratorRealm.PhoneNumbers).AddRange(MapTo(PhoneNumber));
             ((List<PositionMinistryRealm>)collaboratorRealm.PositionMinistries).AddRange(MapTo(PositionMinistryList));
+            collaboratorRealm.PositionMinistry = PositionMinistry;            
             collaboratorRealm.CommumCongregation = CommumCongregation;
             collaboratorRealm.Name = Name;               
         }

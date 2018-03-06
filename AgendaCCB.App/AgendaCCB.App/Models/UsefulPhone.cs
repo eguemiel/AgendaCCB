@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AgendaCCB.App.ModelsRealm;
+using System.ComponentModel;
 
 namespace AgendaCCB.App.Models
 {
@@ -9,5 +10,18 @@ namespace AgendaCCB.App.Models
         public string PhoneNumber { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public void MapTo(UsefulPhoneRealm usefulPhoneRealm)
+        {
+            usefulPhoneRealm.LocalName = LocalName;
+            usefulPhoneRealm.PhoneNumber = PhoneNumber;
+        }
+
+        public UsefulPhoneRealm ConvertToSession()
+        {
+            var session = new UsefulPhoneRealm();
+            MapTo(session);
+            return session;
+        }
     }
 }

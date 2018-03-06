@@ -25,6 +25,13 @@ namespace AgendaCCB.App.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+        private bool _hasConnection;
+        public bool HasConnection
+        {
+            get { return _hasConnection; }
+            set { SetProperty(ref _hasConnection, value); }
+        }
+
         private bool _canNavigate = true;
         public bool CanNavigate
         {

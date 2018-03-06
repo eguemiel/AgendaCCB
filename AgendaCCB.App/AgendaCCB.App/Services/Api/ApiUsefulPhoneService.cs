@@ -4,16 +4,14 @@ using AgendaCCB.App.Services.Commom;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AgendaCCB.App.Services.Api
 {
     public class ApiUsefulPhoneService : AgendaCCBApiService
     {
-        public async Task<IList<UsefulPhone>> GetAllUsefulPhones()
+        public async Task<ApiReturn<IList<UsefulPhone>>> GetAllUsefulPhones()
         {
             try
             {
@@ -25,7 +23,7 @@ namespace AgendaCCB.App.Services.Api
                     UsefulPhones = JsonConvert.DeserializeObject<IList<UsefulPhone>>(apiReturn.Object.ToString());
                 }
 
-                return UsefulPhones;
+                return new ApiReturn<IList<UsefulPhone>>(apiReturn, UsefulPhones);
             }
             catch (Exception ex)
             {
