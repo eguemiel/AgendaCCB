@@ -24,16 +24,15 @@ namespace AgendaCCB.Api.Controllers
                 if (model == null)
                     throw new Exception();
 
-                var result = _context.AppauthorizationToUse.Where(ap => ap.PhoneNumber == model.PhoneNumber && ap.Token == model.Token && !ap.Used.Value);
-                var status = result.Any() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.Unauthorized;
-
+                var result = _context.AppauthorizationToUse.Where(ap => ap.PhoneNumber == model.PhoneNumber && ap.Token == model.Token);
+               
                 var apiReturn = new ApiReturn();
 
                 if (result.Any() && !result.FirstOrDefault().Used.Value)
                 {
                     var user = result.FirstOrDefault();
 
-                    apiReturn.Status = status;
+                    apiReturn.Status = (int)HttpStatusCode.OK;
                     apiReturn.Message = "Usuário Autorizado";
                     apiReturn.Object = new
                     {
@@ -48,24 +47,24 @@ namespace AgendaCCB.Api.Controllers
                     _context.AppauthorizationToUse.Update(user);
                     _context.SaveChanges();
                 }
-                else if (result.FirstOrDefault().Used.Value)
+                else if (result.Any() && result.FirstOrDefault().Used.Value)
                 {
-                    apiReturn.Status = status;
+                    apiReturn.Status = (int)HttpStatusCode.Unauthorized;
                     apiReturn.Message = "Acesso não autorizado. Token já utilizado";
                     apiReturn.Object = null;
                 }
                 else
                 {
-                    apiReturn.Status = status;
-                    apiReturn.Message = "Acesso não autorizado";
+                    apiReturn.Status = (int)HttpStatusCode.Unauthorized;
+                    apiReturn.Message = "Acesso não autorizado. Usuário ou senha inválidos";
                     apiReturn.Object = null;
                 }
 
                 return new ObjectResult(apiReturn);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var apiRetorno = new ApiReturn() { Status = (int)HttpStatusCode.BadRequest, Object = false };
+                var apiRetorno = new ApiReturn() { Status = (int)HttpStatusCode.BadRequest, Object = false, Message = ex.Message };
                 return new ObjectResult(apiRetorno);
             }
         }

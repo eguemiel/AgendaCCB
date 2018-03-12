@@ -11,7 +11,17 @@
             BarBackgroundColor="{StaticResource BarBackgroundColor}"
             BarTextColor="{StaticResource BarTextColor}">    
     <TabbedPage.Children>
-        <ContentPage Title="Colaboradores" Icon="icon.png">
+        <ContentPage Title="Colaboradores" >
+            <ContentPage.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="0, 20, 0, 0" />
+                    <On Platform="Android, UWP" Value="0, 0, 0, 0" />
+                </OnPlatform>
+            </ContentPage.Padding>           
+            <ContentPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource"
+                                iOS="icon.png"/>
+            </ContentPage.Icon>
             <StackLayout>
                 <SearchBar Placeholder="Buscar..." 
                            Text="{Binding SearchText}"
@@ -60,7 +70,11 @@
                 </local:ListView>
             </StackLayout>
         </ContentPage>
-        <ContentPage Title="Casa de Oração" Icon="icon.png">
+        <ContentPage Title="Casa de Oração">
+            <ContentPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource"
+                                iOS="icon.png"/>
+            </ContentPage.Icon>
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding PhoneCongregations}"
@@ -89,7 +103,11 @@
                 </ListView.ItemTemplate>
             </local:ListView>
         </ContentPage>
-        <ContentPage Title="Úteis" Icon="icon.png">
+        <ContentPage Title="Úteis">
+            <ContentPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource"
+                                iOS="icon.png"/>
+            </ContentPage.Icon>
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding UsefulPhones}"
