@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
 using AgendaCCB.Web.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace AgendaCCB.Web.Controllers
 {
     public class PositionMinistryController : BaseController
     {
-        public PositionMinistryController(IConfiguration configuration) : base(configuration)
+        public PositionMinistryController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
         }
 

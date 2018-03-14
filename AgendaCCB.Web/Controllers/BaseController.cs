@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace AgendaCCB.Web.Controllers
 {
@@ -14,10 +16,13 @@ namespace AgendaCCB.Web.Controllers
 
         public readonly agendaccbContext _context;
 
-        public BaseController(IConfiguration configuration)
+        public string _userId;
+
+        public BaseController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _context = CreateDbContext();
+            _userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         public agendaccbContext CreateDbContext()

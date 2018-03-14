@@ -1,49 +1,70 @@
 ﻿@model AgendaCCB.Data.Models.AppauthorizationToUse
-
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes Liberação APP";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>Detalhes Liberação APP</h2>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "AppauthorizationToUse")</li>
+    <li class="breadcrumb-item active">Detalhes</li>
+</ol>
 
-<h2>Details</h2>
-
-<div>
-    <h4>AppauthorizationToUse</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Token)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Token)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Used)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Used)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UserCreatorNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserCreatorNavigation.Id)
-        </dd>
-    </dl>
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h3 class="panel-title">Dados autorização APP</h3>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th class="col-md-3">
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Token)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.Token)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.Created)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Used)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.Used)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserCreatorNavigation)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.UserCreatorNavigation.Id)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="form-actions">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-submit">Editar</a>
+    <a href="@Url.Action("Index")" class="btn btn-default">Voltar para a Lista</a>
 </div>

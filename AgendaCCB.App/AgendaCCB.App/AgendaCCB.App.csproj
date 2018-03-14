@@ -40,6 +40,7 @@
     <Compile Include="Controls\ImageResourceExtension.cs" />
     <Compile Include="Controls\LabelClickable.cs" />
     <Compile Include="Controls\ListView.cs" />
+    <Compile Include="Controls\StringExt.cs" />
     <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\Group.cs" />
     <Compile Include="Helpers\UrlApi.cs" />

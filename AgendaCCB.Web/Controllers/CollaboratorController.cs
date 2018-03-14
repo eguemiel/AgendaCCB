@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
 using AgendaCCB.Web.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace AgendaCCB.Web.Controllers
 {
     public class CollaboratorController : BaseController
     {
-        public CollaboratorController(IConfiguration configuration) : base(configuration)
+        public CollaboratorController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
         }
         

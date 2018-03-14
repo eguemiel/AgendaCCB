@@ -1,45 +1,40 @@
 ﻿@model AgendaCCB.Data.Models.AppauthorizationToUse
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Liberar Uso APP";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Autorização Aplicativo Agenda</h2>
 
-<h4>AppauthorizationToUse</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "AppauthorizationToUse")</li>
+    <li class="breadcrumb-item active">Criar</li>
+</ol>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Liberação uso aplicativo</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-xs-6">                        
+                        @Html.HiddenFor(model => model.Created)                        
+                        @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>                    
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Token" class="control-label"></label>
-                <input asp-for="Token" class="form-control" />
-                <span asp-validation-for="Token" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Created" class="control-label"></label>
-                <input asp-for="Created" class="form-control" />
-                <span asp-validation-for="Created" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserCreator" class="control-label"></label>
-                <select asp-for="UserCreator" class ="form-control" asp-items="ViewBag.UserCreator"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+    <div class="form-horizontal">
+        <div class="panel-footer">
+            <input type="submit" class="btn btn-primary btn-submit" value="Gerar" />
+            <a href="@Url.Action("Index", "AppauthorizationToUse")" class="btn btn-default">Cancelar</a>
+        </div>
+    </div>
+}

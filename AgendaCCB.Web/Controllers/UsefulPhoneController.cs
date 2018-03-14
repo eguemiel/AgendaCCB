@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace AgendaCCB.Web.Controllers
 {
     public class UsefulPhoneController : BaseController
     {
-        public UsefulPhoneController(IConfiguration configuration) : base(configuration)
+        public UsefulPhoneController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
         }
 

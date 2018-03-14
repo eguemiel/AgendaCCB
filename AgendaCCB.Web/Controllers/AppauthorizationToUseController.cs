@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AgendaCCB.Data.Models;
 using Microsoft.Extensions.Configuration;
+using AgendaCCB.Web.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace AgendaCCB.Web.Controllers
 {
     public class AppauthorizationToUseController : BaseController
     {
-        public AppauthorizationToUseController(IConfiguration configuration) : base(configuration)
+        public AppauthorizationToUseController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(configuration, httpContextAccessor)
         {
         }
 
@@ -45,8 +48,9 @@ namespace AgendaCCB.Web.Controllers
         // GET: AppauthorizationToUse/Create
         public IActionResult Create()
         {
-            ViewData["UserCreator"] = new SelectList(_context.AspNetUsers, "Id", "Id");
-            return View();
+            AppauthorizationToUse appauthorizationToUse = new AppauthorizationToUse();
+            appauthorizationToUse.Created = DateTime.Now;            
+            return View(appauthorizationToUse);
         }
 
         // POST: AppauthorizationToUse/Create
@@ -58,12 +62,23 @@ namespace AgendaCCB.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                appauthorizationToUse.UserCreator = _userId;
+                appauthorizationToUse.Token = GenerateToken();
                 _context.Add(appauthorizationToUse);
                 await _context.SaveChangesAsync();
+                //SmsSenderExtensions.SendMessage(appauthorizationToUse.PhoneNumber, appauthorizationToUse.Token);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserCreator"] = new SelectList(_context.AspNetUsers, "Id", "Id", appauthorizationToUse.UserCreator);
             return View(appauthorizationToUse);
+        }
+
+        private string GenerateToken()
+        {
+            Random random = new Random();
+            const string chars = "abcdefghijklmnopqrstuvxwyz0123456789";
+            return new string(Enumerable.Repeat(chars, 8)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         // GET: AppauthorizationToUse/Edit/5

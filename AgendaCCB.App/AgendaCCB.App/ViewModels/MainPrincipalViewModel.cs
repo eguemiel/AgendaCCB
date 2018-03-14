@@ -60,7 +60,6 @@ namespace AgendaCCB.App.ViewModels
                 {
                     try
                     {
-
                         UserDialogs.Instance.ShowLoading(AppSettings.WaitingText, MaskType.Black);
                         Collaborators = new List<Collaborator>(await LoadCollaborators());
                         UsefulPhones = new List<UsefulPhone>(await LoadUsefulPhones());
@@ -139,6 +138,7 @@ namespace AgendaCCB.App.ViewModels
                     RaisePropertyChanged(nameof(Collaborators));
                     RaisePropertyChanged(nameof(UsefulPhones));
                     RaisePropertyChanged(nameof(PhoneCongregations));
+                    SearchText = string.Empty;
                     UserDialogs.Instance.HideLoading();
                     DefaultToasts.Success("Dados atualizados com sucesso.");
                     IsRefreshing = false;
@@ -156,7 +156,7 @@ namespace AgendaCCB.App.ViewModels
         {
             IEnumerable<Collaborator> filteredCollaborators = Collaborators;
             if (!string.IsNullOrEmpty(filtro))
-                filteredCollaborators = this.Collaborators.Where(l => (l.Name.ToLower().Contains(filtro.ToLower())) || l.PositionMinistry.ToLower().Contains(filtro.ToLower()));
+                filteredCollaborators = this.Collaborators.Where(l => (l.Name.ToLower().ContainsInsensitive(filtro.ToLower())) || l.PositionMinistry.ToLower().ContainsInsensitive(filtro.ToLower()));
 
             return from collaborator in filteredCollaborators
                    orderby collaborator.PositionMinistry
