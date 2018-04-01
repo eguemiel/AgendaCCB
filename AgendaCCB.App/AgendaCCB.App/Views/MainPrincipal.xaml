@@ -17,19 +17,14 @@
                     <On Platform="iOS" Value="0, 20, 0, 0" />
                     <On Platform="Android, UWP" Value="0, 0, 0, 0" />
                 </OnPlatform>
-            </ContentPage.Padding>           
-            <ContentPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource"
-                                iOS="icon.png"/>
-            </ContentPage.Icon>
+            </ContentPage.Padding>
             <StackLayout>
                 <SearchBar Placeholder="Buscar..." 
                            Text="{Binding SearchText}"
                            SearchCommand="{Binding SearchCommand}"
                            BackgroundColor="{StaticResource SearchBarTextColor}">
                     <SearchBar.HeightRequest>
-                        <OnPlatform x:TypeArguments="x:Double"
-                                Android="40"/>
+                        <OnPlatform x:TypeArguments="x:Double" Android="40" iOS="40"/>
                     </SearchBar.HeightRequest>
                 </SearchBar>
                 <local:ListView 
@@ -74,11 +69,7 @@
                 </local:ListView>
             </StackLayout>
         </ContentPage>
-        <ContentPage Title="Casa de Oração">
-            <ContentPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource"
-                                iOS="icon.png"/>
-            </ContentPage.Icon>
+        <ContentPage Title="Casa de Oração">            
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding PhoneCongregations}"
@@ -107,11 +98,7 @@
                 </ListView.ItemTemplate>
             </local:ListView>
         </ContentPage>
-        <ContentPage Title="Úteis">
-            <ContentPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource"
-                                iOS="icon.png"/>
-            </ContentPage.Icon>
+        <ContentPage Title="Úteis">            
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding UsefulPhones}"
