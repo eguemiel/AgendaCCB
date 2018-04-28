@@ -18,6 +18,11 @@
                     <On Platform="Android, UWP" Value="0, 0, 0, 0" />
                 </OnPlatform>
             </ContentPage.Padding>
+            <ContentPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <OnPlatform.iOS>collaborators.png</OnPlatform.iOS>                    
+                </OnPlatform>
+            </ContentPage.Icon>
             <StackLayout>
                 <SearchBar Placeholder="Buscar..." 
                            Text="{Binding SearchText}"
@@ -69,7 +74,13 @@
                 </local:ListView>
             </StackLayout>
         </ContentPage>
-        <ContentPage Title="Casa de Oração">            
+        
+        <ContentPage Title="Casa de Oração">
+            <ContentPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <OnPlatform.iOS>home.png</OnPlatform.iOS>
+                </OnPlatform>
+            </ContentPage.Icon>
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding PhoneCongregations}"
@@ -98,7 +109,12 @@
                 </ListView.ItemTemplate>
             </local:ListView>
         </ContentPage>
-        <ContentPage Title="Úteis">            
+        <ContentPage Title="Úteis">
+            <ContentPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <OnPlatform.iOS>utils.png</OnPlatform.iOS>
+                </OnPlatform>
+            </ContentPage.Icon>
             <local:ListView 
         HasUnevenRows="True"
         ItemsSource="{Binding UsefulPhones}"

@@ -13,8 +13,9 @@ namespace AgendaCCB.App.Views
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var phoneNumber = (PhoneNumber)e.Item;            
-            Device.OpenUri(new Uri(string.Format("tel:{0}", phoneNumber.Number)));
+            var phoneNumber = (PhoneNumber)e.Item;
+            var number = phoneNumber.Number.Replace("(", "").Replace(")", "").Replace("-", "");            
+            Device.OpenUri(new Uri(string.Format("tel:0{0}", number)));
         }
     }
 }

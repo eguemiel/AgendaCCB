@@ -154,14 +154,42 @@ namespace AgendaCCB.App.ViewModels
 
         public IEnumerable<Group<string, Collaborator>> ListCollaborator(string filtro = "")
         {
-            IEnumerable<Collaborator> filteredCollaborators = Collaborators;
-            if (!string.IsNullOrEmpty(filtro))
-                filteredCollaborators = this.Collaborators.Where(l => (l.Name.ToLower().ContainsInsensitive(filtro.ToLower())) || l.PositionMinistry.ToLower().ContainsInsensitive(filtro.ToLower()));
+            var filtroCollaboratorPosition = string.Empty;
+            var filtroCongregation = string.Empty;
 
-            return from collaborator in filteredCollaborators
-                   orderby collaborator.PositionMinistry
-                   group collaborator by collaborator.PositionMinistry into grupos
-                   select new Group<string, Collaborator>(grupos.Key, grupos);
+            if (filtro.Contains(":"))
+            {
+                filtroCongregation = filtro.Split(':')[0];
+                filtroCollaboratorPosition = filtro.Split(':')[1].TrimEnd().TrimStart();
+            }
+            else
+                filtroCollaboratorPosition = filtro;
+
+            IEnumerable<Collaborator> filteredCollaborators = Collaborators;
+            if (!string.IsNullOrEmpty(filtroCollaboratorPosition))
+                filteredCollaborators = this.Collaborators.Where(l => (l.Name.ToLower().ContainsInsensitive(filtroCollaboratorPosition.ToLower())) || l.PositionMinistry.ToLower().ContainsInsensitive(filtroCollaboratorPosition.ToLower()));
+
+            if (!string.IsNullOrEmpty(filtroCongregation))
+                filteredCollaborators = filteredCollaborators.Where(l => l.CommumCongregation.ContainsInsensitive(filtroCongregation.ToLower()));
+
+            IEnumerable<Group<string, Collaborator>> elementsFiltreds;
+
+            if (string.IsNullOrEmpty(filtroCongregation))
+            {
+                elementsFiltreds = from collaborator in filteredCollaborators
+                                   orderby collaborator.PositionMinistry
+                                   group collaborator by collaborator.PositionMinistry into grupos
+                                   select new Group<string, Collaborator>(grupos.Key, grupos);
+            }
+            else
+            {
+                elementsFiltreds = from collaborator in filteredCollaborators
+                                   orderby collaborator.PositionMinistry
+                                   group collaborator by collaborator.PositionMinistry into grupos
+                                   select new Group<string, Collaborator>(grupos.Key, grupos);
+            }
+
+            return elementsFiltreds;
         }
 
         private async void ExecuteShowCategoriaCommand(Collaborator collaborator)

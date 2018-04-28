@@ -5,7 +5,8 @@
              xmlns:local="clr-namespace:AgendaCCB.App.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"             
              x:Class="AgendaCCB.App.Views.CollaboratorPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource DefaultBackgroundColor}">
     <StackLayout Spacing="5" 
                  BindingContext="{Binding Collaborator}" 
                  Padding="16, 10">
