@@ -281,6 +281,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <BundleResource Include="Resources\utils.png" />
+    <BundleResource Include="Resources\collaborators.png" />
+    <BundleResource Include="Resources\home.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json">
