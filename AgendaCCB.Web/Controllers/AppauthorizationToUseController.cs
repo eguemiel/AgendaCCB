@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using AgendaCCB.Web.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Query;
+using AgendaCCB.Web.Models;
 
 namespace AgendaCCB.Web.Controllers
 {
@@ -20,36 +22,39 @@ namespace AgendaCCB.Web.Controllers
         }
 
         // GET: AppauthorizationToUse
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var agendaccbContext = _context.AppauthorizationToUse.Include(a => a.UserCreatorNavigation);
-            return View(await agendaccbContext.ToListAsync());
+            var authorizationToUseVM = MapTo(agendaccbContext);
+            return View(authorizationToUseVM);
         }
 
         // GET: AppauthorizationToUse/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var appauthorizationToUse = await _context.AppauthorizationToUse
+            var appauthorizationToUse = _context.AppauthorizationToUse
                 .Include(a => a.UserCreatorNavigation)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefault(m => m.Id == id);
+
             if (appauthorizationToUse == null)
             {
                 return NotFound();
             }
 
-            return View(appauthorizationToUse);
+            var authorizationToUseVM = MapTo(appauthorizationToUse);
+
+            return View(authorizationToUseVM);
         }
 
         // GET: AppauthorizationToUse/Create
         public IActionResult Create()
         {
-            AppauthorizationToUse appauthorizationToUse = new AppauthorizationToUse();
-            appauthorizationToUse.Created = DateTime.Now;            
+            AppAuthorizationToUseViewModel appauthorizationToUse = new AppAuthorizationToUseViewModel();            
             return View(appauthorizationToUse);
         }
 
@@ -58,18 +63,16 @@ namespace AgendaCCB.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PhoneNumber,Token,Created,UserCreator,Used")] AppauthorizationToUse appauthorizationToUse)
+        public async Task<IActionResult> Create([Bind("Id,PhoneNumber,Token,Created,UserCreator,Used")] AppAuthorizationToUseViewModel appauthorizationToUse)
         {
             if (ModelState.IsValid)
             {
-                appauthorizationToUse.UserCreator = _userId;
-                appauthorizationToUse.Token = GenerateToken();
-                _context.Add(appauthorizationToUse);
+                _context.Add(MapTo(appauthorizationToUse));
                 await _context.SaveChangesAsync();
                 //SmsSenderExtensions.SendMessage(appauthorizationToUse.PhoneNumber, appauthorizationToUse.Token);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserCreator"] = new SelectList(_context.AspNetUsers, "Id", "Id", appauthorizationToUse.UserCreator);
+            
             return View(appauthorizationToUse);
         }
 
@@ -94,8 +97,9 @@ namespace AgendaCCB.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserCreator"] = new SelectList(_context.AspNetUsers, "Id", "Id", appauthorizationToUse.UserCreator);
-            return View(appauthorizationToUse);
+
+            var authorizationToUseVM = MapTo(appauthorizationToUse);
+            return View(authorizationToUseVM);
         }
 
         // POST: AppauthorizationToUse/Edit/5
@@ -103,7 +107,7 @@ namespace AgendaCCB.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PhoneNumber,Token,Created,UserCreator,Used")] AppauthorizationToUse appauthorizationToUse)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PhoneNumber,Token,Created,UserCreator,Used")] AppAuthorizationToUseViewModel appauthorizationToUse)
         {
             if (id != appauthorizationToUse.Id)
             {
@@ -114,7 +118,7 @@ namespace AgendaCCB.Web.Controllers
             {
                 try
                 {
-                    _context.Update(appauthorizationToUse);
+                    _context.Update(MapTo(appauthorizationToUse));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -150,7 +154,7 @@ namespace AgendaCCB.Web.Controllers
                 return NotFound();
             }
 
-            return View(appauthorizationToUse);
+            return View(MapTo(appauthorizationToUse));
         }
 
         // POST: AppauthorizationToUse/Delete/5
@@ -167,6 +171,55 @@ namespace AgendaCCB.Web.Controllers
         private bool AppauthorizationToUseExists(int id)
         {
             return _context.AppauthorizationToUse.Any(e => e.Id == id);
+        }
+
+        private List<AppAuthorizationToUseViewModel> MapTo(IIncludableQueryable<AppauthorizationToUse, AspNetUsers> agendaccbContext)
+        {
+            var ListAuthorization = new List<AppAuthorizationToUseViewModel>();
+
+            foreach (var item in agendaccbContext)
+            {
+                ListAuthorization.Add(new AppAuthorizationToUseViewModel()
+                {
+                    Created = item.Created,
+                    Id = item.Id,
+                    PhoneNumber = item.PhoneNumber,
+                    Token = item.Token,
+                    Used = item.Used.Value,
+                    UserCreator = item.UserCreatorNavigation.UserName
+                });
+            }
+
+            return ListAuthorization;
+        }
+
+        private AppAuthorizationToUseViewModel MapTo(AppauthorizationToUse appauthorizationToUse)
+        {
+            return new AppAuthorizationToUseViewModel()
+            {
+                Created = appauthorizationToUse.Created,
+                Id = appauthorizationToUse.Id,
+                PhoneNumber = appauthorizationToUse.PhoneNumber,
+                Token = appauthorizationToUse.Token,
+                Used = appauthorizationToUse.Used.Value,
+                UserCreator = appauthorizationToUse.UserCreator
+            };
+        }
+
+        private AppauthorizationToUse MapTo(AppAuthorizationToUseViewModel appauthorizationToUse)
+        {
+            var token = string.IsNullOrEmpty(appauthorizationToUse.Token) ? GenerateToken() : appauthorizationToUse.Token;
+            var userCreator = string.IsNullOrEmpty(appauthorizationToUse.UserCreator) ? _context.AspNetUsers.FirstOrDefault(us => us.Id == _userId).Id : _context.AspNetUsers.FirstOrDefault(us => us.Id == appauthorizationToUse.UserCreator).Id;
+            var created = appauthorizationToUse.Created == new DateTime() ? DateTime.Now : appauthorizationToUse.Created;
+            return new AppauthorizationToUse()
+            {
+                Created = created,
+                Id = appauthorizationToUse.Id,
+                PhoneNumber = appauthorizationToUse.PhoneNumber,
+                Token = token,
+                Used = appauthorizationToUse.Used,
+                UserCreator = userCreator 
+            };
         }
     }
 }

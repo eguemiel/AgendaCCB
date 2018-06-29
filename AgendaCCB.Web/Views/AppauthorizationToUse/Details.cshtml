@@ -1,4 +1,4 @@
-﻿@model AgendaCCB.Data.Models.AppauthorizationToUse
+﻿@model AgendaCCB.Web.Models.AppAuthorizationToUseViewModel
 @{
     ViewData["Title"] = "Detalhes Liberação APP";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -54,10 +54,10 @@
                 </tr>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.UserCreatorNavigation)
+                        @Html.DisplayNameFor(model => model.UserCreator)
                     </th>
                     <td>
-                        @Html.DisplayFor(model => model.UserCreatorNavigation.Id)
+                        @Html.DisplayFor(model => model.UserCreator)
                     </td>
                 </tr>
             </tbody>

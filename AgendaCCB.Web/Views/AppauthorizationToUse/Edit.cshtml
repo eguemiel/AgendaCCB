@@ -1,4 +1,4 @@
-﻿@model AgendaCCB.Data.Models.AppauthorizationToUse
+﻿@model AgendaCCB.Web.Models.AppAuthorizationToUseViewModel
 @{
     ViewData["Title"] = "Editar Liberação Uso APP";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,7 +7,7 @@
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item">@Html.ActionLink("Index", "Index", "AppauthorizationToUse")</li>
-    <li class="breadcrumb-item active">Criar</li>
+    <li class="breadcrumb-item active">Editar</li>
 </ol>
 @using (Html.BeginForm())
 {
@@ -21,6 +21,8 @@
                 <div class="form-group">
                     <div class="col-xs-6">
                         @Html.HiddenFor(model => model.Created)
+                        @Html.HiddenFor(model => model.UserCreator)
+                        @Html.HiddenFor(model =>model.Token)
                         @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label" })
                         @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
@@ -29,7 +31,7 @@
                 <div class="form-group">
                     <div class="col-xs-6">                        
                         @Html.LabelFor(model => model.Used, htmlAttributes: new { @class = "control-label" })
-                        @Html.CheckBoxFor(model => model.Used.Value, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.CheckBoxFor(model => model.Used, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Used, "", new { @class = "text-danger" })
                     </div>
                 </div>

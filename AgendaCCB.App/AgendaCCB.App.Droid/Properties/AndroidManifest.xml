@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="br.com.agendaccb" android:versionName="beta" android:versionCode="4">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="br.com.agendaccb" android:versionName="gama" android:versionCode="5">
 	<uses-sdk android:minSdkVersion="16" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
